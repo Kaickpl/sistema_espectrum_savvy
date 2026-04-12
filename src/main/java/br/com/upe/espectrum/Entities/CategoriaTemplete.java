@@ -18,4 +18,6 @@ public class CategoriaTemplete {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
+    private String Categoria;
+    private String descricaoCategoria;
 }
