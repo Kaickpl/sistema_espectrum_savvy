@@ -1,7 +1,7 @@
 package br.com.upe.espectrum.Entities.Enums;
 
 public enum Perfil {
-    ADMIN,
-    TERAPEUTA,
-    RESPONSAVEL;
+    ROLE_ADMIN,
+    ROLE_TERAPEUTA,
+    ROLE_RESPONSAVEL;
 }

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -18,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class CategoriaSessao {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private List<String> Comentarios;
 }
