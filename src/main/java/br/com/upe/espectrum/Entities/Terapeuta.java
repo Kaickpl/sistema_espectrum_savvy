@@ -18,8 +18,6 @@ public class Terapeuta {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String crp;
-
     @OneToOne
     private Usuario usuario;
 
