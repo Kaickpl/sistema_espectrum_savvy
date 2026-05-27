@@ -53,4 +53,7 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<VinculoPaciente> vinculoPacientes;
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "usuario")
+    private List<ProtocoloSessao> protocoloSessao;
+
 }

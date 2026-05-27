@@ -39,6 +39,9 @@ public class Paciente {
     @JoinColumn(name = "admin_id", nullable = false)
     private Admin admin;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente")
+    private List<ProtocoloSessao> protocoloSessaos;
+
     @OneToMany(mappedBy = "paciente",cascade = CascadeType.ALL)
     private List<VinculoPaciente> equipeMultiDisciplinar;
 
