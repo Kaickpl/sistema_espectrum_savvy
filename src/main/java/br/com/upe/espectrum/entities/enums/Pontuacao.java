@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.Entities.Enums;
+package br.com.upe.espectrum.Entities.enums;
 
 public enum Pontuacao {
    RARAMENTE_OU_NUNCA(1),

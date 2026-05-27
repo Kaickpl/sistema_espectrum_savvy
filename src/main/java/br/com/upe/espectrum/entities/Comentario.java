@@ -24,8 +24,6 @@ public class Comentario {
     @Column(updatable = false)
     private LocalDateTime dataCriacao;
 
-
-
     @ManyToOne
     private AtividadeSessao atividadeSessao;
 

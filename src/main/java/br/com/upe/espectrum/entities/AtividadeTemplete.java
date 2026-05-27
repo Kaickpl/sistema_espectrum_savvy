@@ -1,7 +1,11 @@
 package br.com.upe.espectrum.Entities;
 
-import br.com.upe.espectrum.Entities.Enums.Pontuacao;
+import br.com.upe.espectrum.Entities.enums.Pontuacao;
 import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

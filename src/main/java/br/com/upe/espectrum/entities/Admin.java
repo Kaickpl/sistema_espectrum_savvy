@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,15 +13,15 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProtocoloTemplete {
+public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "protocolo")
-    private List<CategoriaTemplete> categorias;
+    private String crp;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "protocoloTemplete")
-    private List<ProtocoloSessao> protocoloSessao;
+    @OneToOne
+    @MapsId
+    private Usuario usuario;
 
 }

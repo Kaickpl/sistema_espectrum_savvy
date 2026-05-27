@@ -9,28 +9,22 @@ import lombok.Setter;
 import java.util.List;
 import java.util.UUID;
 
+import java.util.UUID;
+
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoriaTemplete {
+public class ProtocoloTemplete {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String nomeCategoria;
-    private String descricaoCategoria;
 
-    @ManyToOne
-    private ProtocoloTemplete protocolo;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "protocolo")
+    private List<CategoriaTemplete> categorias;
 
-    @OneToMany(mappedBy = "categoriaTemplete")
-    private List<CategoriaSessao> categoriaSessao;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria")
-    private List<AtividadeTemplete> atividades;
-
-
-
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "protocoloTemplete")
+    private List<ProtocoloSessao> protocoloSessao;
 
 }
