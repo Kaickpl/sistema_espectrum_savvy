@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.Entities;
+package br.com.upe.espectrum.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,8 +17,9 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Relatorio {
+public class CategoriaSessao {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    private List<String> Comentarios;
 }

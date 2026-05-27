@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.Entities;
+package br.com.upe.espectrum.entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,6 +32,14 @@ public class Paciente {
     private boolean isActive = true;
 
     @ManyToOne
-    @JoinColumn(name = "responsavel_id")
+    @JoinColumn(name = "responsavel_id", nullable = false)
     private Responsavel responsavel;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "admin_id", nullable = false)
+    private Admin admin;
+
+    @OneToMany(mappedBy = "paciente",cascade = CascadeType.ALL)
+    private List<VinculoPaciente> equipeMultiDisciplinar;
+
 }

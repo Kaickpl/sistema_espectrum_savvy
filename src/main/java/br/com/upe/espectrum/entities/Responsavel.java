@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.Entities;
+package br.com.upe.espectrum.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Terapeuta {
+public class Responsavel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

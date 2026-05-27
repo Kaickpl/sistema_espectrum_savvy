@@ -1,6 +1,9 @@
-package br.com.upe.espectrum.Entities;
+package br.com.upe.espectrum.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,14 +16,8 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Admin {
+public class AtividadeSessao {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    private String crp;
-
-    @OneToOne
-    @MapsId
-    private Usuario usuario;
 }

@@ -1,6 +1,5 @@
-package br.com.upe.espectrum.Entities;
+package br.com.upe.espectrum.entities;
 
-import br.com.upe.espectrum.Entities.Enums.Pontuacao;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,10 +16,8 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AtividadeTemplete {
+public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String NomeAtv;
-    private String Descricao;
 }
