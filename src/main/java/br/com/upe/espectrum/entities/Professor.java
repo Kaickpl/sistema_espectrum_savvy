@@ -1,24 +1,22 @@
-package br.com.upe.espectrum.Entities;
-
+package br.com.upe.espectrum.entities;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Admin {
+@AllArgsConstructor
+public class Professor {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    private String escola;
+
     @OneToOne
-    @MapsId
     private Usuario usuario;
+
 }

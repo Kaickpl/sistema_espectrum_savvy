@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.Entities;
+package br.com.upe.espectrum.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,8 +17,6 @@ public class Terapeuta {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    private String crp;
 
     @OneToOne
     private Usuario usuario;
