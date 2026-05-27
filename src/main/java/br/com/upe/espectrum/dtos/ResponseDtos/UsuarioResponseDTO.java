@@ -1,5 +1,4 @@
 package br.com.upe.espectrum.dtos.ResponseDtos;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record UsuarioResponseDTO (
