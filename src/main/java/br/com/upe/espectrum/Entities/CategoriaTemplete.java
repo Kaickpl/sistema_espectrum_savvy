@@ -18,7 +18,7 @@ public class CategoriaTemplete {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String Categoria;
+    private String nomeCategoria;
     private String descricaoCategoria;
 
     @ManyToOne

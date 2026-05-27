@@ -19,18 +19,26 @@ public class ProtocoloSessao {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private LocalDateTime dataInicil;
+    private LocalDateTime dataInicil = LocalDateTime.now();
     private LocalDateTime dataFinal;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<LocalDateTime> datasSalvas;
 
-    private Boolean status;
+    private Boolean status;// ajeitar nome do atributo
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Paciente paciente;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "protocoloSessao")
     private List<Comentario> comentarios;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "protocoloSessao")
+    private  List<CategoriaSessao> categoriasSessao;
+
+    @ManyToOne
+    private ProtocoloTemplete protocoloTemplete;
+
+    // many to one templete protocolo
 
 }

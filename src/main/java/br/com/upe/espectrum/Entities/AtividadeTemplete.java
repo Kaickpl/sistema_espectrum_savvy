@@ -20,7 +20,7 @@ public class AtividadeTemplete {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String NomeAtv;
+    private String NomeAtividade;
     private String Descricao;
 
     @OneToMany(mappedBy = "atividadeTemplete")

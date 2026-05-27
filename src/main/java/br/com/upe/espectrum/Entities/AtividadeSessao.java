@@ -22,11 +22,12 @@ public class AtividadeSessao {
     @Enumerated(EnumType.STRING)
     private Pontuacao pontuacao;
 
-
-
     @ManyToOne
     private AtividadeTemplete atividadeTemplete;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "atividadeSessao")
     private List<Comentario> comentarios;
+
+    @ManyToOne
+    private CategoriaSessao categoriaSessao;
 }

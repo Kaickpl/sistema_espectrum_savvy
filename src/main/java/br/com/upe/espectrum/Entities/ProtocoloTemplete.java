@@ -22,4 +22,7 @@ public class ProtocoloTemplete {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "protocolo")
     private List<CategoriaTemplete> categorias;
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "protocoloTemplete")
+    private List<ProtocoloSessao> protocoloSessao;
+
 }

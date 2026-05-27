@@ -18,11 +18,17 @@ public class CategoriaSessao {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private List<String> Comentarios;
 
     @ManyToOne
     private CategoriaTemplete categoriaTemplete;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoriaSessao")
     private List<Comentario> comentarios;
+
+    @ManyToOne
+    private ProtocoloSessao protocoloSessao;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "categoriaSessao")
+    private List<AtividadeSessao> atividadeSessao;
+
 }
