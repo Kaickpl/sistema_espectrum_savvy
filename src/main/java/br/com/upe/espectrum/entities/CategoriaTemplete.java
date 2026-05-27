@@ -1,15 +1,14 @@
 package br.com.upe.espectrum.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,6 +19,19 @@ public class CategoriaTemplete {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String Categoria;
+    private String nomeCategoria;
     private String descricaoCategoria;
+
+    @ManyToOne
+    private ProtocoloTemplete protocolo;
+
+    @OneToMany(mappedBy = "categoriaTemplete")
+    private List<CategoriaSessao> categoriaSessao;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria")
+    private List<AtividadeTemplete> atividades;
+
+
+
+
 }

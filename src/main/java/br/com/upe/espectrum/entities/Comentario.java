@@ -5,30 +5,33 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoriaSessao {
+@Entity
+public class Comentario {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    private String comentario;
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime dataCriacao;
 
     @ManyToOne
-    private CategoriaTemplete categoriaTemplete;
+    private AtividadeSessao atividadeSessao;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoriaSessao")
-    private List<Comentario> comentarios;
+    @ManyToOne
+    private CategoriaSessao categoriaSessao;
 
     @ManyToOne
     private ProtocoloSessao protocoloSessao;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "categoriaSessao")
-    private List<AtividadeSessao> atividadeSessao;
 
 }
