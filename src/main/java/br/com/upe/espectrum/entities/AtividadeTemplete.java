@@ -1,6 +1,5 @@
-package br.com.upe.espectrum.Entities;
+package br.com.upe.espectrum.entities;
 
-import br.com.upe.espectrum.Entities.enums.Pontuacao;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

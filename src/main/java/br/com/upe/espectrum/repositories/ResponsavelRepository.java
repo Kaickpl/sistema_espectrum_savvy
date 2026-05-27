@@ -1,5 +1,5 @@
-package br.com.upe.espectrum.Repositories;
-import br.com.upe.espectrum.Entities.Responsavel;
+package br.com.upe.espectrum.repositories;
+import br.com.upe.espectrum.entities.Responsavel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

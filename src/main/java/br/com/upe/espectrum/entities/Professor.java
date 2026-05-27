@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.Entities;
+package br.com.upe.espectrum.entities;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,6 +1,6 @@
-package br.com.upe.espectrum.Entities;
+package br.com.upe.espectrum.entities;
 
-import br.com.upe.espectrum.Entities.enums.*;
+import br.com.upe.espectrum.entities.enums.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

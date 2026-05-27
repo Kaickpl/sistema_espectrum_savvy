@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.Entities.enums;
+package br.com.upe.espectrum.entities.enums;
 
 public enum Perfil {
     ROLE_ADMIN,

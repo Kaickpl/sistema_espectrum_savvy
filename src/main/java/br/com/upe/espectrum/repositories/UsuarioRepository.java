@@ -1,6 +1,6 @@
-package br.com.upe.espectrum.Repositories;
+package br.com.upe.espectrum.repositories;
 
-import br.com.upe.espectrum.Entities.Usuario;
+import br.com.upe.espectrum.entities.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

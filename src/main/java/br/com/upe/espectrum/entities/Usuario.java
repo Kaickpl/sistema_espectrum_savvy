@@ -1,6 +1,6 @@
-package br.com.upe.espectrum.Entities;
+package br.com.upe.espectrum.entities;
 
-import br.com.upe.espectrum.Entities.enums.Perfil;
+import br.com.upe.espectrum.entities.enums.Perfil;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
