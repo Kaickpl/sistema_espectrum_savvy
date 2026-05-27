@@ -1,11 +1,11 @@
 package br.com.upe.espectrum.entities.enums;
 
 public enum Pontuacao {
-   RARAMENTE_OU_NUNCA(0),
-   DEMONSTRA(1),
-   PODE_DEMONSTRAR(2),
-   DEMONSTRA_CONSISTENTEMENTE(3),
-   NAO_APLICAVEL(4);
+   RARAMENTE_OU_NUNCA(1),
+   DEMONSTRA(2),
+   PODE_DEMONSTRAR(3),
+   DEMONSTRA_CONSISTENTEMENTE(4),
+   NAO_APLICAVEL(0);
 
 
 
