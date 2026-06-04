@@ -23,8 +23,7 @@ public class AtividadeTemplete {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String NomeAtividade;
-    private String Descricao;
+    private String nomeAtividade;
 
     @OneToMany(mappedBy = "atividadeTemplete")
     private List<AtividadeSessao> atividadeSessao =  new ArrayList<>() ;

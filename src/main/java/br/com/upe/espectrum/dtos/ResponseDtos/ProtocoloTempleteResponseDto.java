@@ -17,12 +17,15 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class ProtocoloTempleteResponseDto {
     private UUID idTempleteProtocolo;
-    private List<CategoriaTempleteDto> categoriaTempleteDto;
+    private List<CategoriaTempleteResponseDto> categoriaTempleteDto;
 
     public ProtocoloTempleteResponseDto(ProtocoloTemplete protocoloTemplete) {
         this.idTempleteProtocolo = protocoloTemplete.getId();
-        this.categoriaTempleteDto = protocoloTemplete.getCategorias().stream().map(CategoriaTempleteDto::new).collect(Collectors.toList());
-
+        this.categoriaTempleteDto =
+                protocoloTemplete.getCategorias()
+                        .stream()
+                        .map(CategoriaTempleteResponseDto::new)
+                        .toList();
     }
 
 

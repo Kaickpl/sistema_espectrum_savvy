@@ -12,10 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AtividadetempleteDto {
     private String nomeAtividade;
-    private String descricaoAtividade;
     public AtividadetempleteDto(AtividadeTemplete atividadeTemplete){
         this.nomeAtividade = atividadeTemplete.getNomeAtividade();
-        this.descricaoAtividade = atividadeTemplete.getDescricao();
     }
 }
 

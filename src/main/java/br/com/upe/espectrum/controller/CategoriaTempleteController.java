@@ -22,6 +22,7 @@ public class CategoriaTempleteController {
         CategoriaTemplete categoriaTemplete = categoriaTempleteService.criarCategoria(categoriaTempleteDto);
         if(categoriaTemplete == null){
             return ResponseEntity.badRequest().build();
+
         }
         return ResponseEntity.ok(new CategoriaTempleteResponseDto(categoriaTemplete));
     }
