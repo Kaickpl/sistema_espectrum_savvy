@@ -1,14 +1,11 @@
 package br.com.upe.espectrum.controller;
 
-import br.com.upe.espectrum.entities.DTOs.ProtocoloTempleteDto;
-import br.com.upe.espectrum.entities.DTOs.ProtocoloTempleteResponseDto;
+import br.com.upe.espectrum.dtos.ResponseDtos.ProtocoloTempleteResponseDto;
 import br.com.upe.espectrum.entities.ProtocoloTemplete;
 import br.com.upe.espectrum.services.ProtocoloTempleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/protocolo")

@@ -1,17 +1,15 @@
 package br.com.upe.espectrum.services.Impl;
 
 import br.com.upe.espectrum.entities.CategoriaTemplete;
-import br.com.upe.espectrum.entities.DTOs.CategoriaTempleteDto;
+import br.com.upe.espectrum.dtos.RequestDtos.CategoriaTempleteDto;
 import br.com.upe.espectrum.entities.ProtocoloTemplete;
 import br.com.upe.espectrum.repositories.CategoriaTempleteRepository;
 import br.com.upe.espectrum.repositories.ProtocoloTempleteRepository;
 import br.com.upe.espectrum.services.CategoriaTempleteService;
-import br.com.upe.espectrum.services.ProtocoloTempleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class CategoriaTempleteServiceImpl implements CategoriaTempleteService {

@@ -1,5 +1,6 @@
-package br.com.upe.espectrum.entities.DTOs;
+package br.com.upe.espectrum.dtos.ResponseDtos;
 
+import br.com.upe.espectrum.dtos.RequestDtos.CategoriaTempleteDto;
 import br.com.upe.espectrum.entities.ProtocoloTemplete;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

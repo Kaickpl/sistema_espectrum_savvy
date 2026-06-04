@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.entities.DTOs;
+package br.com.upe.espectrum.dtos.RequestDtos;
 
 import br.com.upe.espectrum.entities.AtividadeTemplete;
 import lombok.AllArgsConstructor;

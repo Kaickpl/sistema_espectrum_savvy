@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.entities.DTOs;
+package br.com.upe.espectrum.dtos.RequestDtos;
 
 import br.com.upe.espectrum.entities.CategoriaTemplete;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor

@@ -1,13 +1,12 @@
-package br.com.upe.espectrum.entities.DTOs;
+package br.com.upe.espectrum.dtos.ResponseDtos;
 
-import br.com.upe.espectrum.entities.AtividadeTemplete;
 import br.com.upe.espectrum.entities.CategoriaTemplete;
+import br.com.upe.espectrum.dtos.RequestDtos.AtividadetempleteDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
