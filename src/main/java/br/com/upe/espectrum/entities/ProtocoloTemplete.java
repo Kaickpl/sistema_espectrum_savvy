@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,9 +21,10 @@ public class ProtocoloTemplete {
     private UUID id;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "protocolo")
-    private List<CategoriaTemplete> categorias;
+    private List<CategoriaTemplete> categorias = new ArrayList<>();
+
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "protocoloTemplete")
-    private List<ProtocoloSessao> protocoloSessao;
+    private List<ProtocoloSessao> protocoloSessao = new ArrayList<>();
 
 }
