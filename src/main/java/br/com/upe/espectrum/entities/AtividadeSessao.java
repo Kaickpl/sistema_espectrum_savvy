@@ -25,9 +25,6 @@ public class AtividadeSessao {
     @ManyToOne
     private AtividadeTemplete atividadeTemplete;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "atividadeSessao")
-    private List<Comentario> comentarios;
-
     @ManyToOne
     private CategoriaSessao categoriaSessao;
 }

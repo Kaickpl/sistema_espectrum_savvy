@@ -1,5 +1,6 @@
 package br.com.upe.espectrum.entities;
 
+import br.com.upe.espectrum.entities.enums.StatusProtocolo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,19 +21,21 @@ public class ProtocoloSessao {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private LocalDateTime dataInicil = LocalDateTime.now();
+    private LocalDateTime dataInicil;
+
     private LocalDateTime dataFinal;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<LocalDateTime> datasSalvas;
 
-    private Boolean status;// ajeitar nome do atributo
+    @Enumerated(EnumType.STRING)
+    private StatusProtocolo statusProtocolo;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Paciente paciente;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Usuario usuario;
+    private Usuario criadoPor;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "protocoloSessao")
     private List<Comentario> comentarios;
@@ -43,6 +46,5 @@ public class ProtocoloSessao {
     @ManyToOne
     private ProtocoloTemplete protocoloTemplete;
 
-    // many to one templete protocolo
 
 }

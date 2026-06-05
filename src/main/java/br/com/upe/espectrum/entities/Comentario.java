@@ -25,9 +25,6 @@ public class Comentario {
     private LocalDateTime dataCriacao;
 
     @ManyToOne
-    private AtividadeSessao atividadeSessao;
-
-    @ManyToOne
     private CategoriaSessao categoriaSessao;
 
     @ManyToOne
