@@ -54,10 +54,13 @@ public class Usuario {
     private List<VinculoPaciente> vinculoPacientes;
 
     @OneToMany(mappedBy = "criadoPor")
-    private List<ProtocoloSessao> protocoloCriado;
+    private List<ProtocoloSessao> protocoloCriados;
 
     @OneToMany(mappedBy = "finalizadoPor")
-    private List<ProtocoloSessao> protocolofinalizado;
+    private List<ProtocoloSessao> protocolofinalizados;
+
+    @OneToMany(mappedBy = "atualizadoPor")
+    private List<AtividadeSessao> atividadesAtualizadas;
 
     @OneToMany(mappedBy = "usuario")
     private List<Comentario> comentarios;
