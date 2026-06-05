@@ -19,10 +19,14 @@ public class Comentario {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @Column(columnDefinition = "TEXT")
     private String comentario;
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime dataCriacao;
+
+    @ManyToOne
+    private Usuario usuario;
 
     @ManyToOne
     private CategoriaSessao categoriaSessao;

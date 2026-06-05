@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,12 +22,16 @@ public class ProtocoloSessao {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private LocalDateTime dataInicil;
+    private LocalDateTime dataInicio;
 
     private LocalDateTime dataFinal;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<LocalDateTime> datasSalvas;
+    @OneToMany(
+            mappedBy = "protocoloSessao",
+            cascade = CascadeType.ALL)
+    private List<HistoricoSalvamento> historicoSalvamentos =
+            new ArrayList<>();
+
 
     @Enumerated(EnumType.STRING)
     private StatusProtocolo statusProtocolo;
@@ -37,11 +42,14 @@ public class ProtocoloSessao {
     @ManyToOne(fetch = FetchType.EAGER)
     private Usuario criadoPor;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "protocoloSessao")
-    private List<Comentario> comentarios;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Usuario finalizadoPor;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "protocoloSessao")
-    private  List<CategoriaSessao> categoriasSessao;
+    private List<Comentario> comentarios = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "protocoloSessao")
+    private  List<CategoriaSessao> categoriasSessao = new ArrayList<>();
 
     @ManyToOne
     private ProtocoloTemplete protocoloTemplete;
