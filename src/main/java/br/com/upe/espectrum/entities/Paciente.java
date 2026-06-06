@@ -40,7 +40,11 @@ public class Paciente {
     private Admin admin;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente")
-    private List<ProtocoloSessao> protocoloSessaos;
+    private List<ProtocoloSessao> protocoloSessoes;
+
+    @ManyToOne
+    @JoinColumn(name="terapeuta_id")
+    private Terapeuta terapeuta;
 
     @OneToMany(mappedBy = "paciente",cascade = CascadeType.ALL)
     private List<VinculoPaciente> equipeMultiDisciplinar;
