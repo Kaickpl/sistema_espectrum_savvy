@@ -22,4 +22,6 @@ public class Responsavel {
     @OneToOne
     private Usuario usuario;
 
+    private String grauParentesco;
+
 }
