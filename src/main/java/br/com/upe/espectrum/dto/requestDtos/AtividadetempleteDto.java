@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.dtos.RequestDtos;
+package br.com.upe.espectrum.dto.requestDtos;
 
 import br.com.upe.espectrum.entities.AtividadeTemplete;
 import lombok.AllArgsConstructor;
@@ -16,4 +16,3 @@ public class AtividadetempleteDto {
         this.nomeAtividade = atividadeTemplete.getNomeAtividade();
     }
 }
-

@@ -1,6 +1,5 @@
-package br.com.upe.espectrum.dtos.ResponseDtos;
-
-import br.com.upe.espectrum.dtos.RequestDtos.AtividadetempleteDto;
+package br.com.upe.espectrum.dto.responseDtos;
+import br.com.upe.espectrum.dto.requestDtos.AtividadetempleteDto;
 import br.com.upe.espectrum.entities.AtividadeSessao;
 import br.com.upe.espectrum.entities.AtividadeTemplete;
 import lombok.AllArgsConstructor;

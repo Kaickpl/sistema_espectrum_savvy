@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,9 +52,9 @@ public class Usuario {
     private Professor professor;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<VinculoPaciente> vinculoPacientes;
+    private List<VinculoPaciente> vinculoPacientes = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "usuario")
-    private List<ProtocoloSessao> protocoloSessao;
+    private List<ProtocoloSessao> protocoloSessao = new ArrayList<>();
 
 }

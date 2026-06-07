@@ -1,5 +1,4 @@
 package br.com.upe.espectrum.entities;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

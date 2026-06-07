@@ -21,4 +21,10 @@ public class Terapeuta {
     @OneToOne
     private Usuario usuario;
 
+    @Column(name = "numero_matricula")
+    String matricula;
+
+    @Column(name = "periodo_do_curso")
+    int periodo;
+
 }
