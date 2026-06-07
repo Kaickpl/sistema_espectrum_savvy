@@ -31,6 +31,9 @@ public class ProtocoloSessao {
     @ManyToOne(fetch = FetchType.EAGER)
     private Paciente paciente;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Usuario usuario;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "protocoloSessao")
     private List<Comentario> comentarios;
 
