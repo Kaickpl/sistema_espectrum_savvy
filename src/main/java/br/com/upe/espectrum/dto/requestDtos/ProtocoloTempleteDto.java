@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.dtos.RequestDtos;
+package br.com.upe.espectrum.dto.requestDtos;
 
 import br.com.upe.espectrum.entities.ProtocoloTemplete;
 import lombok.AllArgsConstructor;

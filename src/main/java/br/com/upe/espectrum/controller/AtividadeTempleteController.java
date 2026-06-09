@@ -1,15 +1,9 @@
 package br.com.upe.espectrum.controller;
-
-import br.com.upe.espectrum.dtos.RequestDtos.AtividadetempleteDto;
-import br.com.upe.espectrum.dtos.RequestDtos.CategoriaTempleteDto;
-import br.com.upe.espectrum.dtos.ResponseDtos.AtividadeTempleteResponseDto;
-import br.com.upe.espectrum.dtos.ResponseDtos.CategoriaTempleteResponseDto;
+import br.com.upe.espectrum.dto.requestDtos.AtividadetempleteDto;
+import br.com.upe.espectrum.dto.responseDtos.AtividadeTempleteResponseDto;
 import br.com.upe.espectrum.entities.AtividadeTemplete;
-import br.com.upe.espectrum.entities.CategoriaTemplete;
 import br.com.upe.espectrum.services.AtividadeTempleteService;
-import br.com.upe.espectrum.services.CategoriaTempleteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

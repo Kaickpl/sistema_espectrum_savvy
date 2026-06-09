@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,9 +27,12 @@ public class AtividadeSessao {
     @ManyToOne
     private AtividadeTemplete atividadeTemplete;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "atividadeSessao")
-    private List<Comentario> comentarios;
-
     @ManyToOne
     private CategoriaSessao categoriaSessao;
+
+    @CreationTimestamp
+    private LocalDateTime atualizadoEm;
+
+    @ManyToOne
+    private Usuario atualizadoPor;
 }

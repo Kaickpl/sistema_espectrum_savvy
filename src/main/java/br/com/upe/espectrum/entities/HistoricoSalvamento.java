@@ -1,12 +1,9 @@
 package br.com.upe.espectrum.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -14,14 +11,18 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Responsavel {
+public class HistoricoSalvamento {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToOne
+    private LocalDateTime dataSalvamento;
+
+    @ManyToOne
     private Usuario usuario;
 
-    private String grauParentesco;
+    @ManyToOne
+    private ProtocoloSessao protocoloSessao;
 
 }
