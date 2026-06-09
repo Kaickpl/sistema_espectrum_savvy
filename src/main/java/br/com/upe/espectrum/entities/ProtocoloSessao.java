@@ -1,5 +1,6 @@
 package br.com.upe.espectrum.entities;
 
+import br.com.upe.espectrum.entities.enums.StatusProtocolo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,29 +22,36 @@ public class ProtocoloSessao {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private LocalDateTime dataInicil = LocalDateTime.now();
+    private LocalDateTime dataInicio;
+
     private LocalDateTime dataFinal;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<LocalDateTime> datasSalvas;
+    @OneToMany(
+            mappedBy = "protocoloSessao",
+            cascade = CascadeType.ALL)
+    private List<HistoricoSalvamento> historicoSalvamentos =
+            new ArrayList<>();
 
-    private Boolean status;// ajeitar nome do atributo
+    @Enumerated(EnumType.STRING)
+    private StatusProtocolo statusProtocolo;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Paciente paciente;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Usuario usuario;
+    private Usuario criadoPor;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Usuario finalizadoPor;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "protocoloSessao")
-    private List<Comentario> comentarios;
+    private List<Comentario> comentarios = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "protocoloSessao")
-    private  List<CategoriaSessao> categoriasSessao;
+    private  List<CategoriaSessao> categoriasSessao = new ArrayList<>();
 
     @ManyToOne
     private ProtocoloTemplete protocoloTemplete;
 
-    // many to one templete protocolo
 
 }
