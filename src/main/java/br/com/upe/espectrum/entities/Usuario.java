@@ -31,6 +31,7 @@ public class Usuario {
 
     private String senha;
 
+    @Column(name = "cpf", unique = true, nullable = false)
     private String cpf;
     private String nome;
 

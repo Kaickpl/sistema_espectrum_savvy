@@ -18,7 +18,7 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String crp;
+    private String registroProfissional;
 
     @OneToOne
     @MapsId
