@@ -1,8 +1,7 @@
 package br.com.upe.espectrum.controller;
-
 import br.com.upe.espectrum.entities.CategoriaTemplete;
-import br.com.upe.espectrum.dtos.RequestDtos.CategoriaTempleteDto;
-import br.com.upe.espectrum.dtos.ResponseDtos.CategoriaTempleteResponseDto;
+import br.com.upe.espectrum.dto.requestDtos.CategoriaTempleteDto;
+import br.com.upe.espectrum.dto.responseDtos.CategoriaTempleteResponseDto;
 import br.com.upe.espectrum.services.CategoriaTempleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

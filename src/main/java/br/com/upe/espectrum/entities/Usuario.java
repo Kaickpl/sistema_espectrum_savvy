@@ -53,7 +53,22 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<VinculoPaciente> vinculoPacientes;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "usuario")
-    private List<ProtocoloSessao> protocoloSessao;
+    @OneToMany(mappedBy = "criadoPor")
+    private List<ProtocoloSessao> protocoloCriados;
+
+    @OneToMany(mappedBy = "finalizadoPor")
+    private List<ProtocoloSessao> protocolofinalizados;
+
+    @OneToMany(mappedBy = "atualizadoPor")
+    private List<AtividadeSessao> atividadesAtualizadas;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Comentario> comentarios;
+
+    @OneToMany(
+            mappedBy = "usuario",
+            cascade = CascadeType.ALL
+    )
+    private List<HistoricoSalvamento> historicoSalvamentos;
 
 }

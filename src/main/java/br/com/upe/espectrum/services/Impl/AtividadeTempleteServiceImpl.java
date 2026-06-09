@@ -1,6 +1,5 @@
 package br.com.upe.espectrum.services.Impl;
-
-import br.com.upe.espectrum.dtos.RequestDtos.AtividadetempleteDto;
+import br.com.upe.espectrum.dto.requestDtos.AtividadetempleteDto;
 import br.com.upe.espectrum.entities.AtividadeTemplete;
 import br.com.upe.espectrum.entities.CategoriaTemplete;
 import br.com.upe.espectrum.repositories.AtividadeTempleteRepository;

@@ -1,7 +1,6 @@
 package br.com.upe.espectrum.services.Impl;
-
 import br.com.upe.espectrum.entities.CategoriaTemplete;
-import br.com.upe.espectrum.dtos.RequestDtos.CategoriaTempleteDto;
+import br.com.upe.espectrum.dto.requestDtos.CategoriaTempleteDto;
 import br.com.upe.espectrum.entities.ProtocoloTemplete;
 import br.com.upe.espectrum.repositories.CategoriaTempleteRepository;
 import br.com.upe.espectrum.repositories.ProtocoloTempleteRepository;
