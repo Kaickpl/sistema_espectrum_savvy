@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,5 +21,7 @@ public class Responsavel {
 
     @OneToOne
     private Usuario usuario;
+
+    private String grauParentesco;
 
 }

@@ -32,7 +32,6 @@ public class ProtocoloSessao {
     private List<HistoricoSalvamento> historicoSalvamentos =
             new ArrayList<>();
 
-
     @Enumerated(EnumType.STRING)
     private StatusProtocolo statusProtocolo;
 
