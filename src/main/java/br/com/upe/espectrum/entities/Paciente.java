@@ -27,12 +27,13 @@ public class Paciente {
     private LocalDate dataNascimento;
     private String genero;
     private String cpf;
+    private int grau;
 
     @Column(name = "is_active")
     private boolean isActive = true;
 
     @ManyToOne
-    @JoinColumn(name = "responsavel_id", nullable = false)
+    @JoinColumn(name = "responsavel_id", nullable = true)
     private Responsavel responsavel;
 
     @ManyToOne(optional = false)

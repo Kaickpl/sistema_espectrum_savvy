@@ -12,4 +12,5 @@ public interface PacienteService {
     public Paciente cadastrarPaciente(PacienteRequestDTO pacienteRequestDTO);
     public List<PacienteResponseDTO> mostrarTodosPacientes(UUID adminId);
     public List<PacienteResponseDTO> mostrarPacientesDoTerapeuta(UUID terapeutaId);
+    public PacienteResponseDTO mostrarPaciente(UUID pacienteID);
 }
