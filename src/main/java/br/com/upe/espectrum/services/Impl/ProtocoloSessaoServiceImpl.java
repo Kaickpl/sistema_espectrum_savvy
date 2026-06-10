@@ -63,7 +63,7 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
                     categoriaSessao.setCategoriaTemplete(categoriaTemplete);
                     categoriaSessao.setProtocoloSessao(sessaoProtocolo);
 
-                    // Copia AtividadeTemplete → AtividadeSessao
+                    // Copia AtividadeTemplete = AtividadeSessao
                     List<AtividadeSessao> atividades = categoriaTemplete.getAtividades().stream()
                             .map(atividadeTemplete -> {
                                 AtividadeSessao atividadeSessao = new AtividadeSessao();
@@ -78,7 +78,6 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
         sessaoProtocolo.setCategoriasSessao(categorias);
         return protocoloSessaoRepository.save(sessaoProtocolo);
     }
-
     @Override
     public ProtocoloSessao finalizarProtocoloSessao(UUID usuarioId, UUID sessaoId) {
 
@@ -117,7 +116,22 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
 
     @Override
     public ProtocoloSessao salvarProgresso(UUID sessaoId, UUID usuarioId) {
-        return null;
+
+        Optional<ProtocoloSessao> sessao = protocoloSessaoRepository.findById(sessaoId);
+        if (sessao.isEmpty()) {
+            return null;
+        }
+        Optional<Usuario> usuario = usuarioRepository.findById(usuarioId);
+        if (usuario.isEmpty()) {
+            return null;
+
+        }
+        HistoricoSalvamento historico = new HistoricoSalvamento();
+        historico.setUsuario(usuario.get());
+        historico.setDataSalvamento(LocalDateTime.now());
+        historico.setProtocoloSessao(sessao.get());
+        sessao.get().getHistoricoSalvamentos().add(historico);
+        return protocoloSessaoRepository.save(sessao.get());
     }
 
 
