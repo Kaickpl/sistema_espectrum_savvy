@@ -63,7 +63,6 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
                     categoriaSessao.setCategoriaTemplete(categoriaTemplete);
                     categoriaSessao.setProtocoloSessao(sessaoProtocolo);
 
-                    // Copia AtividadeTemplete = AtividadeSessao
                     List<AtividadeSessao> atividades = categoriaTemplete.getAtividades().stream()
                             .map(atividadeTemplete -> {
                                 AtividadeSessao atividadeSessao = new AtividadeSessao();

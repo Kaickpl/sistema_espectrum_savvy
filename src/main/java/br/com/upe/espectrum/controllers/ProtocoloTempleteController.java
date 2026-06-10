@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.controller;
+package br.com.upe.espectrum.controllers;
 import br.com.upe.espectrum.dto.responseDtos.ProtocoloTempleteResponseDto;
 import br.com.upe.espectrum.entities.ProtocoloTemplete;
 import br.com.upe.espectrum.services.ProtocoloTempleteService;
