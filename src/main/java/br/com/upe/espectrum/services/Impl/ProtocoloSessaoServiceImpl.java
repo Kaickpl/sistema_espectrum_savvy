@@ -80,18 +80,39 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
     }
 
     @Override
-    public ProtocoloSessao FinalizarProtocoloSessao(UUID usuarioId, UUID pacienteId) {
-        return null;
+    public ProtocoloSessao finalizarProtocoloSessao(UUID usuarioId, UUID sessaoId) {
+
+        Optional<ProtocoloSessao> protocoloSessao = protocoloSessaoRepository.findById(sessaoId);
+        if(protocoloSessao.isEmpty()){
+            return null;
+        }
+        Optional<Usuario> usuarioExistente = usuarioRepository.findById(usuarioId);
+        if(usuarioExistente.isEmpty()){
+            return null;
+        }
+
+        if (!protocoloSessao.get().getCriadoPor().getId().equals(usuarioId)) {
+            return null;
+        }
+
+        protocoloSessao.get().setStatusProtocolo(StatusProtocolo.FINALIZADO);
+        protocoloSessao.get().setDataFinal(LocalDateTime.now());
+        protocoloSessao.get().setFinalizadoPor(usuarioExistente.get());
+        return protocoloSessaoRepository.save(protocoloSessao.get());
     }
 
     @Override
     public ProtocoloSessao buscarProtocoloSessao(UUID sessaoId) {
-        return null;
+        Optional<ProtocoloSessao> sessao =  protocoloSessaoRepository.findById(sessaoId);
+        if (sessao.isEmpty()) {
+            return null;
+        }
+        return sessao.get();
     }
 
     @Override
     public List<ProtocoloSessao> buscarTodosPorPaciente(UUID pacienteId) {
-        return List.of();
+        return protocoloSessaoRepository.findAllByPacienteId(pacienteId);
     }
 
     @Override

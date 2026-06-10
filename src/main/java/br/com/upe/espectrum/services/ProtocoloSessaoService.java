@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface ProtocoloSessaoService {
 
     ProtocoloSessao iniciarProtocoloSessao(UUID usuarioId, UUID pacienteId);
-    ProtocoloSessao FinalizarProtocoloSessao(UUID usuarioId, UUID pacienteId);
+    ProtocoloSessao finalizarProtocoloSessao(UUID usuarioId, UUID sessaoId);
     ProtocoloSessao buscarProtocoloSessao(UUID sessaoId);
     List<ProtocoloSessao> buscarTodosPorPaciente(UUID pacienteId);
     ProtocoloSessao salvarProgresso(UUID sessaoId, UUID usuarioId);
