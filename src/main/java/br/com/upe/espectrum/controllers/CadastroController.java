@@ -1,8 +1,5 @@
 package br.com.upe.espectrum.controllers;
-import br.com.upe.espectrum.dto.requestDtos.AdminRequestDto;
-import br.com.upe.espectrum.dto.requestDtos.ProfessorRequestDto;
-import br.com.upe.espectrum.dto.requestDtos.ResponsavelAvulsoRequestDto;
-import br.com.upe.espectrum.dto.requestDtos.TerapeutaRequestDto;
+import br.com.upe.espectrum.dto.requestDtos.*;
 import br.com.upe.espectrum.dto.responseDtos.AdminResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.ProfessorResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.ResponsavelResponseDto;
@@ -47,5 +44,10 @@ public class CadastroController {
     @PostMapping("/responsavel")
     public ResponseEntity<ResponsavelResponseDto> cadastrarResponsavel(@RequestBody ResponsavelAvulsoRequestDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(responsavelService.cadastrarResponsavel(dto));
+    }
+
+    @PostMapping("/paciente-responsavel")
+    public ResponseEntity<ResponsavelResponseDto> cadastrarPacienteEResponsavel(@RequestBody PacienteEResponsavelRequestDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(responsavelService.cadastrarResponsavelComPaciente(dto));
     }
 }

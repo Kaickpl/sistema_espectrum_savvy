@@ -31,10 +31,6 @@ public class Paciente {
     @Column(name = "is_active")
     private boolean isActive = true;
 
-    @ManyToOne
-    @JoinColumn(name = "responsavel_id", nullable = false)
-    private Responsavel responsavel;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "admin_id", nullable = false)
     private Admin admin;

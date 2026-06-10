@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.services.Impl;
 
 import br.com.upe.espectrum.dto.mappers.ResponsavelMapper;
+import br.com.upe.espectrum.dto.requestDtos.PacienteEResponsavelRequestDto;
 import br.com.upe.espectrum.dto.requestDtos.ResponsavelAvulsoRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.ResponsavelResponseDto;
 import br.com.upe.espectrum.entities.Paciente;
@@ -45,5 +46,10 @@ public class ResponsavelCadastroServiceImpl {
         Responsavel responsavelNovo = responsavelMapper.responsavelAvulsoRequestDtoToEntity(dto, pacienteVinculado, userBase);
         responsavelRepository.save(responsavelNovo);
         return responsavelMapper.entityToResponseDto(responsavelNovo);
+    }
+
+    public ResponsavelResponseDto cadastrarResponsavelComPaciente(PacienteEResponsavelRequestDto dto) {
+
+        return null;
     }
 }
