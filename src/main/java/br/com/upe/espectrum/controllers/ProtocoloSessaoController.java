@@ -18,9 +18,7 @@ public class ProtocoloSessaoController {
     private ProtocoloSessaoService protocoloSessaoService;
 
     @PostMapping("/iniciar/paciente/{pacienteId}/usuario/{usuarioId}")
-    public ResponseEntity<ProtocoloSessaoResponseDto> iniciarSessao(
-            @PathVariable UUID pacienteId,
-            @PathVariable UUID usuarioId) {
+    public ResponseEntity<ProtocoloSessaoResponseDto> iniciarSessao(@PathVariable UUID pacienteId, @PathVariable UUID usuarioId) {
 
         ProtocoloSessao sessao = protocoloSessaoService.iniciarProtocoloSessao(usuarioId, pacienteId);
         if (sessao == null) {
@@ -28,12 +26,12 @@ public class ProtocoloSessaoController {
         }
         return ResponseEntity.ok(new ProtocoloSessaoResponseDto(sessao));
     }
-    @PutMapping("/{sessaoId}/finalizar/usuario/{usuarioId}")
-    public ResponseEntity<ProtocoloSessaoResponseDto> finalizarSessao(
-            @PathVariable UUID sessaoId,
-            @PathVariable UUID usuarioId) {
 
-        ProtocoloSessao sessao = protocoloSessaoService.finalizarProtocoloSessao(sessaoId, usuarioId);
+
+    @PutMapping("/{sessaoId}/finalizar/usuario/{usuarioId}")
+    public ResponseEntity<ProtocoloSessaoResponseDto> finalizarSessao(@PathVariable UUID sessaoId, @PathVariable UUID usuarioId) {
+
+        ProtocoloSessao sessao = protocoloSessaoService.finalizarProtocoloSessao(usuarioId, sessaoId);
         if (sessao == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -41,30 +39,32 @@ public class ProtocoloSessaoController {
     }
 
     @GetMapping("/{sessaoId}")
-    public ResponseEntity<ProtocoloSessaoResponseDto> buscarSessao(
-            @PathVariable UUID sessaoId) {
+    public ResponseEntity<ProtocoloSessaoResponseDto> buscarSessao(@PathVariable UUID sessaoId) {
 
         ProtocoloSessao sessao = protocoloSessaoService.buscarProtocoloSessao(sessaoId);
+        if (sessao == null) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(new ProtocoloSessaoResponseDto(sessao));
     }
 
     @GetMapping("/paciente/{pacienteId}")
-    public ResponseEntity<List<ProtocoloSessaoResponseDto>> listarPorPaciente(
-            @PathVariable UUID pacienteId) {
+    public ResponseEntity<List<ProtocoloSessaoResponseDto>> listarPorPaciente( @PathVariable UUID pacienteId) {
 
         List<ProtocoloSessaoResponseDto> sessoes = protocoloSessaoService
                 .buscarTodosPorPaciente(pacienteId)
                 .stream()
                 .map(ProtocoloSessaoResponseDto::new)
                 .toList();
+        if (sessoes.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
 
         return ResponseEntity.ok(sessoes);
     }
 
     @PostMapping("/{sessaoId}/salvar/usuario/{usuarioId}")
-    public ResponseEntity<ProtocoloSessaoResponseDto> salvarProgresso(
-            @PathVariable UUID sessaoId,
-            @PathVariable UUID usuarioId) {
+    public ResponseEntity<ProtocoloSessaoResponseDto> salvarProgresso(@PathVariable UUID sessaoId, @PathVariable UUID usuarioId) {
 
         ProtocoloSessao sessao = protocoloSessaoService.salvarProgresso(sessaoId, usuarioId);
         if (sessao == null) {
