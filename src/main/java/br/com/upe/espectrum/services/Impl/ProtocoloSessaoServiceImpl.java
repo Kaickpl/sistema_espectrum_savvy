@@ -34,14 +34,19 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
     public ProtocoloSessao iniciarProtocoloSessao(UUID usuarioId, UUID pacienteId) {
         Optional<Usuario> usuarioExistente = usuarioRepository.findById(usuarioId);
         if(usuarioExistente.isEmpty()){
+            System.out.println("NENHUM Usuario ENCONTRADO");
+
             return null;
         }
         Optional<Paciente> pacienteExistente = pacienteRepository.findById(pacienteId);
         if(pacienteExistente.isEmpty()){
+            System.out.println("NENHUM Paciente ENCONTRADO");
+
             return null;
         }
         Optional<ProtocoloTemplete> protocoloTemplete = protocoloTempleteRepository.findAll().stream().findFirst();
         if (protocoloTemplete.isEmpty()){
+            System.out.println("NENHUM PROTOCOLO TEMPLATE ENCONTRADO");
             return null;
         }
         Usuario usuario = usuarioExistente.get();

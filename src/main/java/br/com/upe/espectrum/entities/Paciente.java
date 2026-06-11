@@ -32,7 +32,7 @@ public class Paciente {
     private boolean isActive = true;
 
     @ManyToOne
-    @JoinColumn(name = "responsavel_id", nullable = false)
+    @JoinColumn(name = "responsavel_id", nullable = true)
     private Responsavel responsavel;
 
     @ManyToOne(optional = false)
