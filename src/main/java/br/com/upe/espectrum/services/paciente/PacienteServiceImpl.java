@@ -48,11 +48,12 @@ public class PacienteServiceImpl implements PacienteService{
         return pacienteList.stream().map(PacienteResponseDTO::new).collect(Collectors.toList());
     }
 
-    @Override
-    public List<PacienteResponseDTO> mostrarPacientesDoTerapeuta(UUID terapeutaId) {
-        List<Paciente> pacienteList = pacienteRepository.findByTerapeutaId(terapeutaId);
-        return pacienteList.stream().map(PacienteResponseDTO::new).collect(Collectors.toList());
-    }
+//    Apaguei pq os usuario foram feitos por composição
+//    @Override
+//    public List<PacienteResponseDTO> mostrarPacientesDoTerapeuta(UUID terapeutaId) {
+//        List<Paciente> pacienteList = pacienteRepository.findByTerapeutaId(terapeutaId);
+//        return pacienteList.stream().map(PacienteResponseDTO::new).collect(Collectors.toList());
+//    }
 
     @Override
     public PacienteResponseDTO mostrarPaciente(UUID pacienteID) {

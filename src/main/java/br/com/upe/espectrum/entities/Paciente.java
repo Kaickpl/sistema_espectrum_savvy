@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +28,7 @@ public class Paciente {
     private LocalDate dataNascimento;
     private String genero;
     private String cpf;
+    private String grauAtismo;
 
     @Column(name = "is_active")
     private boolean isActive = true;
@@ -36,9 +38,9 @@ public class Paciente {
     private Admin admin;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente")
-    private List<ProtocoloSessao> protocoloSessaos;
+    private List<ProtocoloSessao> protocoloSessaos = new ArrayList<>();
 
     @OneToMany(mappedBy = "paciente",cascade = CascadeType.ALL)
-    private List<VinculoPaciente> equipeMultiDisciplinar;
+    private List<VinculoPaciente> equipeMultiDisciplinar = new ArrayList<>();
 
 }

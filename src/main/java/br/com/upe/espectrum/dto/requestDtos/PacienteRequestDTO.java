@@ -15,16 +15,15 @@ public class PacienteRequestDTO {
     private LocalDate dataNascimento;
     private String genero;
     private String cpf;
+    private String grauAutismo;
     private UUID adminId;
-    private UUID responsavelId;
-    private UUID terapeutaId;
-    private int grau;
+
     public PacienteRequestDTO(Paciente paciente){
         this.nome = paciente.getNome();
         this.dataNascimento = paciente.getDataNascimento();
         this.genero = paciente.getGenero();
         this.cpf = paciente.getCpf();
         this.adminId = paciente.getAdmin().getId();
-
+        this.grauAutismo = paciente.getGrauAtismo();
     }
 }

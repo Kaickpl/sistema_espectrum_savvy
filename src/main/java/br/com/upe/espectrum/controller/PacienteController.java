@@ -27,11 +27,13 @@ public class PacienteController {
         List<PacienteResponseDTO> lista = pacienteService.mostrarTodosPacientes(adminId);
         return ResponseEntity.ok(lista);
     }
-    @GetMapping("/{terapeutaId}/pacientes")
-    public ResponseEntity<List<PacienteResponseDTO>> mostrarPacientesDoTerapeuta(@PathVariable UUID terapeutaId){
-        List<PacienteResponseDTO> lista = pacienteService.mostrarPacientesDoTerapeuta(terapeutaId);
-        return ResponseEntity.ok(lista);
-    }
+
+//    @GetMapping("/{terapeutaId}/pacientes")
+//    public ResponseEntity<List<PacienteResponseDTO>> mostrarPacientesDoTerapeuta(@PathVariable UUID terapeutaId){
+//        List<PacienteResponseDTO> lista = pacienteService.mostrarPacientesDoTerapeuta(terapeutaId);
+//        return ResponseEntity.ok(lista);
+//    }
+//
     @GetMapping("/{pacienteId}")
     public ResponseEntity<PacienteResponseDTO> mostrarPaciente(@PathVariable UUID pacienteId){
         PacienteResponseDTO pacienteResponseDTO = pacienteService.mostrarPaciente(pacienteId);

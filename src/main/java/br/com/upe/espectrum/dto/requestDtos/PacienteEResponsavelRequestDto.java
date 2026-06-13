@@ -1,24 +1,20 @@
 package br.com.upe.espectrum.dto.requestDtos;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.time.LocalDate;
-import java.util.UUID;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 
 public record PacienteEResponsavelRequestDto (
         //Responsavel
-        @JsonProperty(required = true)
+        @NotBlank
         String numeroTelefone,
-        @JsonProperty(required = true)
+        @NotBlank
         String cpfResponsavel,
-        @JsonProperty(required = true)
+        @NotBlank
         String nomeResponsavel,
         String grauParentesco,
 
         // Paciente
-        String nome,
-        LocalDate dataNascimento,
-        String genero,
-        String cpf
+        @Valid
+        PacienteRequestDTO infosPaciente
 ){
 }
