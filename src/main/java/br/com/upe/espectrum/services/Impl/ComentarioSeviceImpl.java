@@ -45,7 +45,7 @@ public class ComentarioSeviceImpl implements ComentarioService {
         }
 
         Comentario comentario = new Comentario();
-        if(comentario.getComentario() == null || comentario.getComentario().isBlank()){
+        if(texto == null || texto.isBlank()){
             return null;
         }
         comentario.setUsuario(usuario.get());
@@ -66,7 +66,7 @@ public class ComentarioSeviceImpl implements ComentarioService {
 
         }
         Comentario comentario = new Comentario();
-        if(comentario.getComentario() == null || comentario.getComentario().isBlank()){
+        if(texto == null || texto.isBlank()){
             return null;
         }
         comentario.setUsuario(usuario.get());

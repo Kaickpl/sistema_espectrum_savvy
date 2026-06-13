@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.controllers;
 
 import br.com.upe.espectrum.dto.requestDtos.ComentarioRequestDto;
+import br.com.upe.espectrum.dto.responseDtos.ComentarioResponseCategoriaDto;
 import br.com.upe.espectrum.dto.responseDtos.ComentarioResponseDto;
 import br.com.upe.espectrum.entities.Comentario;
 import br.com.upe.espectrum.services.ComentarioService;
@@ -19,10 +20,7 @@ public class ComentarioSessaoController {
     ComentarioService comentarioService;
 
     @PostMapping("/sessao/{sessaoId}/usuario/{usuarioId}")
-    public ResponseEntity<ComentarioResponseDto> comentarProtocolo(
-            @PathVariable UUID sessaoId,
-            @PathVariable UUID usuarioId,
-            @RequestBody ComentarioRequestDto dto) {
+    public ResponseEntity<ComentarioResponseDto> comentarProtocolo(@PathVariable UUID sessaoId, @PathVariable UUID usuarioId, @RequestBody ComentarioRequestDto dto) {
 
         Comentario comentario = comentarioService
                 .adicionarComentarioProtocolo(sessaoId, usuarioId, dto.getComentario());
@@ -33,17 +31,17 @@ public class ComentarioSessaoController {
     }
 
     @PostMapping("/categoria/{categoriaSessaoId}/usuario/{usuarioId}")
-    public ResponseEntity<ComentarioResponseDto> comentarCategoria(
+    public ResponseEntity<ComentarioResponseCategoriaDto> comentarCategoria(
             @PathVariable UUID categoriaSessaoId,
             @PathVariable UUID usuarioId,
-            @RequestBody ComentarioRequestDto dto) {
+            @RequestBody ComentarioResponseCategoriaDto dto) {
 
         Comentario comentario = comentarioService
                 .adicionarComentarioCategoria(categoriaSessaoId, usuarioId, dto.getComentario());
         if (comentario == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(new ComentarioResponseDto(comentario));
+        return ResponseEntity.ok(new ComentarioResponseCategoriaDto(comentario));
     }
 
 
@@ -61,13 +59,13 @@ public class ComentarioSessaoController {
     }
 
     @GetMapping("/categoria/{categoriaSessaoId}")
-    public ResponseEntity<List<ComentarioResponseDto>> buscarComentariosCategoria(
+    public ResponseEntity<List<ComentarioResponseCategoriaDto>> buscarComentariosCategoria(
             @PathVariable UUID categoriaSessaoId) {
 
-        List<ComentarioResponseDto> comentarios = comentarioService
+        List<ComentarioResponseCategoriaDto> comentarios = comentarioService
                 .buscarComentariosCategoria(categoriaSessaoId)
                 .stream()
-                .map(ComentarioResponseDto::new)
+                .map(ComentarioResponseCategoriaDto::new)
                 .toList();
 
         return ResponseEntity.ok(comentarios);
