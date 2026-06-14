@@ -41,5 +41,16 @@ public class RestExceptionHandler {
         return ResponseEntity.status(exceptionResponseDTO.getStatus()).body(exceptionResponseDTO);
     }
 
+    @ExceptionHandler(InformacaoExistenteException.class)
+    public ResponseEntity<ExceptionResponseDTO> handlerInformacaoExistente(InformacaoExistenteException ex, HttpServletRequest request){
+        ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(ex.getMessage(), 400, request.getRequestURI());
+        return ResponseEntity.status(exceptionResponseDTO.getStatus()).body(exceptionResponseDTO);
+    }
+
+    @ExceptionHandler(OperacaoNaoPermitida.class)
+    public ResponseEntity<String> handlerOperacaoNaoPermitida(OperacaoNaoPermitida ex, HttpServletRequest request){
+        return ResponseEntity.status(400).body(ex.getMessage());
+    }
+
 
 }
