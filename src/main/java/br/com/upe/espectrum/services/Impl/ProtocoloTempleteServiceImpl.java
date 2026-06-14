@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.services.Impl;
 
 import br.com.upe.espectrum.entities.ProtocoloTemplete;
+import br.com.upe.espectrum.exceptions.OperacaoNaoPermitida;
 import br.com.upe.espectrum.repositories.ProtocoloTempleteRepository;
 import br.com.upe.espectrum.services.ProtocoloTempleteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class ProtocoloTempleteServiceImpl implements ProtocoloTempleteService {
     @Override
     public ProtocoloTemplete criarProtocolo() {
         ProtocoloTemplete protocolo = new ProtocoloTemplete();
+        if (protocoloTempleteRepository.count() >= 1) {
+            throw new OperacaoNaoPermitida("Sé é permitido criar um protocolo por vez");
+        }
         return protocoloTempleteRepository.save(protocolo);
     }
 

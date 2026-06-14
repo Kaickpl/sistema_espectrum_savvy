@@ -16,12 +16,11 @@ import java.util.UUID;
 public class CategoriaSessaoResponseDto {
     private UUID id;
     private String nomeCategoria;
-    private String descricaoCategoria;
+
     private List<AtividadeSessaoResponseDto> atividades;
     public CategoriaSessaoResponseDto(CategoriaSessao categoriaSessao) {
         this.id = categoriaSessao.getId();
         this.nomeCategoria = categoriaSessao.getCategoriaTemplete().getNomeCategoria();
-        this.descricaoCategoria = categoriaSessao.getCategoriaTemplete().getDescricaoCategoria();
         this.atividades = categoriaSessao.getAtividadeSessao()
                 .stream()
                 .map(AtividadeSessaoResponseDto::new)

@@ -20,7 +20,6 @@ public class CategoriaTemplete {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String nomeCategoria;
-    private String descricaoCategoria;
 
     @ManyToOne
     private ProtocoloTemplete protocolo;

@@ -3,6 +3,7 @@ package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.entities.AtividadeSessao;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Pontuacao;
+import br.com.upe.espectrum.exceptions.InformacaoNaoEncontradoException;
 import br.com.upe.espectrum.repositories.AtividadeSessaoRepository;
 import br.com.upe.espectrum.repositories.UsuarioRepository;
 import br.com.upe.espectrum.services.AtividadeSessaoService;
@@ -26,14 +27,13 @@ public class AtividadeSessaoServiceImpl implements AtividadeSessaoService {
     public AtividadeSessao atualizarPontuacao(UUID atividadeId, UUID usuarioId, Pontuacao pontuacao) {
         Optional<AtividadeSessao> atividadeExistente = atividadeSessaoRepository.findById(atividadeId);
         if (atividadeExistente.isEmpty()) {
-            System.out.println("NENHUMA Atividade ENCONTRADA");
-            return null;
+            throw new InformacaoNaoEncontradoException("Atividade não encontrada!");
+
         }
 
         Optional<Usuario> usuarioExistente = usuarioRepository.findById(usuarioId);
         if (usuarioExistente.isEmpty()) {
-            System.out.println("NENHUM Usuario ENCONTRADO");
-            return null;
+            throw new InformacaoNaoEncontradoException("Usuario com id"  + usuarioId + " não encontrado! ");
         }
 
         AtividadeSessao atividade = atividadeExistente.get();
@@ -47,13 +47,16 @@ public class AtividadeSessaoServiceImpl implements AtividadeSessaoService {
     public AtividadeSessao buscarAtividade(UUID atividadeId) {
         Optional<AtividadeSessao> atividade = atividadeSessaoRepository.findById(atividadeId);
         if (atividade.isEmpty()) {
-            return null;
+            throw new InformacaoNaoEncontradoException("Atividade com Id" + atividadeId + "não encontrada!");
         }
         return atividade.get();
     }
 
     @Override
     public List<AtividadeSessao> buscarTodasPorCategoria(UUID categoriaSessaoId) {
+        if (categoriaSessaoId == null) {
+            throw new InformacaoNaoEncontradoException("Atividade com Id" + categoriaSessaoId + "não encontrada!");
+        }
         return atividadeSessaoRepository.findAllByCategoriaSessaoId(categoriaSessaoId);
 
     }
