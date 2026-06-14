@@ -2,6 +2,9 @@ package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.dto.requestDtos.AtividadetempleteDto;
 import br.com.upe.espectrum.entities.AtividadeTemplete;
 import br.com.upe.espectrum.entities.CategoriaTemplete;
+import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
+import br.com.upe.espectrum.exceptions.InformacaoExistenteException;
+import br.com.upe.espectrum.exceptions.InformacaoNaoEncontradoException;
 import br.com.upe.espectrum.repositories.AtividadeTempleteRepository;
 import br.com.upe.espectrum.repositories.CategoriaTempleteRepository;
 import br.com.upe.espectrum.services.AtividadeTempleteService;
@@ -25,7 +28,7 @@ public class AtividadeTempleteServiceImpl implements AtividadeTempleteService {
     public AtividadeTemplete criarAtividade(AtividadetempleteDto atividadeDto, UUID categoriaId) {
         if (atividadeDto.getNomeAtividade() == null
                 || atividadeDto.getNomeAtividade().isBlank()) {
-            return null;
+            throw new CampoObrigatorioException("Campo nome é obrigatorio!");
         }
 
         AtividadeTemplete atividadeExiste =
@@ -34,12 +37,12 @@ public class AtividadeTempleteServiceImpl implements AtividadeTempleteService {
                                 atividadeDto.getNomeAtividade());
 
         if (atividadeExiste != null) {
-            return null;
+           throw new InformacaoExistenteException("Atividade com nome: " +  atividadeDto.getNomeAtividade() + " Já cadastrada");
         }
         CategoriaTemplete categoria = categoriaTempleteRepository.findById(categoriaId).orElse(null);
 
         if (categoria   == null) {
-            return null;
+            throw new InformacaoNaoEncontradoException("Categoria com Id: " + categoriaId + " Não encontrada!");
         }
 
         AtividadeTemplete atividade =

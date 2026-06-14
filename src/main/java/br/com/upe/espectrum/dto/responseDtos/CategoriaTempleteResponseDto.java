@@ -19,13 +19,11 @@ public class CategoriaTempleteResponseDto {
 
         private UUID idCategoriaTemplete;
         private String nomeCategoria;
-        private String descricaoCategoria;
         private List<AtividadetempleteDto> atividadeTemplete;
 
         public CategoriaTempleteResponseDto(CategoriaTemplete categoriaTemplete) {
             this.idCategoriaTemplete = categoriaTemplete.getId();
             this.nomeCategoria = categoriaTemplete.getNomeCategoria();
-            this.descricaoCategoria = categoriaTemplete.getDescricaoCategoria();
             this.atividadeTemplete = categoriaTemplete.getAtividades().stream().map(AtividadetempleteDto::new).collect(Collectors.toList());
 
 

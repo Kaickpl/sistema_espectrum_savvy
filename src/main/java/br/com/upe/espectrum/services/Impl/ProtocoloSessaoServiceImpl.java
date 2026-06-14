@@ -2,6 +2,8 @@ package br.com.upe.espectrum.services.Impl;
 
 import br.com.upe.espectrum.entities.*;
 import br.com.upe.espectrum.entities.enums.StatusProtocolo;
+import br.com.upe.espectrum.exceptions.InformacaoNaoEncontradoException;
+import br.com.upe.espectrum.exceptions.OperacaoNaoPermitida;
 import br.com.upe.espectrum.repositories.PacienteRepository;
 import br.com.upe.espectrum.repositories.ProtocoloSessaoRepository;
 import br.com.upe.espectrum.repositories.ProtocoloTempleteRepository;
@@ -87,15 +89,15 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
 
         Optional<ProtocoloSessao> protocoloSessao = protocoloSessaoRepository.findById(sessaoId);
         if(protocoloSessao.isEmpty()){
-            return null;
+        throw new InformacaoNaoEncontradoException("Protocolo com Id: " +  sessaoId + " não enconrado");
         }
         Optional<Usuario> usuarioExistente = usuarioRepository.findById(usuarioId);
         if(usuarioExistente.isEmpty()){
-            return null;
+            throw new InformacaoNaoEncontradoException("Usuario com id"  + usuarioId + " não encontrado! ");
         }
 
         if (!protocoloSessao.get().getCriadoPor().getId().equals(usuarioId)) {
-            return null;
+            throw new OperacaoNaoPermitida(" Operação não permitida, usuario não autorizado a finalizar o protocolo. ");
         }
 
         protocoloSessao.get().setStatusProtocolo(StatusProtocolo.FINALIZADO);
@@ -108,13 +110,16 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
     public ProtocoloSessao buscarProtocoloSessao(UUID sessaoId) {
         Optional<ProtocoloSessao> sessao =  protocoloSessaoRepository.findById(sessaoId);
         if (sessao.isEmpty()) {
-            return null;
+           throw new  InformacaoNaoEncontradoException("Protocolo com Id: " + sessaoId + "não encontrado! ");
         }
         return sessao.get();
     }
 
     @Override
     public List<ProtocoloSessao> buscarTodosPorPaciente(UUID pacienteId) {
+        if(pacienteId == null) {
+            throw new InformacaoNaoEncontradoException(" Paciente com Id: " + pacienteId + " não encontrado! ");
+        }
         return protocoloSessaoRepository.findAllByPacienteId(pacienteId);
     }
 
@@ -123,11 +128,12 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
 
         Optional<ProtocoloSessao> sessao = protocoloSessaoRepository.findById(sessaoId);
         if (sessao.isEmpty()) {
-            return null;
+            throw new  InformacaoNaoEncontradoException("Protocolo com Id: " + sessaoId + "não encontrado! ");
+
         }
         Optional<Usuario> usuario = usuarioRepository.findById(usuarioId);
         if (usuario.isEmpty()) {
-            return null;
+            throw new InformacaoNaoEncontradoException("Usuario com id"  + usuarioId + " não encontrado! ");
 
         }
         HistoricoSalvamento historico = new HistoricoSalvamento();
