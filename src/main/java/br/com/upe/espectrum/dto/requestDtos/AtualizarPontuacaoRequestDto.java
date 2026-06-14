@@ -11,5 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AtualizarPontuacaoRequestDto {
-    private Pontuacao  pontuacao;
+    private Pontuacao pontuacao;
 }
