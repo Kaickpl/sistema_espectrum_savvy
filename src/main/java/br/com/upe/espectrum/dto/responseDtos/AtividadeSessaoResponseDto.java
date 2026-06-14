@@ -18,6 +18,7 @@ public class AtividadeSessaoResponseDto {
     private UUID id;
     private String nomeAtividade;
     private Pontuacao pontuacao;
+    private int valorPontuacao;
     private LocalDateTime atualizadoEm;
     private String atualizadoPorNome;
 
@@ -25,6 +26,9 @@ public class AtividadeSessaoResponseDto {
         this.id = atividadeSessao.getId();
         this.nomeAtividade = atividadeSessao.getAtividadeTemplete().getNomeAtividade();
         this.pontuacao = atividadeSessao.getPontuacao();
+        this.valorPontuacao = atividadeSessao.getPontuacao() != null
+                ? atividadeSessao.getPontuacao().getValor()
+                : 0;
         this.atualizadoEm = atividadeSessao.getAtualizadoEm();
         this.atualizadoPorNome = atividadeSessao.getAtualizadoPor() != null
                 ? atividadeSessao.getAtualizadoPor().getNome()
