@@ -11,4 +11,6 @@ public interface PacienteService {
     public Paciente cadastrarPaciente(PacienteRequestDTO pacienteRequestDTO);
     public List<PacienteResponseDTO> mostrarTodosPacientes(UUID adminId);
     public PacienteResponseDTO mostrarPaciente(UUID pacienteID);
+    public void reativarContaPaciente(UUID pacienteId);
+    public void desativarContaPaciente(UUID pacienteId);
 }

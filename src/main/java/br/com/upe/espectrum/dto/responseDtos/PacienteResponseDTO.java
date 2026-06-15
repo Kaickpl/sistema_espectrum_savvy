@@ -1,12 +1,16 @@
 package br.com.upe.espectrum.dto.responseDtos;
 
 import br.com.upe.espectrum.entities.Paciente;
+import br.com.upe.espectrum.entities.VinculoEscolar;
+import br.com.upe.espectrum.entities.VinculoTerapeuta;
+import br.com.upe.espectrum.entities.enums.GrauAutismo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -18,17 +22,9 @@ public class PacienteResponseDTO {
     private LocalDate dataNascimento;
     private String genero;
     private String cpf;
-    private UUID terapeutaId;
-    private UUID responsavelId;
     private UUID adminId;
-    private int grau;
-    public PacienteResponseDTO(Paciente paciente){
-        this.nome = paciente.getNome();
-        this.dataNascimento = paciente.getDataNascimento();
-        this.genero = paciente.getGenero();
-        this.cpf = paciente.getCpf();
-        this.adminId = paciente.getAdmin().getId();
+    private GrauAutismo grau;
+    private List<VinculoTerapeutaResponseDto> vinculosTerapeuta;
+    private List<VinculoEscolarResponseDto> vinculosProfessor;
 
-
-    }
 }

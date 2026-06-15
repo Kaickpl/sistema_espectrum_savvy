@@ -1,4 +1,5 @@
 package br.com.upe.espectrum.entities;
+import br.com.upe.espectrum.entities.enums.GrauAutismo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE pacientes SET is_active = false WHERE id = ?")
 @SQLRestriction("is_active = true")
 public class Paciente {
     @Id
@@ -28,7 +28,10 @@ public class Paciente {
     private LocalDate dataNascimento;
     private String genero;
     private String cpf;
-    private String grauAtismo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "grau_autismo")
+    private GrauAutismo grauAutismo;
 
     @Column(name = "is_active")
     private boolean isActive = true;
@@ -41,6 +44,9 @@ public class Paciente {
     private List<ProtocoloSessao> protocoloSessaos = new ArrayList<>();
 
     @OneToMany(mappedBy = "paciente",cascade = CascadeType.ALL)
-    private List<VinculoPaciente> equipeMultiDisciplinar = new ArrayList<>();
+    private List<VinculoTerapeuta> equipeMultiDisciplinar = new ArrayList<>();
+
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
+    private List<VinculoEscolar> vinculosEscolar = new ArrayList<>();
 
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ProfessorCadastroServiceImpl {
+public class ProfessorServiceImpl {
     private final UsuarioService usuarioService;
     private final ProfessorRepository professorRepository;
     private final ProfessorMapper professorMapper;

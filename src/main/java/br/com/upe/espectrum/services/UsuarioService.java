@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
 public interface UsuarioService {
     public Usuario criarUsuario(
             String nome,
@@ -25,6 +24,6 @@ public interface UsuarioService {
     public Usuario buscarUsuario(UUID id);
     public UsuarioResponseDTO editarPerfilUsuario(UUID id, UsuarioUpdateDto dto);
     public void desativarUsuario(UUID id);
-    public void ativarUsuario(UUID id);
+    public void reativarUsuario(UUID id);
 }
 

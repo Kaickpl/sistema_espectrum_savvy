@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,11 +16,11 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE usuarios SET is_active = false WHERE id = ?")
 @SQLRestriction("is_active = true")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "telefone", unique = true, nullable = false)
@@ -52,7 +53,7 @@ public class Usuario {
     private Professor professor;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<VinculoPaciente> vinculoPacientes;
+    private List<VinculoTerapeuta> vinculoTerapeutas = new ArrayList<>();
 
     @OneToMany(mappedBy = "criadoPor")
     private List<ProtocoloSessao> protocoloCriados;
