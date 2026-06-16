@@ -1,19 +1,25 @@
 package br.com.upe.espectrum.dto.requestDtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.UUID;
 
 public record TerapeutaRequestDto(
-        @JsonProperty(required = true)
+        @NotBlank
         String numeroTelefone,
-        @JsonProperty(required = true)
+        @NotBlank
         String email,
-        @JsonProperty(required = true)
+        @NotBlank
         String senha,
-        @JsonProperty(required = true)
+        @NotBlank
         String cpf,
-        @JsonProperty(required = true)
+        @NotBlank
         String nome,
         String matricula,
-        int periodo
+        int periodo,
+        @NotNull
+        UUID idAdmin
 ) {
 }

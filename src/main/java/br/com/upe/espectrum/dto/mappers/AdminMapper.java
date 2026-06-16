@@ -17,7 +17,7 @@ public class AdminMapper {
         admin.getUsuario().setCpf(dto.cpf());
         admin.getUsuario().setSenha(dto.senha());
         admin.getUsuario().setNumeroTelefone(dto.numeroTelefone());
-        admin.setCrp(dto.crp());
+        admin.setRegistroProfissional(dto.registroProfissional());
 
         return admin;
     }

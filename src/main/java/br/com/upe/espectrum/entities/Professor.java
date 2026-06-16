@@ -1,6 +1,11 @@
 package br.com.upe.espectrum.entities;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -8,6 +13,8 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE vinculo_escolar SET is_active = false WHERE id = ?")
+@SQLRestriction("is_active = true")
 public class Professor {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -17,5 +24,11 @@ public class Professor {
 
     @OneToOne
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL)
+    private List<VinculoEscolar> vinculosEscolar = new ArrayList<>();
+
+    @Column(name = "is_active")
+    private boolean isActive = true;
 
 }

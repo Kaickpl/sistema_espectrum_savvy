@@ -1,4 +1,5 @@
 package br.com.upe.espectrum.entities;
+import br.com.upe.espectrum.entities.enums.GrauAutismo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,7 +18,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE pacientes SET is_active = false WHERE id = ?")
 @SQLRestriction("is_active = true")
 public class Paciente {
     @Id
@@ -27,27 +28,25 @@ public class Paciente {
     private LocalDate dataNascimento;
     private String genero;
     private String cpf;
-    private int grau;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "grau_autismo")
+    private GrauAutismo grauAutismo;
 
     @Column(name = "is_active")
     private boolean isActive = true;
-
-    @ManyToOne
-    @JoinColumn(name = "responsavel_id", nullable = true)
-    private Responsavel responsavel;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "admin_id", nullable = false)
     private Admin admin;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente")
-    private List<ProtocoloSessao> protocoloSessoes;
-
-    @ManyToOne
-    @JoinColumn(name="terapeuta_id")
-    private Terapeuta terapeuta;
+    private List<ProtocoloSessao> protocoloSessaos = new ArrayList<>();
 
     @OneToMany(mappedBy = "paciente",cascade = CascadeType.ALL)
-    private List<VinculoPaciente> equipeMultiDisciplinar;
+    private List<VinculoTerapeuta> equipeMultiDisciplinar = new ArrayList<>();
+
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
+    private List<VinculoEscolar> vinculosEscolar = new ArrayList<>();
 
 }

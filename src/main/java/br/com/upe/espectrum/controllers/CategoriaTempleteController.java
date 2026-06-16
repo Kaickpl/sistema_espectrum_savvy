@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.controller;
+package br.com.upe.espectrum.controllers;
 import br.com.upe.espectrum.entities.CategoriaTemplete;
 import br.com.upe.espectrum.dto.requestDtos.CategoriaTempleteDto;
 import br.com.upe.espectrum.dto.responseDtos.CategoriaTempleteResponseDto;

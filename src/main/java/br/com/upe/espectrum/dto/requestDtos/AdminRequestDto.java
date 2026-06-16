@@ -11,6 +11,7 @@ public record AdminRequestDto(
         String senha,
         String cpf,
         String nome,
-        String crp
+        @JsonProperty(required = true)
+        String registroProfissional
 ) {
 }

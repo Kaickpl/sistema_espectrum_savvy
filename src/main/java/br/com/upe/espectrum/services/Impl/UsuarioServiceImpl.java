@@ -21,11 +21,15 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public Usuario criarUsuario(String nome, String numeroTelefone, String email, String senha, String cpf, Perfil tipo, boolean isActive) {
         if(usuarioRepository.existsByEmail(email)){
-            throw new RuntimeException("Este e-mail já está em uso.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este e-mail já está em uso.");
         }
 
-        if(usuarioRepository.existsByNumeroTelefone(numeroTelefone)){
-            throw new RuntimeException("Este número de telefone já está em uso");
+        if(usuarioRepository.existsByNumeroTelefone(numeroTelefone)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este número de telefone já está em uso.");
+        }
+
+        if(usuarioRepository.existsByCpf(cpf)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este número de CPF já está em uso.");
         }
 
         Usuario usuarioNovo = new Usuario();
@@ -61,14 +65,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void desativarUsuario(UUID id) {
-        Usuario usuario = this.buscarUsuario(id);
-        usuarioRepository.delete(usuario);
+        usuarioRepository.alterarStatusDiretoNoBanco(id, false);
     }
 
     @Override
-    public void ativarUsuario(UUID id) {
-        Usuario usuario = this.buscarUsuario(id);
-        usuario.setActive(true);
-        usuarioRepository.save(usuario);
+    public void reativarUsuario(UUID id) {
+        usuarioRepository.alterarStatusDiretoNoBanco(id, true);
     }
 }
