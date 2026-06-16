@@ -4,6 +4,8 @@ import br.com.upe.espectrum.entities.CategoriaSessao;
 import br.com.upe.espectrum.entities.Comentario;
 import br.com.upe.espectrum.entities.ProtocoloSessao;
 import br.com.upe.espectrum.entities.Usuario;
+import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
+import br.com.upe.espectrum.exceptions.InformacaoNaoEncontradoException;
 import br.com.upe.espectrum.repositories.CategoriaSessaoRepository;
 import br.com.upe.espectrum.repositories.ComentarioRepository;
 import br.com.upe.espectrum.repositories.ProtocoloSessaoRepository;
@@ -43,7 +45,11 @@ public class ComentarioSeviceImpl implements ComentarioService {
         if (usuario.isEmpty()) {
             return null;
         }
+
         Comentario comentario = new Comentario();
+        if(texto == null || texto.isBlank()){
+            return null;
+        }
         comentario.setUsuario(usuario.get());
         comentario.setComentario(texto);
         comentario.setProtocoloSessao(sessao.get());
@@ -54,14 +60,17 @@ public class ComentarioSeviceImpl implements ComentarioService {
     public Comentario adicionarComentarioCategoria(UUID categoriaSessaoId, UUID usuarioId, String texto) {
         Optional<Usuario> usuario = usuarioRepository.findById(usuarioId);
         if (usuario.isEmpty()) {
-            return null;
+            throw new InformacaoNaoEncontradoException("Usuario com Id: " + usuarioId + " não encontrado");
         }
         Optional<CategoriaSessao> categoria = categoriaSessaoRepository.findById(categoriaSessaoId);
         if (categoria.isEmpty()) {
-            return null;
+            throw new InformacaoNaoEncontradoException("Usuario com Id: " + categoriaSessaoId + " não encontrado");
 
         }
         Comentario comentario = new Comentario();
+        if(texto == null || texto.isBlank()){
+            throw new CampoObrigatorioException(" Campo comentario não pode ser vazio");
+        }
         comentario.setUsuario(usuario.get());
         comentario.setCategoriaSessao(categoria.get());
         comentario.setComentario(texto);
@@ -70,6 +79,9 @@ public class ComentarioSeviceImpl implements ComentarioService {
 
     @Override
     public List<Comentario> buscarComentariosProtocolo(UUID sessaoId) {
+        if(sessaoId == null) {
+            throw new InformacaoNaoEncontradoException();
+        }
         return comentarioRepository.findAllByProtocoloSessaoId(sessaoId);
     }
 

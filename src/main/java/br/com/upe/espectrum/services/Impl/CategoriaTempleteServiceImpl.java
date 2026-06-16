@@ -2,6 +2,9 @@ package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.entities.CategoriaTemplete;
 import br.com.upe.espectrum.dto.requestDtos.CategoriaTempleteDto;
 import br.com.upe.espectrum.entities.ProtocoloTemplete;
+import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
+import br.com.upe.espectrum.exceptions.InformacaoExistenteException;
+import br.com.upe.espectrum.exceptions.InformacaoNaoEncontradoException;
 import br.com.upe.espectrum.repositories.CategoriaTempleteRepository;
 import br.com.upe.espectrum.repositories.ProtocoloTempleteRepository;
 import br.com.upe.espectrum.services.CategoriaTempleteService;
@@ -22,24 +25,24 @@ public class CategoriaTempleteServiceImpl implements CategoriaTempleteService {
     @Override
     public CategoriaTemplete criarCategoria(CategoriaTempleteDto categoriaTempleteDto) {
         if (categoriaTempleteDto.getNomeCategoria() == null || categoriaTempleteDto.getNomeCategoria().isBlank() ) {
-            return null;
+            throw new CampoObrigatorioException(" Campo nome da categoria é obrigatório");
         }
-        if (categoriaTempleteDto.getDescricaoCategoria()== null || categoriaTempleteDto.getDescricaoCategoria().isBlank() ) {
-        return null;}
         CategoriaTemplete categoriaExiste = categoriaTempleteRepository.findByNomeCategoriaIgnoreCase(categoriaTempleteDto.getNomeCategoria());
         if (categoriaExiste != null) {
-            return null;
+            throw new InformacaoExistenteException("Categoria já cadastrda com esse nome" +  categoriaTempleteDto.getNomeCategoria());
         }
         ProtocoloTemplete protocolo = protocoloTempleteRepository.findAll().stream().findFirst().orElse(null);
         CategoriaTemplete categoria = new CategoriaTemplete();
         categoria.setNomeCategoria(categoriaTempleteDto.getNomeCategoria());
-        categoria.setDescricaoCategoria(categoriaTempleteDto.getDescricaoCategoria());
         categoria.setProtocolo(protocolo);
         return categoriaTempleteRepository.save(categoria);
     }
 
     @Override
     public List<CategoriaTemplete> BuscarTodos() {
+        if (protocoloTempleteRepository.findAll().isEmpty()) {
+            throw new InformacaoNaoEncontradoException();
+        }
         return categoriaTempleteRepository.findAll();
     }
 
