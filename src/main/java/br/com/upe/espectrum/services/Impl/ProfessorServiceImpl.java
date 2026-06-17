@@ -5,6 +5,8 @@ import br.com.upe.espectrum.dto.responseDtos.ProfessorResponseDto;
 import br.com.upe.espectrum.entities.Professor;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Perfil;
+import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
+import br.com.upe.espectrum.exceptions.UsuarioExistenteException;
 import br.com.upe.espectrum.repositories.ProfessorRepository;
 import br.com.upe.espectrum.services.UsuarioService;
 import jakarta.transaction.Transactional;
@@ -20,6 +22,28 @@ public class ProfessorServiceImpl {
 
     @Transactional
     public ProfessorResponseDto cadastrarProfessor(ProfessorRequestDto dto) {
+        if (dto.email()==null||dto.email().isBlank()){
+            throw new CampoObrigatorioException("Campo de Email é obrigatório");
+        }
+        if (dto.cpf()==null||dto.cpf().isBlank()){
+            throw new CampoObrigatorioException("Campo de cpf é obrigatório");
+        }
+        if (dto.nome()==null||dto.nome().isBlank()){
+            throw new CampoObrigatorioException("Campo de nome é obrigatório");
+        }
+        if (dto.numeroTelefone()==null||dto.numeroTelefone().isBlank()){
+            throw new CampoObrigatorioException("Campo de número de telefone é obrigatório");
+        }
+        if (dto.senha()==null||dto.senha().isBlank()){
+            throw new CampoObrigatorioException("Campo de senha é obrigatório");
+        }
+        if (professorRepository.findByCpf(dto.cpf()).isPresent()){
+            throw new UsuarioExistenteException("Já existe um professor com esse cpf");
+        }
+        if (professorRepository.findByEmail(dto.email()).isPresent()){
+            throw new UsuarioExistenteException("Já existe um professor com esse email");
+        }
+
 
         Usuario userbase = usuarioService.criarUsuario(
                 dto.nome(),
