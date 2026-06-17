@@ -7,6 +7,8 @@ import br.com.upe.espectrum.entities.Terapeuta;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.entities.enums.StatusCadastro;
+import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
+import br.com.upe.espectrum.exceptions.UsuarioExistenteException;
 import br.com.upe.espectrum.repositories.TerapeutaRepository;
 import br.com.upe.espectrum.services.AdminService;
 import br.com.upe.espectrum.services.TerapeutaService;
@@ -33,6 +35,27 @@ public class TerapeutaServiceImpl implements TerapeutaService {
     @Override
     public TerapeutaResponseDto cadastrarTerapeuta(TerapeutaRequestDto dto) {
         Admin admin = adminService.buscarAdminEntity(dto.idAdmin());
+        if (dto.email()==null||dto.email().isBlank()){
+            throw new CampoObrigatorioException("Campo de Email é obrigatório");
+        }
+        if (dto.cpf()==null||dto.cpf().isBlank()){
+            throw new CampoObrigatorioException("Campo de cpf é obrigatório");
+        }
+        if (dto.nome()==null||dto.nome().isBlank()){
+            throw new CampoObrigatorioException("Campo de nome é obrigatório");
+        }
+        if (dto.numeroTelefone()==null||dto.numeroTelefone().isBlank()){
+            throw new CampoObrigatorioException("Campo de número de telefone é obrigatório");
+        }
+        if (dto.senha()==null||dto.senha().isBlank()){
+            throw new CampoObrigatorioException("Campo de senha é obrigatório");
+        }
+        if (terapeutaRepository.findByCpf(dto.cpf()).isPresent()){
+            throw new UsuarioExistenteException("Já existe um professor com esse cpf");
+        }
+        if (terapeutaRepository.findByEmail(dto.email()).isPresent()){
+            throw new UsuarioExistenteException("Já existe um professor com esse email");
+        }
 
         Usuario userBase = usuarioService.criarUsuario(
                 dto.nome(),
