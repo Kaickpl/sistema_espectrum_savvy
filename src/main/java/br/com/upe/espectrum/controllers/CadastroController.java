@@ -1,16 +1,14 @@
 package br.com.upe.espectrum.controllers;
-import br.com.upe.espectrum.dto.requestDtos.AdminRequestDto;
-import br.com.upe.espectrum.dto.requestDtos.ProfessorRequestDto;
-import br.com.upe.espectrum.dto.requestDtos.ResponsavelAvulsoRequestDto;
-import br.com.upe.espectrum.dto.requestDtos.TerapeutaRequestDto;
+import br.com.upe.espectrum.dto.requestDtos.*;
 import br.com.upe.espectrum.dto.responseDtos.AdminResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.ProfessorResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.ResponsavelResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.TerapeutaResponseDto;
-import br.com.upe.espectrum.services.Impl.AdminCadastroServiceImpl;
-import br.com.upe.espectrum.services.Impl.ProfessorCadastroServiceImpl;
-import br.com.upe.espectrum.services.Impl.ResponsavelCadastroServiceImpl;
-import br.com.upe.espectrum.services.Impl.TerapeutaCadastroServiceImpl;
+import br.com.upe.espectrum.services.Impl.AdminServiceImpl;
+import br.com.upe.espectrum.services.Impl.ProfessorServiceImpl;
+import br.com.upe.espectrum.services.Impl.ResponsavelServiceImpl;
+import br.com.upe.espectrum.services.Impl.TerapeutaServiceImpl;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,28 +22,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/cadastro")
 public class CadastroController {
 
-    private final AdminCadastroServiceImpl adminService;
-    private final TerapeutaCadastroServiceImpl terapeutaService;
-    private final ProfessorCadastroServiceImpl professorService;
-    private final ResponsavelCadastroServiceImpl responsavelService;
+    private final AdminServiceImpl adminService;
+    private final TerapeutaServiceImpl terapeutaService;
+    private final ProfessorServiceImpl professorService;
+    private final ResponsavelServiceImpl responsavelService;
 
     @PostMapping("/admin")
-    public ResponseEntity<AdminResponseDto> cadastrarAdmin(@RequestBody AdminRequestDto dto) {
+    public ResponseEntity<AdminResponseDto> cadastrarAdmin(@Valid @RequestBody AdminRequestDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(adminService.cadastrarAdmin(dto));
     }
 
     @PostMapping("/terapeuta")
-    public ResponseEntity<TerapeutaResponseDto> cadastrarTerapeuta(@RequestBody TerapeutaRequestDto dto) {
+    public ResponseEntity<TerapeutaResponseDto> cadastrarTerapeuta(@Valid @RequestBody TerapeutaRequestDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(terapeutaService.cadastrarTerapeuta(dto));
     }
 
     @PostMapping("/professor")
-    public ResponseEntity<ProfessorResponseDto> cadastrarProfessor(@RequestBody ProfessorRequestDto dto) {
+    public ResponseEntity<ProfessorResponseDto> cadastrarProfessor(@Valid @RequestBody ProfessorRequestDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(professorService.cadastrarProfessor(dto));
     }
 
-    @PostMapping("/responsavel")
-    public ResponseEntity<ResponsavelResponseDto> cadastrarResponsavel(@RequestBody ResponsavelAvulsoRequestDto dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(responsavelService.cadastrarResponsavel(dto));
+
+    @PostMapping("/paciente-responsavel")
+    public ResponseEntity<ResponsavelResponseDto> cadastrarPacienteEResponsavel(@Valid @RequestBody PacienteEResponsavelRequestDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(responsavelService.cadastrarPacienteEResponsavel(dto));
     }
 }

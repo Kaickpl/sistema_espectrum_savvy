@@ -1,18 +1,20 @@
 package br.com.upe.espectrum.dto.requestDtos;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.UUID;
 
 public record ResponsavelAvulsoRequestDto(
-        @JsonProperty(required = true)
+        @NotBlank
         String numeroTelefone,
         String email,
-        @JsonProperty(required = true)
+        @NotBlank
         String senha,
-        @JsonProperty(required = true)
+        @NotBlank
         String cpf,
-        @JsonProperty(required = true)
+        @NotBlank
         String nome,
-        @JsonProperty(required = true)
+        @NotBlank
         UUID idTutelado,
         String grauParentesco
 ){

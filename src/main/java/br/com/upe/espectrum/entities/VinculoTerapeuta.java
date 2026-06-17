@@ -6,6 +6,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "vinculos_pacientes")
@@ -15,10 +16,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE vinculos_pacientes SET is_active = false WHERE id = ?")
 @SQLRestriction("is_active = true")
-public class VinculoPaciente {
+public class VinculoTerapeuta {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "paciente_id")
