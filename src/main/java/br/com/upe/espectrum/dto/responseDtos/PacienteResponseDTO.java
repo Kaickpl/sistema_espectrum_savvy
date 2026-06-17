@@ -1,8 +1,5 @@
 package br.com.upe.espectrum.dto.responseDtos;
 
-import br.com.upe.espectrum.entities.Paciente;
-import br.com.upe.espectrum.entities.VinculoEscolar;
-import br.com.upe.espectrum.entities.VinculoTerapeuta;
 import br.com.upe.espectrum.entities.enums.GrauAutismo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +21,7 @@ public class PacienteResponseDTO {
     private String cpf;
     private UUID adminId;
     private GrauAutismo grau;
-    private List<VinculoTerapeutaResponseDto> vinculosTerapeuta;
-    private List<VinculoEscolarResponseDto> vinculosProfessor;
+    private List<VinculoTerapeutaResumoResponseDto> vinculosTerapeuta;
+    private List<VinculoEscolarResumoResponseDto> vinculosProfessor;
 
 }

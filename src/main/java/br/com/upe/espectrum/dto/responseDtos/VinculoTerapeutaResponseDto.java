@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record VinculoTerapeutaResponseDto(
-        UUID id, UsuarioResponseDTO usuarioVinculado, LocalDate dataVinculo
+        UUID idVinculo,
+        PacienteResponseDTO pacienteResponseDTO,
+        TerapeutaResponseDto terapeutaResponseDto,
+        LocalDate dataVinculo
 ) {
 }
