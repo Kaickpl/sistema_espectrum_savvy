@@ -50,10 +50,10 @@ public class TerapeutaServiceImpl implements TerapeutaService {
         if (dto.senha()==null||dto.senha().isBlank()){
             throw new CampoObrigatorioException("Campo de senha é obrigatório");
         }
-        if (terapeutaRepository.findByCpf(dto.cpf()).isPresent()){
+        if (terapeutaRepository.findByUsuarioCpf(dto.cpf()).isPresent()){
             throw new UsuarioExistenteException("Já existe um professor com esse cpf");
         }
-        if (terapeutaRepository.findByEmail(dto.email()).isPresent()){
+        if (terapeutaRepository.findByUsuarioEmail(dto.email()).isPresent()){
             throw new UsuarioExistenteException("Já existe um professor com esse email");
         }
 

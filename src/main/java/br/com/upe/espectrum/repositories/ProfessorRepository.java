@@ -10,6 +10,6 @@ import java.util.UUID;
 public interface ProfessorRepository extends JpaRepository <Professor, UUID> {
     @Query(value = "SELECT * FROM professor WHERE id = :id", nativeQuery = true)
     Optional<Professor> encontrarComOuSemFiltro(@Param("id") UUID id);
-    Optional<Professor> findByCpf(String cpf);
-    Optional<Professor> findByEmail(String email);
+    Optional<Professor> findByUsuarioCpf(String cpf);
+    Optional<Professor> findByUsuarioEmail(String email);
 }
