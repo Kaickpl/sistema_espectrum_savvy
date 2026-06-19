@@ -35,7 +35,7 @@ public class VinculoEscolar {
     @Column(name = "ano_letivo")
     private String anoLetivo;
 
-    private boolean isActive = false;
+    private boolean isActive = true;
 
     @Column(name = "data_inicio_vinculo")
     private LocalDate dataInicio = LocalDate.now();

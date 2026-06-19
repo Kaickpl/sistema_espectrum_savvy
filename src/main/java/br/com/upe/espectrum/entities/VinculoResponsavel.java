@@ -11,12 +11,12 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "vinculos-responsaveis")
+@Table(name = "vinculos_responsaveis")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE vinculos-responsaveis SET is_active = false WHERE id = ?")
+@SQLDelete(sql = "UPDATE vinculos_responsaveis SET is_active = false WHERE id = ?")
 @SQLRestriction("is_active = true")
 public class VinculoResponsavel {
 
@@ -29,7 +29,7 @@ public class VinculoResponsavel {
     private Paciente paciente;
 
     @ManyToOne
-    @JoinColumn(name = "responsavel_id")
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     @Column(name = "data_do_vinculo")
