@@ -37,10 +37,10 @@ public class ProfessorServiceImpl {
         if (dto.senha()==null||dto.senha().isBlank()){
             throw new CampoObrigatorioException("Campo de senha é obrigatório");
         }
-        if (professorRepository.findByCpf(dto.cpf()).isPresent()){
+        if (professorRepository.findByUsuarioCpf(dto.cpf()).isPresent()){
             throw new UsuarioExistenteException("Já existe um professor com esse cpf");
         }
-        if (professorRepository.findByEmail(dto.email()).isPresent()){
+        if (professorRepository.findByUsuarioEmail(dto.email()).isPresent()){
             throw new UsuarioExistenteException("Já existe um professor com esse email");
         }
 

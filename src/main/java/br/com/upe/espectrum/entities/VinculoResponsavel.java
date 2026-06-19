@@ -1,5 +1,4 @@
 package br.com.upe.espectrum.entities;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,31 +11,36 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "vinculos_responsaveis")
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE vinculo_escolar SET is_active = false WHERE id = ?")
+@AllArgsConstructor
+@NoArgsConstructor
+@SQLDelete(sql = "UPDATE vinculos_responsaveis SET is_active = false WHERE id = ?")
 @SQLRestriction("is_active = true")
-@Table(name = "vinculo_escolar")
-public class VinculoEscolar {
+public class VinculoResponsavel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
-
-    @ManyToOne
-    @JoinColumn(name = "paciente_id", nullable = false)
+    @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
-    @Column(name = "ano_letivo")
-    private String anoLetivo;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
+    @Column(name = "data_do_vinculo")
+    private LocalDate dataVinculo = LocalDate.now();
+
+    @Column(name = "is_active")
     private boolean isActive = true;
 
-    @Column(name = "data_inicio_vinculo")
-    private LocalDate dataInicio = LocalDate.now();
+    @Column(name = "grau_parentesco")
+    private String grauParentesco;
+
 }
+
+

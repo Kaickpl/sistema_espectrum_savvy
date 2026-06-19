@@ -55,6 +55,9 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<VinculoTerapeuta> vinculoTerapeutas = new ArrayList<>();
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<VinculoEscolar> vinculosEscolares = new ArrayList<>();
+
     @OneToMany(mappedBy = "criadoPor")
     private List<ProtocoloSessao> protocoloCriados;
 

@@ -21,6 +21,7 @@ public interface TerapeutaRepository extends JpaRepository <Terapeuta, UUID> {
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE terapeuta SET is_active = :status WHERE usuario_id = :id", nativeQuery = true)
     void alterarStatusDiretoNoBanco(@Param("id") UUID id, @Param("status") boolean status);
-    Optional<Terapeuta> findByCpf(String cpf);
-    Optional<Terapeuta> findByEmail(String email);
+
+    Optional<Terapeuta> findByUsuarioCpf(String cpf);
+    Optional<Terapeuta> findByUsuarioEmail(String email);
 }

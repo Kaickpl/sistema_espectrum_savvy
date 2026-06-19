@@ -1,9 +1,8 @@
 package br.com.upe.espectrum.dto.mappers;
-
 import br.com.upe.espectrum.dto.requestDtos.PacienteRequestDTO;
 import br.com.upe.espectrum.dto.responseDtos.PacienteResponseDTO;
-import br.com.upe.espectrum.dto.responseDtos.VinculoEscolarResponseDto;
-import br.com.upe.espectrum.dto.responseDtos.VinculoTerapeutaResponseDto;
+import br.com.upe.espectrum.dto.responseDtos.VinculoEscolarResumoResponseDto;
+import br.com.upe.espectrum.dto.responseDtos.VinculoTerapeutaResumoResponseDto;
 import br.com.upe.espectrum.entities.Paciente;
 import br.com.upe.espectrum.entities.VinculoEscolar;
 import br.com.upe.espectrum.entities.VinculoTerapeuta;
@@ -39,17 +38,17 @@ public class PacienteMapper {
             return null;
         }
 
-        List<VinculoTerapeutaResponseDto> vinculosTerapeutasDto =
+        List<VinculoTerapeutaResumoResponseDto> vinculosTerapeutasDto =
                 paciente.getEquipeMultiDisciplinar() != null
                         ? paciente.getEquipeMultiDisciplinar().stream()
-                        .map(this::vinculoToResponseDto)
+                        .map(this::vinculoTerapeutaToResumoResponseDto)
                         .toList()
                         : Collections.emptyList();
 
-        List<VinculoEscolarResponseDto> vinculoEscolarResponseDtos =
+        List<VinculoEscolarResumoResponseDto> vinculoEscolarResponseDtos =
                 paciente.getVinculosEscolar() != null
                         ? paciente.getVinculosEscolar().stream()
-                        .map(this::vinculoEscolarToResponseDto)
+                        .map(this::vinculoEscolarToResumoResponseDto)
                         .toList()
                         : Collections.emptyList();
 
@@ -65,27 +64,27 @@ public class PacienteMapper {
         );
     }
 
-    public VinculoTerapeutaResponseDto vinculoToResponseDto(VinculoTerapeuta vinculo) {
+    public VinculoTerapeutaResumoResponseDto vinculoTerapeutaToResumoResponseDto(VinculoTerapeuta vinculo) {
         if (vinculo == null) {
             return null;
         }
 
-        return new VinculoTerapeutaResponseDto(
+        return new VinculoTerapeutaResumoResponseDto(
                 vinculo.getId(),
                 usuarioMapper.entityToResponseDto(vinculo.getUsuario()),
                 vinculo.getDataVinculo()
         );
     }
 
-    public VinculoEscolarResponseDto vinculoEscolarToResponseDto(VinculoEscolar vinculoEscolar){
-        if (vinculoEscolar == null){
+    public VinculoEscolarResumoResponseDto vinculoEscolarToResumoResponseDto(VinculoEscolar vinculo) {
+        if (vinculo == null) {
             return null;
         }
 
-        return new VinculoEscolarResponseDto(
-                vinculoEscolar.getId(),
-                usuarioMapper.entityToResponseDto(vinculoEscolar.getProfessor().getUsuario()),
-                vinculoEscolar.getDataInicio()
+        return new VinculoEscolarResumoResponseDto(
+                vinculo.getId(),
+                usuarioMapper.entityToResponseDto(vinculo.getUsuario()),
+                vinculo.getUsuario().getProfessor().getEscola()
         );
     }
 

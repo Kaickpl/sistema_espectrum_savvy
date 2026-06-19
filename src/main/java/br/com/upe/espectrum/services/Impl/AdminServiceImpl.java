@@ -33,13 +33,13 @@ public class AdminServiceImpl implements AdminService {
         if (dto.email() == null || dto.email().isBlank()){
             throw new CampoObrigatorioException("O campo de e-mail é obrigatório");
         }
-        if (adminRepository.findByEmail(dto.email()).isPresent()){
+        if (adminRepository.findByUsuarioEmail(dto.email()).isPresent()){
             throw new UsuarioExistenteException("Usuário já cadastrado com esse email");
         }
         if (dto.cpf() == null || dto.cpf().isBlank()){
             throw new CampoObrigatorioException("O campo de cpf é obrigatório");
         }
-        if (adminRepository.findByCpf(dto.cpf()).isPresent()){
+        if (adminRepository.findByUsuarioCpf(dto.cpf()).isPresent()){
             throw new UsuarioExistenteException("Usuário já cadastrado com esse cpf");
         }
         if (dto.nome() == null || dto.nome().isBlank()){
