@@ -83,8 +83,8 @@ public class PacienteMapper {
 
         return new VinculoEscolarResumoResponseDto(
                 vinculo.getId(),
-                usuarioMapper.entityToResponseDto(vinculo.getProfessor().getUsuario()),
-                vinculo.getProfessor().getEscola()
+                usuarioMapper.entityToResponseDto(vinculo.getUsuario()),
+                vinculo.getUsuario().getProfessor().getEscola()
         );
     }
 

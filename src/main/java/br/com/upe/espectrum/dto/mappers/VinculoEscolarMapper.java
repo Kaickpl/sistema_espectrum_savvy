@@ -16,9 +16,9 @@ public class VinculoEscolarMapper {
         VinculoEscolarResponseDto dto = new VinculoEscolarResponseDto(
                 vinculoEscolar.getId(),
                 pacienteMapper.entityToResponseDto(vinculoEscolar.getPaciente()),
-                usuarioMapper.entityToResponseDto(vinculoEscolar.getProfessor().getUsuario()),
+                usuarioMapper.entityToResponseDto(vinculoEscolar.getUsuario()),
                 vinculoEscolar.getDataInicio(),
-                vinculoEscolar.getProfessor().getEscola());
+                vinculoEscolar.getUsuario().getProfessor().getEscola());
 
         return dto;
     }

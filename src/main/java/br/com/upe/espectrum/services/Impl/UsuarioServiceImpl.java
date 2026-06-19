@@ -72,4 +72,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void reativarUsuario(UUID id) {
         usuarioRepository.alterarStatusDiretoNoBanco(id, true);
     }
+
+    @Override
+    public Usuario buscarUsuarioEntity(UUID id){
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado com o id "+id));
+
+        return usuario;
+    }
 }

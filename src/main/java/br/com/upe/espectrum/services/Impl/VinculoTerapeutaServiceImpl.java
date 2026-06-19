@@ -26,4 +26,9 @@ public class VinculoTerapeutaServiceImpl implements VinculoTerapeutaService {
 
         return vinculoTerapeutaMapper.entityToResponseDto(vinculo);
   }
+
+    @Override
+    public VinculoTerapeutaResponseDto criarVinculo(VinculoTerapeuta vinculoTerapeuta) {
+        return vinculoTerapeutaMapper.entityToResponseDto(vinculoTerapeutaRepository.save(vinculoTerapeuta));
+    }
 }

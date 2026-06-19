@@ -25,9 +25,6 @@ public class Professor {
     @OneToOne
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL)
-    private List<VinculoEscolar> vinculosEscolar = new ArrayList<>();
-
     @Column(name = "is_active")
     private boolean isActive = true;
 

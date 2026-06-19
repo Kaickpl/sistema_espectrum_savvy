@@ -25,5 +25,6 @@ public interface UsuarioService {
     public UsuarioResponseDTO editarPerfilUsuario(UUID id, UsuarioUpdateDto dto);
     public void desativarUsuario(UUID id);
     public void reativarUsuario(UUID id);
+    public Usuario buscarUsuarioEntity(UUID id);
 }
 

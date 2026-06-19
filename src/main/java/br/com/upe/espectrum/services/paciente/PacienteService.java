@@ -13,4 +13,5 @@ public interface PacienteService {
     public PacienteResponseDTO mostrarPaciente(UUID pacienteID);
     public void reativarContaPaciente(UUID pacienteId);
     public void desativarContaPaciente(UUID pacienteId);
+    public Paciente mostrarPacienteEntity(UUID pacienteID);
 }

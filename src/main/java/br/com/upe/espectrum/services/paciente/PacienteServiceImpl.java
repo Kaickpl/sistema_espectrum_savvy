@@ -65,6 +65,7 @@ public class PacienteServiceImpl implements PacienteService{
         return pacienteMapper.entityToResponseDto(paciente);
     }
 
+
     @Override
     @Transactional
     public void desativarContaPaciente(UUID pacienteId){

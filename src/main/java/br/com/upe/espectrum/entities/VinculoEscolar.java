@@ -25,15 +25,15 @@ public class VinculoEscolar {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "professor_id", nullable = false)
-    private Professor professor;
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
     @Column(name = "ano_letivo")
-    private Integer anoLetivo;
+    private String anoLetivo;
 
     private boolean isActive = false;
 
