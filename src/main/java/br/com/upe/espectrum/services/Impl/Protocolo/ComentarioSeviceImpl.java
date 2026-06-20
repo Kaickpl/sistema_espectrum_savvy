@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.services.Impl;
+package br.com.upe.espectrum.services.Impl.Protocolo;
 
 import br.com.upe.espectrum.entities.CategoriaSessao;
 import br.com.upe.espectrum.entities.Comentario;
@@ -6,11 +6,11 @@ import br.com.upe.espectrum.entities.ProtocoloSessao;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
 import br.com.upe.espectrum.exceptions.InformacaoNaoEncontradoException;
-import br.com.upe.espectrum.repositories.CategoriaSessaoRepository;
-import br.com.upe.espectrum.repositories.ComentarioRepository;
-import br.com.upe.espectrum.repositories.ProtocoloSessaoRepository;
+import br.com.upe.espectrum.repositories.protocolo.CategoriaSessaoRepository;
+import br.com.upe.espectrum.repositories.protocolo.ComentarioRepository;
+import br.com.upe.espectrum.repositories.protocolo.ProtocoloSessaoRepository;
 import br.com.upe.espectrum.repositories.UsuarioRepository;
-import br.com.upe.espectrum.services.ComentarioService;
+import br.com.upe.espectrum.services.protocolo.ComentarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

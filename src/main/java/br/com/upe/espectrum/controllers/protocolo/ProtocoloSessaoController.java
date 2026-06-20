@@ -1,8 +1,8 @@
-package br.com.upe.espectrum.controllers;
+package br.com.upe.espectrum.controllers.protocolo;
 
 import br.com.upe.espectrum.dto.responseDtos.ProtocoloSessaoResponseDto;
 import br.com.upe.espectrum.entities.ProtocoloSessao;
-import br.com.upe.espectrum.services.ProtocoloSessaoService;
+import br.com.upe.espectrum.services.protocolo.ProtocoloSessaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

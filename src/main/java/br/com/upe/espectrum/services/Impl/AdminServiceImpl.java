@@ -7,9 +7,11 @@ import br.com.upe.espectrum.entities.Admin;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
+import br.com.upe.espectrum.exceptions.CpfInvalidoEcxeption;
 import br.com.upe.espectrum.exceptions.UsuarioExistenteException;
 import br.com.upe.espectrum.repositories.AdminRepository;
 import br.com.upe.espectrum.services.AdminService;
+import br.com.upe.espectrum.services.CpfValidatorService;
 import br.com.upe.espectrum.services.UsuarioService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,8 @@ public class AdminServiceImpl implements AdminService {
     private final UsuarioService usuarioService;
     private final AdminRepository adminRepository;
     private final AdminMapper adminMapper;
+    private final CpfValidatorService cpfValidatorService;
+
 
     @Transactional
     public AdminResponseDto cadastrarAdmin(AdminRequestDto dto) {
@@ -39,6 +43,10 @@ public class AdminServiceImpl implements AdminService {
         if (dto.cpf() == null || dto.cpf().isBlank()){
             throw new CampoObrigatorioException("O campo de cpf é obrigatório");
         }
+        if (!cpfValidatorService.isCpfValido(dto.cpf())) {
+            throw new CpfInvalidoEcxeption("O CPF informado não é válido");
+        }
+
         if (adminRepository.findByUsuarioCpf(dto.cpf()).isPresent()){
             throw new UsuarioExistenteException("Usuário já cadastrado com esse cpf");
         }

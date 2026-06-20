@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.repositories;
+package br.com.upe.espectrum.repositories.protocolo;
 
 import br.com.upe.espectrum.entities.CategoriaSessao;
 import org.springframework.data.jpa.repository.JpaRepository;

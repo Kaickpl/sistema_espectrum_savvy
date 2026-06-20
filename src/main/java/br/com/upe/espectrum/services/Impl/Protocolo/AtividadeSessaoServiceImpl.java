@@ -1,12 +1,12 @@
-package br.com.upe.espectrum.services.Impl;
+package br.com.upe.espectrum.services.Impl.Protocolo;
 
 import br.com.upe.espectrum.entities.AtividadeSessao;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Pontuacao;
 import br.com.upe.espectrum.exceptions.InformacaoNaoEncontradoException;
-import br.com.upe.espectrum.repositories.AtividadeSessaoRepository;
+import br.com.upe.espectrum.repositories.protocolo.AtividadeSessaoRepository;
 import br.com.upe.espectrum.repositories.UsuarioRepository;
-import br.com.upe.espectrum.services.AtividadeSessaoService;
+import br.com.upe.espectrum.services.protocolo.AtividadeSessaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

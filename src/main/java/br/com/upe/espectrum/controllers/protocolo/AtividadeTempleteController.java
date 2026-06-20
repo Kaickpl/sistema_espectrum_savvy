@@ -1,8 +1,8 @@
-package br.com.upe.espectrum.controllers;
+package br.com.upe.espectrum.controllers.protocolo;
 import br.com.upe.espectrum.dto.requestDtos.AtividadetempleteDto;
 import br.com.upe.espectrum.dto.responseDtos.AtividadeTempleteResponseDto;
 import br.com.upe.espectrum.entities.AtividadeTemplete;
-import br.com.upe.espectrum.services.AtividadeTempleteService;
+import br.com.upe.espectrum.services.protocolo.AtividadeTempleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
