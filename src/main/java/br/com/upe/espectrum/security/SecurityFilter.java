@@ -1,4 +1,4 @@
 package br.com.upe.espectrum.security;
 
-public class SecurityConfig {
+public class SecurityFilter {
 }

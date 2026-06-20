@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.dto.mappers.ProfessorMapper;
 import br.com.upe.espectrum.dto.requestDtos.ProfessorRequestDto;
+import br.com.upe.espectrum.dto.requestDtos.VinculoRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.ProfessorResponseDto;
 import br.com.upe.espectrum.entities.Professor;
 import br.com.upe.espectrum.entities.Usuario;
@@ -9,6 +10,7 @@ import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
 import br.com.upe.espectrum.exceptions.UsuarioExistenteException;
 import br.com.upe.espectrum.repositories.ProfessorRepository;
 import br.com.upe.espectrum.services.UsuarioService;
+import br.com.upe.espectrum.services.VinculoGeralService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ public class ProfessorServiceImpl {
     private final UsuarioService usuarioService;
     private final ProfessorRepository professorRepository;
     private final ProfessorMapper professorMapper;
+    private final VinculoGeralService  vinculoGeralService;
 
     @Transactional
     public ProfessorResponseDto cadastrarProfessor(ProfessorRequestDto dto) {
@@ -58,6 +61,7 @@ public class ProfessorServiceImpl {
         Professor professorNovo = professorMapper.requestDtoToEntity(dto);
         professorNovo.setUsuario(userbase);
         professorNovo.setEscola(dto.escola());
+
         professorRepository.save(professorNovo);
         return professorMapper.entityToResponseDto(professorNovo);
     }
