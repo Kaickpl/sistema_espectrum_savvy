@@ -3,10 +3,11 @@ package br.com.upe.espectrum.entities;
 import br.com.upe.espectrum.entities.enums.Perfil;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 

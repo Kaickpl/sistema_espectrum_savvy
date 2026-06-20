@@ -3,6 +3,7 @@ package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.dto.mappers.PacienteMapper;
 import br.com.upe.espectrum.dto.mappers.ResponsavelMapper;
 import br.com.upe.espectrum.dto.requestDtos.PacienteEResponsavelRequestDto;
+import br.com.upe.espectrum.dto.requestDtos.VinculoRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.ResponsavelResponseDto;
 import br.com.upe.espectrum.entities.*;
 import br.com.upe.espectrum.entities.enums.Perfil;
@@ -11,6 +12,8 @@ import br.com.upe.espectrum.repositories.PacienteRepository;
 import br.com.upe.espectrum.repositories.ResponsavelRepository;
 import br.com.upe.espectrum.services.TerapeutaService;
 import br.com.upe.espectrum.services.UsuarioService;
+import br.com.upe.espectrum.services.VinculoGeralService;
+import br.com.upe.espectrum.services.VinculoResponsavelService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +30,7 @@ public class ResponsavelServiceImpl {
     private final ResponsavelMapper responsavelMapper;
     private final PacienteMapper pacienteMapper;
     private final TerapeutaService terapeutaService;
+    private final VinculoGeralService vinculoGeralService;
 
     @Transactional
     public ResponsavelResponseDto cadastrarPacienteEResponsavel(PacienteEResponsavelRequestDto dto) {
@@ -50,9 +54,11 @@ public class ResponsavelServiceImpl {
         );
 
         Responsavel responsavelNovo = responsavelMapper.PacienteEResponsavelRequestDto(dto, pacienteSalvo , userBase);
+        VinculoRequestDto vinculoDto = new VinculoRequestDto(pacienteSalvo.getId(), userBase.getId(), "Pai", null);
+        vinculoGeralService.criarVinculo(vinculoDto);
+
         responsavelRepository.save(responsavelNovo);
         return responsavelMapper.entityToResponseDto(responsavelNovo);
     }
-
 
 }
