@@ -7,8 +7,10 @@ import br.com.upe.espectrum.entities.Professor;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
+import br.com.upe.espectrum.exceptions.CpfInvalidoEcxeption;
 import br.com.upe.espectrum.exceptions.UsuarioExistenteException;
 import br.com.upe.espectrum.repositories.ProfessorRepository;
+import br.com.upe.espectrum.services.CpfValidatorService;
 import br.com.upe.espectrum.services.UsuarioService;
 import br.com.upe.espectrum.services.VinculoGeralService;
 import jakarta.transaction.Transactional;
@@ -22,6 +24,8 @@ public class ProfessorServiceImpl {
     private final ProfessorRepository professorRepository;
     private final ProfessorMapper professorMapper;
     private final VinculoGeralService  vinculoGeralService;
+    private final CpfValidatorService cpfValidatorService;
+
 
     @Transactional
     public ProfessorResponseDto cadastrarProfessor(ProfessorRequestDto dto) {
@@ -30,6 +34,9 @@ public class ProfessorServiceImpl {
         }
         if (dto.cpf()==null||dto.cpf().isBlank()){
             throw new CampoObrigatorioException("Campo de cpf é obrigatório");
+        }
+        if (!cpfValidatorService.isCpfValido(dto.cpf())) {
+            throw new CpfInvalidoEcxeption("O CPF informado não existe");
         }
         if (dto.nome()==null||dto.nome().isBlank()){
             throw new CampoObrigatorioException("Campo de nome é obrigatório");

@@ -44,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
             throw new CampoObrigatorioException("O campo de cpf é obrigatório");
         }
         if (!cpfValidatorService.isCpfValido(dto.cpf())) {
-            throw new CpfInvalidoEcxeption("O CPF informado não é válido");
+            throw new CpfInvalidoEcxeption("O CPF informado não existe");
         }
 
         if (adminRepository.findByUsuarioCpf(dto.cpf()).isPresent()){

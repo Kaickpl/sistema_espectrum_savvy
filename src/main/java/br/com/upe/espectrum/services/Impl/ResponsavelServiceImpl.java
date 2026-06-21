@@ -10,10 +10,7 @@ import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.repositories.AdminRepository;
 import br.com.upe.espectrum.repositories.PacienteRepository;
 import br.com.upe.espectrum.repositories.ResponsavelRepository;
-import br.com.upe.espectrum.services.TerapeutaService;
-import br.com.upe.espectrum.services.UsuarioService;
-import br.com.upe.espectrum.services.VinculoGeralService;
-import br.com.upe.espectrum.services.VinculoResponsavelService;
+import br.com.upe.espectrum.services.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,6 +28,8 @@ public class ResponsavelServiceImpl {
     private final PacienteMapper pacienteMapper;
     private final TerapeutaService terapeutaService;
     private final VinculoGeralService vinculoGeralService;
+    private final CpfValidatorService cpfValidatorService;
+
 
     @Transactional
     public ResponsavelResponseDto cadastrarPacienteEResponsavel(PacienteEResponsavelRequestDto dto) {
