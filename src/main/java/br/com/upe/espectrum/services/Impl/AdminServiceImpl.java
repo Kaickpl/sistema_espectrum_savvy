@@ -29,8 +29,6 @@ public class AdminServiceImpl implements AdminService {
     private final UsuarioService usuarioService;
     private final AdminRepository adminRepository;
     private final AdminMapper adminMapper;
-    private final CpfValidatorService cpfValidatorService;
-
 
     @Transactional
     public AdminResponseDto cadastrarAdmin(AdminRequestDto dto) {
@@ -43,10 +41,6 @@ public class AdminServiceImpl implements AdminService {
         if (dto.cpf() == null || dto.cpf().isBlank()){
             throw new CampoObrigatorioException("O campo de cpf é obrigatório");
         }
-        if (!cpfValidatorService.isCpfValido(dto.cpf())) {
-            throw new CpfInvalidoEcxeption("O CPF informado não existe");
-        }
-
         if (adminRepository.findByUsuarioCpf(dto.cpf()).isPresent()){
             throw new UsuarioExistenteException("Usuário já cadastrado com esse cpf");
         }

@@ -45,9 +45,6 @@ public class TerapeutaServiceImpl implements TerapeutaService {
         if (dto.cpf()==null||dto.cpf().isBlank()){
             throw new CampoObrigatorioException("Campo de cpf é obrigatório");
         }
-        if (!cpfValidatorService.isCpfValido(dto.cpf())) {
-            throw new CpfInvalidoEcxeption("O CPF informado não existe");
-        }
         if (dto.nome()==null||dto.nome().isBlank()){
             throw new CampoObrigatorioException("Campo de nome é obrigatório");
         }
