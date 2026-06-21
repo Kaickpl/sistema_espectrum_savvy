@@ -16,6 +16,8 @@ import br.com.upe.espectrum.services.UsuarioService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -30,11 +32,35 @@ public class TerapeutaServiceImpl implements TerapeutaService {
     private final TerapeutaRepository terapeutaRepository;
     private final TerapeutaMapper terapeutaMapper;
     private final AdminService adminService;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
-    public TerapeutaResponseDto cadastrarTerapeuta(TerapeutaRequestDto dto) {
-        Admin admin = adminService.buscarAdminEntity(dto.idAdmin());
+    public TerapeutaResponseDto cadastroPeloTerapeuta(TerapeutaRequestDto dto){
+        if(dto.codigoConvite() == null){
+            throw new CampoObrigatorioException("O código de convite é obrigatório para o auto-cadastro.");
+        }
+        Admin admin = adminService.buscarAdminEntityPorCodigo(dto.codigoConvite());
+        return cadastrarTerapeuta(dto, admin, false, StatusCadastro.PENDENTE);
+    }
+
+    @Transactional
+    @Override
+    public TerapeutaResponseDto cadastroPeloAdmin(TerapeutaRequestDto dto){
+        Usuario usuarioLogadoNoToken = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Usuario usuarioCompleto = usuarioService.buscarUsuarioEntity(usuarioLogadoNoToken.getId());
+        Admin adminLogado = usuarioCompleto.getPerfilAdmin();
+
+        if(adminLogado == null){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Apenas administradores podem cadastrar terapeutas diretamente.");
+        }
+        return cadastrarTerapeuta(dto, adminLogado, true, StatusCadastro.APROVADO);
+    }
+
+
+    @Transactional
+    @Override
+    public TerapeutaResponseDto cadastrarTerapeuta(TerapeutaRequestDto dto, Admin admin, boolean isAtivo, StatusCadastro status) {
         if (dto.email()==null||dto.email().isBlank()){
             throw new CampoObrigatorioException("Campo de Email é obrigatório");
         }
@@ -57,19 +83,23 @@ public class TerapeutaServiceImpl implements TerapeutaService {
             throw new UsuarioExistenteException("Já existe um professor com esse email");
         }
 
+        String hash = passwordEncoder.encode(dto.senha());
+
         Usuario userBase = usuarioService.criarUsuario(
                 dto.nome(),
                 dto.numeroTelefone(),
                 dto.email(),
-                dto.senha(),
+                hash,
                 dto.cpf(),
                 Perfil.ROLE_TERAPEUTA,
-                true
+                isAtivo
         );
 
         Terapeuta novoTerapeuta = terapeutaMapper.requestDtoToEntity(dto);
         novoTerapeuta.setUsuario(userBase);
         novoTerapeuta.setAdmin(admin);
+        novoTerapeuta.setStatusCadastro(status);
+
         terapeutaRepository.save(novoTerapeuta);
         return terapeutaMapper.entityToResponseDto(novoTerapeuta);
     }

@@ -8,7 +8,6 @@ import java.util.UUID;
 public record VinculoRequestDto(
         @NotBlank(message = "O id do paciente é obrigatório.")
         UUID idPaciente,
-        @NotBlank(message = "O id do usuario é obrigatório.")
         UUID idUsuario,
         String grauParentesco,
         @Pattern(regexp = "^\\d{4}$", message = "O ano letivo deve conter exatamente 4 números (ex: 2024)")

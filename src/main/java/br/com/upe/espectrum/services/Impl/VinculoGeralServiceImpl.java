@@ -5,6 +5,7 @@
     import br.com.upe.espectrum.services.paciente.PacienteService;
     import lombok.RequiredArgsConstructor;
     import org.springframework.http.HttpStatus;
+    import org.springframework.security.core.context.SecurityContextHolder;
     import org.springframework.stereotype.Service;
     import org.springframework.transaction.annotation.Transactional;
     import org.springframework.web.server.ResponseStatusException;
@@ -25,14 +26,21 @@
         @Transactional
         public void criarVinculo(VinculoRequestDto dto) {
             Paciente paciente = pacienteService.mostrarPacienteEntity(dto.idPaciente());
+            Usuario usuarioParaVincular;
 
-            Usuario usuario = usuarioService.buscarUsuarioEntity(dto.idUsuario());
+            if(dto.idUsuario() == null){
+                Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                usuarioParaVincular = usuarioService.buscarUsuarioEntity(usuarioLogado.getId());
+            }
+            else {
+                usuarioParaVincular = usuarioService.buscarUsuarioEntity(dto.idUsuario());
+            }
 
-            switch (usuario.getTipo()){
+            switch (usuarioParaVincular.getTipo()){
 
                 case ROLE_TERAPEUTA -> {
                     VinculoTerapeuta vinculoTerapeuta = new VinculoTerapeuta();
-                    vinculoTerapeuta.setUsuario(usuario);
+                    vinculoTerapeuta.setUsuario(usuarioParaVincular);
                     vinculoTerapeuta.setPaciente(paciente);
                     vinculoTerapeuta.setDataVinculo(LocalDate.now());
                     vinculoTerapeutaService.criarVinculo(vinculoTerapeuta);
@@ -44,7 +52,7 @@
                     }
 
                     VinculoResponsavel vinculoResponsavel = new VinculoResponsavel();
-                    vinculoResponsavel.setUsuario(usuario);
+                    vinculoResponsavel.setUsuario(usuarioParaVincular);
                     vinculoResponsavel.setPaciente(paciente);
                     vinculoResponsavel.setGrauParentesco(dto.grauParentesco());
                     vinculoResponsavel.setDataVinculo(LocalDate.now());
@@ -58,7 +66,7 @@
 
                     VinculoEscolar vinculoEscolar = new VinculoEscolar();
                     vinculoEscolar.setPaciente(paciente);
-                    vinculoEscolar.setUsuario(usuario);
+                    vinculoEscolar.setUsuario(usuarioParaVincular);
                     vinculoEscolar.setDataInicio(LocalDate.now());
                     vinculoEscolar.setAnoLetivo(dto.anoLetivo());
                     vinculoEscolarService.criarVinculo(vinculoEscolar);

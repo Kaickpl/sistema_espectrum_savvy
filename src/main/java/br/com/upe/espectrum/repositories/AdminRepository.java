@@ -19,6 +19,7 @@ public interface AdminRepository extends JpaRepository<Admin, UUID> {
     @Query(value = "UPDATE admin SET is_active = :status WHERE id = :id", nativeQuery = true)
     void alterarStatusDiretoNoBanco(@Param("id") UUID id, @Param("status") boolean status);
 
+    Optional<Admin> findByCodigoConvite(String codigoConvite);
     Optional<Admin> findByUsuarioEmail(String email);
     Optional<Admin> findByUsuarioCpf(String cpf);
 }
