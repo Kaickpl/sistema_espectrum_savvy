@@ -30,6 +30,8 @@ public class ResponsavelServiceImpl implements ResponsavelService {
     private final TerapeutaService terapeutaService;
     private final VinculoGeralService vinculoGeralService;
     private final PasswordEncoder passwordEncoder;
+    private final CpfValidatorService cpfValidatorService;
+
 
     @Transactional
     @Override

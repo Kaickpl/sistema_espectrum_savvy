@@ -4,7 +4,9 @@ import br.com.upe.espectrum.dto.responseDtos.UsuarioResponseDTO;
 import br.com.upe.espectrum.dto.mappers.UsuarioMapper;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Perfil;
+import br.com.upe.espectrum.exceptions.CpfInvalidoEcxeption;
 import br.com.upe.espectrum.repositories.UsuarioRepository;
+import br.com.upe.espectrum.services.CpfValidatorService;
 import br.com.upe.espectrum.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,8 @@ import java.util.UUID;
 public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
+    private final CpfValidatorService cpfValidatorService;
+
 
     @Override
     public Usuario criarUsuario(String nome, String numeroTelefone, String email, String senha, String cpf, Perfil tipo, boolean isActive) {
@@ -30,6 +34,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         if(usuarioRepository.existsByCpf(cpf)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Este número de CPF já está em uso.");
+        }
+        if (!cpfValidatorService.isCpfValido((cpf))) {
+            throw new CpfInvalidoEcxeption("O CPF informado não existe");
         }
 
         Usuario usuarioNovo = new Usuario();

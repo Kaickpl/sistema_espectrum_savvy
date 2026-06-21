@@ -8,9 +8,11 @@ import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.entities.enums.StatusCadastro;
 import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
+import br.com.upe.espectrum.exceptions.CpfInvalidoEcxeption;
 import br.com.upe.espectrum.exceptions.UsuarioExistenteException;
 import br.com.upe.espectrum.repositories.TerapeutaRepository;
 import br.com.upe.espectrum.services.AdminService;
+import br.com.upe.espectrum.services.CpfValidatorService;
 import br.com.upe.espectrum.services.TerapeutaService;
 import br.com.upe.espectrum.services.UsuarioService;
 import jakarta.transaction.Transactional;
@@ -57,6 +59,8 @@ public class TerapeutaServiceImpl implements TerapeutaService {
         return cadastrarTerapeuta(dto, adminLogado, true, StatusCadastro.APROVADO);
     }
 
+    private final CpfValidatorService cpfValidatorService;
+
 
     @Transactional
     @Override
@@ -77,10 +81,10 @@ public class TerapeutaServiceImpl implements TerapeutaService {
             throw new CampoObrigatorioException("Campo de senha é obrigatório");
         }
         if (terapeutaRepository.findByUsuarioCpf(dto.cpf()).isPresent()){
-            throw new UsuarioExistenteException("Já existe um professor com esse cpf");
+            throw new UsuarioExistenteException("Já existe um terapeuta com esse cpf" + dto.cpf());
         }
         if (terapeutaRepository.findByUsuarioEmail(dto.email()).isPresent()){
-            throw new UsuarioExistenteException("Já existe um professor com esse email");
+            throw new UsuarioExistenteException("Já existe um terapeuta com esse email: " + dto.email());
         }
 
         String hash = passwordEncoder.encode(dto.senha());

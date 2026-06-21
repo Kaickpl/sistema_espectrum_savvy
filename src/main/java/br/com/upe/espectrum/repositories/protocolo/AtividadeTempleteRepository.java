@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.repositories;
+package br.com.upe.espectrum.repositories.protocolo;
 
 import br.com.upe.espectrum.entities.AtividadeTemplete;
 import org.springframework.data.repository.CrudRepository;

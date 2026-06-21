@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.services.paciente;
+package br.com.upe.espectrum.services.Impl.Protocolo;
 import br.com.upe.espectrum.dto.mappers.PacienteMapper;
 import br.com.upe.espectrum.dto.requestDtos.PacienteRequestDTO;
 import br.com.upe.espectrum.dto.responseDtos.PacienteResponseDTO;
@@ -8,6 +8,7 @@ import br.com.upe.espectrum.repositories.AdminRepository;
 import br.com.upe.espectrum.repositories.PacienteRepository;
 import br.com.upe.espectrum.repositories.ResponsavelRepository;
 import br.com.upe.espectrum.repositories.TerapeutaRepository;
+import br.com.upe.espectrum.services.paciente.PacienteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PacienteServiceImpl implements PacienteService{
+public class PacienteServiceImpl implements PacienteService {
     private final PacienteRepository pacienteRepository;
     private final AdminRepository adminRepository;
     private final ResponsavelRepository responsavelRepository;

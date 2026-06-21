@@ -51,6 +51,11 @@ public class RestExceptionHandler {
     public ResponseEntity<String> handlerOperacaoNaoPermitida(OperacaoNaoPermitida ex, HttpServletRequest request){
         return ResponseEntity.status(400).body(ex.getMessage());
     }
+    @ExceptionHandler(CpfInvalidoEcxeption.class)
+    public ResponseEntity<ExceptionResponseDTO> handlerCpfinvalidoEcxe(CpfInvalidoEcxeption ex, HttpServletRequest request){
+        ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(ex.getMessage(), 400, request.getRequestURI());
+        return ResponseEntity.status(exceptionResponseDTO.getStatus()).body(exceptionResponseDTO);
+    }
 
 
 }

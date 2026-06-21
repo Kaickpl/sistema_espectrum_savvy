@@ -1,7 +1,6 @@
 package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.dto.mappers.ProfessorMapper;
 import br.com.upe.espectrum.dto.requestDtos.ProfessorRequestDto;
-import br.com.upe.espectrum.dto.requestDtos.VinculoRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.ProfessorResponseDto;
 import br.com.upe.espectrum.entities.Professor;
 import br.com.upe.espectrum.entities.Usuario;
@@ -9,6 +8,7 @@ import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
 import br.com.upe.espectrum.exceptions.UsuarioExistenteException;
 import br.com.upe.espectrum.repositories.ProfessorRepository;
+import br.com.upe.espectrum.services.CpfValidatorService;
 import br.com.upe.espectrum.services.ProfessorService;
 import br.com.upe.espectrum.services.UsuarioService;
 import br.com.upe.espectrum.services.VinculoGeralService;
@@ -24,6 +24,8 @@ public class ProfessorServiceImpl implements ProfessorService {
     private final ProfessorRepository professorRepository;
     private final ProfessorMapper professorMapper;
     private final VinculoGeralService  vinculoGeralService;
+    private final CpfValidatorService cpfValidatorService;
+
     private final PasswordEncoder passwordEncoder;
 
     @Transactional

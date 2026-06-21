@@ -1,17 +1,16 @@
-package br.com.upe.espectrum.services.Impl;
+package br.com.upe.espectrum.services.Impl.Protocolo;
 import br.com.upe.espectrum.dto.requestDtos.AtividadetempleteDto;
 import br.com.upe.espectrum.entities.AtividadeTemplete;
 import br.com.upe.espectrum.entities.CategoriaTemplete;
 import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
 import br.com.upe.espectrum.exceptions.InformacaoExistenteException;
 import br.com.upe.espectrum.exceptions.InformacaoNaoEncontradoException;
-import br.com.upe.espectrum.repositories.AtividadeTempleteRepository;
-import br.com.upe.espectrum.repositories.CategoriaTempleteRepository;
-import br.com.upe.espectrum.services.AtividadeTempleteService;
+import br.com.upe.espectrum.repositories.protocolo.AtividadeTempleteRepository;
+import br.com.upe.espectrum.repositories.protocolo.CategoriaTempleteRepository;
+import br.com.upe.espectrum.services.protocolo.AtividadeTempleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

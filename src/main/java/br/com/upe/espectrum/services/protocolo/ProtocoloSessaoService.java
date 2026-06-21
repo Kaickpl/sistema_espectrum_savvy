@@ -1,4 +1,4 @@
-package br.com.upe.espectrum.services;
+package br.com.upe.espectrum.services.protocolo;
 
 import br.com.upe.espectrum.entities.ProtocoloSessao;
 import org.springframework.stereotype.Service;

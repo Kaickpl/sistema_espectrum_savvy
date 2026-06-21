@@ -1,13 +1,13 @@
-package br.com.upe.espectrum.services.Impl;
+package br.com.upe.espectrum.services.Impl.Protocolo;
 import br.com.upe.espectrum.entities.CategoriaTemplete;
 import br.com.upe.espectrum.dto.requestDtos.CategoriaTempleteDto;
 import br.com.upe.espectrum.entities.ProtocoloTemplete;
 import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
 import br.com.upe.espectrum.exceptions.InformacaoExistenteException;
 import br.com.upe.espectrum.exceptions.InformacaoNaoEncontradoException;
-import br.com.upe.espectrum.repositories.CategoriaTempleteRepository;
-import br.com.upe.espectrum.repositories.ProtocoloTempleteRepository;
-import br.com.upe.espectrum.services.CategoriaTempleteService;
+import br.com.upe.espectrum.repositories.protocolo.CategoriaTempleteRepository;
+import br.com.upe.espectrum.repositories.protocolo.ProtocoloTempleteRepository;
+import br.com.upe.espectrum.services.protocolo.CategoriaTempleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,5 @@
-package br.com.upe.espectrum.repositories;
+package br.com.upe.espectrum.repositories.protocolo;
 
-import br.com.upe.espectrum.entities.CategoriaTemplete;
 import br.com.upe.espectrum.entities.ProtocoloTemplete;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
