@@ -38,6 +38,29 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/terapeutas/auto-cadastro").permitAll()
                         .requestMatchers(HttpMethod.POST, "/terapeutas/cadastro-admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/admin/terapeuta/{idTerapeuta}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/iniciar/paciente/{pacienteId}/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA")
+                        .requestMatchers(HttpMethod.PUT,"/{sessaoId}/finalizar/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA")
+                        .requestMatchers(HttpMethod.GET,"/{sessaoId}").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/paciente/{pacienteId}").permitAll()
+                        .requestMatchers(HttpMethod.PUT,"/{sessaoId}/finalizar/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA")
+                        .requestMatchers(HttpMethod.POST,"/{sessaoId}/salvar/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA","PROFESSOR","RESPONSAVEL")
+                        .requestMatchers(HttpMethod.PUT,"/{atividadeId}/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA","PROFESSOR","RESPONSAVEL")
+                        .requestMatchers(HttpMethod.GET,"/{atividadeId}").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/categoria/{categoriaSessaoId}").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/sessao/{sessaoId}/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA")
+                        .requestMatchers(HttpMethod.POST,"/categoria/{categoriaSessaoId}/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA")
+                        .requestMatchers(HttpMethod.GET,"/sessao/{sessaoId}").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/categoria/{categoriaSessaoId}").permitAll()
+
+
+
+
+
+
+
+
+
+
 
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
