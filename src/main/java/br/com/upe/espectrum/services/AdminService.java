@@ -11,6 +11,7 @@ import java.util.UUID;
 @Service
 public interface AdminService {
     public AdminResponseDto cadastrarAdmin(AdminRequestDto dto);
+    public Admin buscarAdminEntityPorCodigo(String codigoConvite);
     public AdminResponseDto buscarAdmin(UUID idAdmin);
     public Admin buscarAdminEntity(UUID idAdmin);
     public AdminResponseDto reativarContaAdmin(UUID idAdmin);

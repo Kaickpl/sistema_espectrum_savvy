@@ -17,6 +17,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -29,6 +30,7 @@ public class AdminServiceImpl implements AdminService {
     private final UsuarioService usuarioService;
     private final AdminRepository adminRepository;
     private final AdminMapper adminMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public AdminResponseDto cadastrarAdmin(AdminRequestDto dto) {
@@ -53,14 +55,27 @@ public class AdminServiceImpl implements AdminService {
         if (dto.senha() == null || dto.senha().isBlank()){
             throw new CampoObrigatorioException("O campo de senha é obrigatório");
         }
+
+        String hash = passwordEncoder.encode(dto.senha());
+
         Usuario userBase = usuarioService.criarUsuario(
                 dto.nome(), dto.numeroTelefone(), dto.email(),
-                dto.senha(), dto.cpf(), Perfil.ROLE_ADMIN, true
+                hash, dto.cpf(), Perfil.ROLE_ADMIN, true
         );
         Admin adminNovo = adminMapper.requestDtoToEntity(dto);
         adminNovo.setUsuario(userBase);
+
+        String codigoAleatorio = java.util.UUID.randomUUID().toString().substring(0 , 6).toUpperCase();
+        adminNovo.setCodigoConvite(codigoAleatorio);
+
         adminRepository.save(adminNovo);
         return adminMapper.entityToResponseDto(adminNovo);
+    }
+
+    @Override
+    public Admin buscarAdminEntityPorCodigo(String codigoConvite) {
+        return adminRepository.findByCodigoConvite(codigoConvite)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Admin não encontrado pelo código de convite informado."));
     }
 
     @Override

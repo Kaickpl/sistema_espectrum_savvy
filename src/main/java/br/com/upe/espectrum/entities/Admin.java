@@ -21,6 +21,7 @@ public class Admin {
     @Id
     private UUID id;
 
+    @Column(name = "registro_profissional", unique = true)
     private String registroProfissional;
 
     @OneToOne
@@ -36,5 +37,8 @@ public class Admin {
 
     @Column(name = "is_active")
     private boolean isActive = true;
+
+    @Column(name = "codigo_convite", unique = true, length = 6)
+    private String codigoConvite;
 
 }
