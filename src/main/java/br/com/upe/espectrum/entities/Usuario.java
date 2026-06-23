@@ -1,14 +1,11 @@
 package br.com.upe.espectrum.entities;
-
 import br.com.upe.espectrum.entities.enums.Perfil;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.SQLRestriction;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +18,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLRestriction("is_active = true")
 public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -62,6 +58,9 @@ public class Usuario implements UserDetails {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<VinculoEscolar> vinculosEscolares = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<VinculoResponsavel> vinculosResponsaveis = new ArrayList<>();
 
     @OneToMany(mappedBy = "criadoPor")
     private List<ProtocoloSessao> protocoloCriados;

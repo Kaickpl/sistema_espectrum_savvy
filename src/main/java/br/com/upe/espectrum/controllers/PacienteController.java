@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,6 +19,12 @@ public class PacienteController {
     @GetMapping("/{id}")
     public ResponseEntity<PacienteResponseDTO> buscarPaciente(@PathVariable UUID id){
         PacienteResponseDTO response = pacienteService.mostrarPaciente(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<PacienteResponseDTO>> buscarPacientesPorUsuario(){
+        List<PacienteResponseDTO> response = pacienteService.listarPacientesDoUsuario();
         return ResponseEntity.ok(response);
     }
 

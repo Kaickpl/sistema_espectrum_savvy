@@ -11,6 +11,7 @@ import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
 import br.com.upe.espectrum.exceptions.CpfInvalidoEcxeption;
 import br.com.upe.espectrum.exceptions.UsuarioExistenteException;
 import br.com.upe.espectrum.repositories.TerapeutaRepository;
+import br.com.upe.espectrum.security.SecurityUtils;
 import br.com.upe.espectrum.services.AdminService;
 import br.com.upe.espectrum.services.CpfValidatorService;
 import br.com.upe.espectrum.services.TerapeutaService;
@@ -35,6 +36,9 @@ public class TerapeutaServiceImpl implements TerapeutaService {
     private final TerapeutaMapper terapeutaMapper;
     private final AdminService adminService;
     private final PasswordEncoder passwordEncoder;
+    private final CpfValidatorService cpfValidatorService;
+    private final SecurityUtils securityUtils;
+
 
     @Transactional
     @Override
@@ -49,17 +53,16 @@ public class TerapeutaServiceImpl implements TerapeutaService {
     @Transactional
     @Override
     public TerapeutaResponseDto cadastroPeloAdmin(TerapeutaRequestDto dto){
-        Usuario usuarioLogadoNoToken = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Usuario usuarioCompleto = usuarioService.buscarUsuarioEntity(usuarioLogadoNoToken.getId());
-        Admin adminLogado = usuarioCompleto.getPerfilAdmin();
+
+        Usuario usuarioLogado = securityUtils.getCurrentUser();
+
+        Admin adminLogado = usuarioLogado.getPerfilAdmin();
 
         if(adminLogado == null){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Apenas administradores podem cadastrar terapeutas diretamente.");
         }
         return cadastrarTerapeuta(dto, adminLogado, true, StatusCadastro.APROVADO);
     }
-
-    private final CpfValidatorService cpfValidatorService;
 
 
     @Transactional
@@ -117,8 +120,15 @@ public class TerapeutaServiceImpl implements TerapeutaService {
     }
 
     @Override
+    public Terapeuta buscarTerapeutaEntity(UUID idTerapeuta) {
+        return terapeutaRepository.findById(idTerapeuta)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Terapeuta não encontrado"));
+    }
+
+    @Override
     public TerapeutaResponseDto aprovarCadastroTerapeuta(UUID idTerapeuta) {
         Terapeuta terapeuta = this.getTerapeuta(idTerapeuta);
+        verificarPermissaoAdmin(terapeuta.getAdmin().getId());
 
         if(terapeuta.getStatusCadastro() == StatusCadastro.APROVADO){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O cadastro já esta aprovado.");
@@ -130,29 +140,38 @@ public class TerapeutaServiceImpl implements TerapeutaService {
     }
 
     @Override
-    public List<TerapeutaResponseDto> buscarTerapeutasPorAdm(UUID idAdmin) {
-        List<Terapeuta> terapeutasDoAdmin = terapeutaRepository.findByAdminId(idAdmin);
+    public List<TerapeutaResponseDto> buscarTerapeutasPorAdm() {
+        Admin adminLogado = obterAdminLogado();
+        List<Terapeuta> terapeutasDoAdmin = terapeutaRepository.findByAdminId(adminLogado.getId());
         return terapeutasDoAdmin.stream().map(terapeutaMapper::entityToResponseDto).toList();
     }
 
     @Override
-    public List<TerapeutaResponseDto> buscarTerapeutasPendentesPorAdmin(UUID idAdmin) {
-        List<Terapeuta> terapeutasPendentesDoAdmin = terapeutaRepository.findByStatusCadastroAndAdminId(StatusCadastro.PENDENTE, idAdmin);
+    public List<TerapeutaResponseDto> buscarTerapeutasPendentesPorAdmin() {
+        Admin adminLogado = obterAdminLogado();
+        verificarPermissaoAdmin(adminLogado.getId());
+
+        List<Terapeuta> terapeutasPendentesDoAdmin = terapeutaRepository.findByStatusCadastroAndAdminId(StatusCadastro.PENDENTE, adminLogado.getId());
         return terapeutasPendentesDoAdmin.stream().map(terapeutaMapper::entityToResponseDto).toList();
     }
 
     @Override
     @Transactional
     public TerapeutaResponseDto reativarContaTerapeuta(UUID idTerapeuta) {
+        Terapeuta terapeuta = this.getTerapeuta(idTerapeuta);
+        verificarPermissaoAdmin(terapeuta.getAdmin().getId());
+
         usuarioService.reativarUsuario(idTerapeuta);
         terapeutaRepository.alterarStatusDiretoNoBanco(idTerapeuta, true);
-
         return this.buscarTerapeuta(idTerapeuta);
     }
 
     @Override
     @Transactional
     public void desativarContaTerapeuta(UUID id) {
+        Terapeuta terapeuta = this.getTerapeuta(id);
+        verificarPermissaoAdmin(terapeuta.getAdmin().getId());
+
         terapeutaRepository.alterarStatusDiretoNoBanco(id, false);
         usuarioService.desativarUsuario(id);
     }
@@ -163,6 +182,26 @@ public class TerapeutaServiceImpl implements TerapeutaService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Terapeuta não encontrado com o id " +idTerapeuta));
 
         return response;
+    }
+
+    private Admin obterAdminLogado() {
+        Usuario usuarioLogadoNoToken = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Usuario usuarioCompleto = usuarioService.buscarUsuarioEntity(usuarioLogadoNoToken.getId());
+        Admin adminLogado = usuarioCompleto.getPerfilAdmin();
+
+        if(adminLogado == null) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Apenas administradores podem realizar esta ação.");
+        }
+
+        return adminLogado;
+    }
+
+    private void verificarPermissaoAdmin(UUID idAdmin) {
+        Admin adminLogado = obterAdminLogado();
+
+        if(!adminLogado.getId().equals(idAdmin)){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso negado. Você não tem permissão para interagir com dados de outra clínica.");
+        }
     }
 
 }

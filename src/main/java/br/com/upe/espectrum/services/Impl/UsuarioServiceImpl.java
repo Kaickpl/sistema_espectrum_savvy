@@ -47,7 +47,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioNovo.setSenha(senha);
         usuarioNovo.setCpf(cpf);
         usuarioNovo.setTipo(tipo);
-        usuarioNovo.setActive(true);
+        usuarioNovo.setActive(isActive);
 
         usuarioRepository.save(usuarioNovo);
         return usuarioNovo;
