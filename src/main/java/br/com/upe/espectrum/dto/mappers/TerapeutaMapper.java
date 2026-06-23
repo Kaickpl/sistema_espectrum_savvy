@@ -32,7 +32,8 @@ public class TerapeutaMapper {
                 terapeuta.getUsuario().getEmail(),
                 terapeuta.getUsuario().getNumeroTelefone(),
                 terapeuta.getMatricula(),
-                terapeuta.getPeriodo()
+                terapeuta.getPeriodo(),
+                terapeuta.getStatusCadastro().toString()
         );
 
         return response;

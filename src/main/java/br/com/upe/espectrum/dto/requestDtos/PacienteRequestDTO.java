@@ -21,9 +21,7 @@ public record PacienteRequestDTO(
         String cpf, // CPF do paciente pode ser nulo se ele for criança? Se não, coloque @NotBlank!
 
         @NotNull(message = "O grau de autismo é obrigatório")
-        GrauAutismo grauAutismo,
+        GrauAutismo grauAutismo
 
-        @NotNull(message = "O ID do Admin responsável é obrigatório")
-        UUID adminId
 ) {
 }
