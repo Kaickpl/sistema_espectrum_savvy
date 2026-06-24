@@ -120,11 +120,13 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
 
     @Override
     public ProtocoloSessao buscarProtocoloSessao(UUID sessaoId) {
-        Optional<ProtocoloSessao> sessao =  protocoloSessaoRepository.findById(sessaoId);
-        if (sessao.isEmpty()) {
-           throw new  InformacaoNaoEncontradoException("Protocolo com Id: " + sessaoId + "não encontrado! ");
+        ProtocoloSessao sessao = protocoloSessaoRepository.findById(sessaoId)
+                .orElseThrow(() -> new InformacaoNaoEncontradoException("Protocolo com Id: " + sessaoId + " não encontrado!"));
+
+        if (!pacienteService.verificarSePacientePertenceAoUsuario(sessao.getPaciente().getId())){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para visualizar o histórico deste paciente.");
         }
-        return sessao.get();
+        return sessao;
     }
 
     @Override
@@ -143,23 +145,22 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
     @Override
     public ProtocoloSessao salvarProgresso(UUID sessaoId, UUID usuarioId) {
 
-        Optional<ProtocoloSessao> sessao = protocoloSessaoRepository.findById(sessaoId);
-        if (sessao.isEmpty()) {
-            throw new  InformacaoNaoEncontradoException("Protocolo com Id: " + sessaoId + "não encontrado! ");
+        ProtocoloSessao sessao = protocoloSessaoRepository.findById(sessaoId)
+                .orElseThrow(() -> new InformacaoNaoEncontradoException("Protocolo com Id: " + sessaoId + " não encontrado!"));
 
+        if (!pacienteService.verificarSePacientePertenceAoUsuario(sessao.getPaciente().getId())){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para salvar progresso neste paciente.");
         }
-        Optional<Usuario> usuario = usuarioRepository.findById(usuarioId);
-        if (usuario.isEmpty()) {
-            throw new InformacaoNaoEncontradoException("Usuario com id"  + usuarioId + " não encontrado! ");
 
-        }
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new InformacaoNaoEncontradoException("Usuario com id " + usuarioId + " não encontrado!"));
+
         HistoricoSalvamento historico = new HistoricoSalvamento();
-        historico.setUsuario(usuario.get());
+        historico.setUsuario(usuario);
         historico.setDataSalvamento(LocalDateTime.now());
-        historico.setProtocoloSessao(sessao.get());
-        sessao.get().getHistoricoSalvamentos().add(historico);
-        return protocoloSessaoRepository.save(sessao.get());
+        historico.setProtocoloSessao(sessao);
+
+        sessao.getHistoricoSalvamentos().add(historico);
+        return protocoloSessaoRepository.save(sessao);
     }
-
-
 }

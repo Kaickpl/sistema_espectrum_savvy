@@ -21,7 +21,7 @@ public class ProtocoloSessaoController {
     @Autowired
     private SecurityUtils securityUtils;
 
-    @PostMapping("/iniciar/paciente/{pacienteId}/")
+    @PostMapping("/iniciar/paciente/{pacienteId}")
     public ResponseEntity<ProtocoloSessaoResponseDto> iniciarSessao(@PathVariable UUID pacienteId) {
 
         UUID usuarioId = securityUtils.getCurrentUserId();
@@ -71,7 +71,7 @@ public class ProtocoloSessaoController {
         return ResponseEntity.ok(sessoes);
     }
 
-    @PostMapping("/{sessaoId}/salvar/")
+    @PostMapping("/{sessaoId}/salvar")
     public ResponseEntity<ProtocoloSessaoResponseDto> salvarProgresso(@PathVariable UUID sessaoId) {
 
         UUID usuarioId = securityUtils.getCurrentUserId();
