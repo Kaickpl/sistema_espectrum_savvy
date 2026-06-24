@@ -8,9 +8,13 @@ import br.com.upe.espectrum.repositories.PacienteRepository;
 import br.com.upe.espectrum.repositories.protocolo.ProtocoloSessaoRepository;
 import br.com.upe.espectrum.repositories.protocolo.ProtocoloTempleteRepository;
 import br.com.upe.espectrum.repositories.UsuarioRepository;
+import br.com.upe.espectrum.services.paciente.PacienteService;
 import br.com.upe.espectrum.services.protocolo.ProtocoloSessaoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -31,9 +35,17 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
     @Autowired
     private ProtocoloTempleteRepository protocoloTempleteRepository;
 
+    @Autowired
+    private PacienteService pacienteService;
+
 
     @Override
     public ProtocoloSessao iniciarProtocoloSessao(UUID usuarioId, UUID pacienteId) {
+
+        if (!pacienteService.verificarSePacientePertenceAoUsuario(pacienteId)){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para acessar ou alterar o protocolo este paciente.");
+        }
+
         Optional<Usuario> usuarioExistente = usuarioRepository.findById(usuarioId);
         if(usuarioExistente.isEmpty()){
             System.out.println("NENHUM Usuario ENCONTRADO");
@@ -117,6 +129,11 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
 
     @Override
     public List<ProtocoloSessao> buscarTodosPorPaciente(UUID pacienteId) {
+
+        if (!pacienteService.verificarSePacientePertenceAoUsuario(pacienteId)){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para acessar ou alterar este paciente.");
+        }
+
         if(pacienteId == null) {
             throw new InformacaoNaoEncontradoException(" Paciente com Id: " + pacienteId + " não encontrado! ");
         }
