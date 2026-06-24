@@ -28,6 +28,7 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(userAndPass);
         Usuario usuario = (Usuario) authentication.getPrincipal();
         String token = tokenConfig.generateToken(usuario);
-        return ResponseEntity.ok(new LoginResponseDto(token));
+        return ResponseEntity.ok(new LoginResponseDto(token, usuario.getId(), usuario.getNome(), usuario.getTipo().toString()));
+
     }
 }

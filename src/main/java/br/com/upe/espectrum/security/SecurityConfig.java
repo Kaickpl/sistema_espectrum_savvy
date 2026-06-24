@@ -32,11 +32,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST,  "/cadastro/terapeuta").permitAll()
                         .requestMatchers(HttpMethod.POST,  "/cadastro/admin").permitAll()
-                        .requestMatchers(HttpMethod.POST,  "/cadastro//paciente-responsavel").hasAnyRole("TERAPEUTA", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/terapeutas/auto-cadastro").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/terapeutas/cadastro-admin").hasRole("ADMIN")
+                        //cadastros Terapeuta
+                        .requestMatchers(HttpMethod.POST, "/cadastro/cadastro-admin").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/cadastro/auto-cadastro").permitAll()
+
+                        .requestMatchers(HttpMethod.POST,  "/cadastro/paciente-responsavel").hasAnyRole("TERAPEUTA", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/admin/terapeuta/{idTerapeuta}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/iniciar/paciente/{pacienteId}/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA")
                         .requestMatchers(HttpMethod.PUT,"/{sessaoId}/finalizar/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA")
@@ -61,6 +62,14 @@ public class SecurityConfig {
 
 
 
+
+                        .requestMatchers(HttpMethod.GET, "/terapeuta/admin").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/terapeuta/admin/pendentes").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/terapeuta/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/terapeuta/{id}/reativar").hasRole("ADMIN")
+
+                        //buscando pacientes
+                        .requestMatchers(HttpMethod.GET, "/pacientes").authenticated()
 
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

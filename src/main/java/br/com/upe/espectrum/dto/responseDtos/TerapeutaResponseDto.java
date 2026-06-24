@@ -7,6 +7,7 @@ public record TerapeutaResponseDto(
         String email,
         String nome,
         String matricula,
-        int periodo
+        int periodo,
+        String statusCadastro
 ) {
 }

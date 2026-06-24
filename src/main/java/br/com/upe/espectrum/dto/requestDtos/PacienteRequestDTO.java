@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.dto.requestDtos;
 
 import br.com.upe.espectrum.entities.enums.GrauAutismo;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,7 +24,8 @@ public record PacienteRequestDTO(
         @NotNull(message = "O grau de autismo é obrigatório")
         GrauAutismo grauAutismo,
 
-        @NotNull(message = "O ID do Admin responsável é obrigatório")
-        UUID adminId
+        @Valid
+        @NotNull(message = "O endereço é obrigatório")
+                EnderecoRequestDTO endereco
 ) {
 }
