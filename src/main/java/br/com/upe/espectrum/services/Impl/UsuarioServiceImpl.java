@@ -6,6 +6,7 @@ import br.com.upe.espectrum.dto.mappers.UsuarioMapper;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.exceptions.CpfInvalidoEcxeption;
+import br.com.upe.espectrum.exceptions.EmailInvalidoException;
 import br.com.upe.espectrum.exceptions.InformacaoNaoEncontradoException;
 import br.com.upe.espectrum.repositories.UsuarioRepository;
 import br.com.upe.espectrum.services.CpfValidatorService;
@@ -80,7 +81,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void verificarEmail(String email) {
         usuarioRepository.findByEmail(email)
                 .orElseThrow(() ->
-                        new InformacaoNaoEncontradoException("Email não encontrado")
+                        new EmailInvalidoException("Email não encontrado")
                 );
     }
 
