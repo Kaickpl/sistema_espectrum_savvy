@@ -1,19 +1,18 @@
 package br.com.upe.espectrum.controllers;
 
 import br.com.upe.espectrum.dto.requestDtos.LoginRequestDto;
+import br.com.upe.espectrum.dto.requestDtos.TrocarSenhaDto;
 import br.com.upe.espectrum.dto.responseDtos.LoginResponseDto;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.security.TokenConfig;
+import br.com.upe.espectrum.services.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final TokenConfig tokenConfig;
+    private final UsuarioService usuarioService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto request){
@@ -28,6 +28,20 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(userAndPass);
         Usuario usuario = (Usuario) authentication.getPrincipal();
         String token = tokenConfig.generateToken(usuario);
-        return ResponseEntity.ok(new LoginResponseDto(token));
+        return ResponseEntity.ok(new LoginResponseDto(token, usuario.getId(), usuario.getNome(), usuario.getTipo().toString()));
+
+    }
+
+    @GetMapping("/verificar-email")
+    public ResponseEntity<String> verificarEmail(@RequestParam  String email) {
+        usuarioService.verificarEmail(email);
+        return ResponseEntity.ok("Email encontrado");
+    }
+
+    @PostMapping("/recuperar-senha")
+    public ResponseEntity<String> recuperarSenha(
+            @Valid @RequestBody TrocarSenhaDto dto) {
+        usuarioService.recuperarSenha(dto);
+        return ResponseEntity.ok("Senha alterada com sucesso");
     }
 }

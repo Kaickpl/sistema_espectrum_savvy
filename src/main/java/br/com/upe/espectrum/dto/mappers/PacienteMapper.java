@@ -1,8 +1,10 @@
 package br.com.upe.espectrum.dto.mappers;
+import br.com.upe.espectrum.dto.requestDtos.EnderecoRequestDTO;
 import br.com.upe.espectrum.dto.requestDtos.PacienteRequestDTO;
 import br.com.upe.espectrum.dto.responseDtos.PacienteResponseDTO;
 import br.com.upe.espectrum.dto.responseDtos.VinculoEscolarResumoResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.VinculoTerapeutaResumoResponseDto;
+import br.com.upe.espectrum.entities.Endereco;
 import br.com.upe.espectrum.entities.Paciente;
 import br.com.upe.espectrum.entities.VinculoEscolar;
 import br.com.upe.espectrum.entities.VinculoTerapeuta;
@@ -29,8 +31,26 @@ public class PacienteMapper {
         paciente.setGenero(dto.genero());
         paciente.setCpf(dto.cpf());
         paciente.setGrauAutismo(dto.grauAutismo());
+        paciente.setEndereco(enderecoRequestDtoToEntity(dto.endereco()));
 
         return paciente;
+    }
+
+    public Endereco enderecoRequestDtoToEntity(EnderecoRequestDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Endereco endereco = new Endereco();
+        endereco.setCep(dto.cep());
+        endereco.setRua(dto.rua());
+        endereco.setNumero(dto.numero());
+        endereco.setComplemento(dto.complemento());
+        endereco.setBairro(dto.bairro());
+        endereco.setCidade(dto.cidade());
+        endereco.setEstado(dto.estado());
+
+        return endereco;
     }
 
     public PacienteResponseDTO entityToResponseDto(Paciente paciente) {

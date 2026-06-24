@@ -4,8 +4,13 @@ import br.com.upe.espectrum.dto.responseDtos.ExceptionResponseDTO;
 import br.com.upe.espectrum.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
@@ -54,6 +59,22 @@ public class RestExceptionHandler {
     @ExceptionHandler(CpfInvalidoEcxeption.class)
     public ResponseEntity<ExceptionResponseDTO> handlerCpfinvalidoEcxe(CpfInvalidoEcxeption ex, HttpServletRequest request){
         ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(ex.getMessage(), 400, request.getRequestURI());
+        return ResponseEntity.status(exceptionResponseDTO.getStatus()).body(exceptionResponseDTO);
+    }
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<ExceptionResponseDTO> handlerResponseStatusException(ResponseStatusException ex, HttpServletRequest request) {
+        int status = ex.getStatusCode().value();
+        String message = ex.getReason() != null ? ex.getReason() : ex.getMessage();
+        ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(message, status, request.getRequestURI());
+        return ResponseEntity.status(status).body(exceptionResponseDTO);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ExceptionResponseDTO> handlerMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpServletRequest request) {
+        String message = ex.getBindingResult().getFieldErrors().stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.joining("; "));
+        ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(message, 400, request.getRequestURI());
         return ResponseEntity.status(exceptionResponseDTO.getStatus()).body(exceptionResponseDTO);
     }
 

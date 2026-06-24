@@ -28,9 +28,9 @@ public class TerapeutaMapper {
 
         TerapeutaResponseDto response = new TerapeutaResponseDto(
                 terapeuta.getId(),
-                terapeuta.getUsuario().getNome(),
-                terapeuta.getUsuario().getEmail(),
                 terapeuta.getUsuario().getNumeroTelefone(),
+                terapeuta.getUsuario().getEmail(),
+                terapeuta.getUsuario().getNome(),
                 terapeuta.getMatricula(),
                 terapeuta.getPeriodo(),
                 terapeuta.getStatusCadastro().toString()

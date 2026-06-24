@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.dto.requestDtos;
 
 import br.com.upe.espectrum.entities.enums.GrauAutismo;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -21,7 +22,10 @@ public record PacienteRequestDTO(
         String cpf, // CPF do paciente pode ser nulo se ele for criança? Se não, coloque @NotBlank!
 
         @NotNull(message = "O grau de autismo é obrigatório")
-        GrauAutismo grauAutismo
+        GrauAutismo grauAutismo,
 
+        @Valid
+        @NotNull(message = "O endereço é obrigatório")
+                EnderecoRequestDTO endereco
 ) {
 }
