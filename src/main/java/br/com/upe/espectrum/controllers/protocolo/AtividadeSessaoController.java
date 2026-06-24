@@ -3,6 +3,7 @@ package br.com.upe.espectrum.controllers.protocolo;
 import br.com.upe.espectrum.dto.requestDtos.AtualizarPontuacaoRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.AtividadeSessaoResponseDto;
 import br.com.upe.espectrum.entities.AtividadeSessao;
+import br.com.upe.espectrum.security.SecurityUtils;
 import br.com.upe.espectrum.services.protocolo.AtividadeSessaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,14 @@ public class AtividadeSessaoController {
     @Autowired
     private AtividadeSessaoService atividadeSessaoService;
 
-    @PutMapping("/{atividadeId}/usuario/{usuarioId}")
-    public ResponseEntity<AtividadeSessaoResponseDto> atualizarPontuacao(@PathVariable UUID atividadeId, @PathVariable UUID usuarioId, @RequestBody AtualizarPontuacaoRequestDto dto) {
+    @Autowired
+    private SecurityUtils securityUtils;
+
+    @PutMapping("/{atividadeId}")
+    public ResponseEntity<AtividadeSessaoResponseDto> atualizarPontuacao(@PathVariable UUID atividadeId, @RequestBody AtualizarPontuacaoRequestDto dto) {
+
+        UUID usuarioId = securityUtils.getCurrentUserId();
+
         AtividadeSessao atividade = atividadeSessaoService.atualizarPontuacao(atividadeId, usuarioId, dto.getPontuacao());
         if (atividade == null) {
             return ResponseEntity.badRequest().build();
@@ -48,13 +55,5 @@ public class AtividadeSessaoController {
 
         return ResponseEntity.ok(atividades);
     }
-
-
-
-
-
-
-
-
 
 }
