@@ -10,10 +10,12 @@ import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.repositories.AdminRepository;
 import br.com.upe.espectrum.repositories.PacienteRepository;
 import br.com.upe.espectrum.repositories.ResponsavelRepository;
+import br.com.upe.espectrum.security.SecurityUtils;
 import br.com.upe.espectrum.services.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,17 +33,28 @@ public class ResponsavelServiceImpl implements ResponsavelService {
     private final VinculoGeralService vinculoGeralService;
     private final PasswordEncoder passwordEncoder;
     private final CpfValidatorService cpfValidatorService;
+    private final SecurityUtils securityUtils;
 
 
     @Transactional
     @Override
     public ResponsavelResponseDto cadastrarPacienteEResponsavel(PacienteEResponsavelRequestDto dto) {
 
-        Admin admin = adminRepository.findById(dto.infosPaciente().adminId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Admin não encontrado com o id "+ dto.infosPaciente().adminId()));
+        Usuario usuarioLogado = securityUtils.getCurrentUser();
+
+        Admin adminDoPaciente = null;
+
+        if(usuarioLogado.getTipo() == Perfil.ROLE_ADMIN) {
+            adminDoPaciente = usuarioLogado.getPerfilAdmin();
+        } else if (usuarioLogado.getTipo() == Perfil.ROLE_TERAPEUTA){
+            Terapeuta terapeuta = terapeutaService.buscarTerapeutaEntity(usuarioLogado.getId());
+            adminDoPaciente = terapeuta.getAdmin();
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Seu perfil não tem permissão para cadastrar pacientes.");
+        }
 
         Paciente paciente = pacienteMapper.requestDtoToEntity(dto.infosPaciente());
-        paciente.setAdmin(admin);
+        paciente.setAdmin(adminDoPaciente);
 
         Paciente pacienteSalvo = pacienteRepository.save(paciente);
 
@@ -63,9 +76,10 @@ public class ResponsavelServiceImpl implements ResponsavelService {
         VinculoRequestDto vinculoResponsavelDto = new VinculoRequestDto(pacienteSalvo.getId(), userBase.getId(), dto.grauParentesco(), null);
         vinculoGeralService.criarVinculo(vinculoResponsavelDto);
 
-        // 🟢 2. Vincula ao terapeuta logado (REMOVI OS COMENTÁRIOS DAQUI)
-        VinculoRequestDto vinculoTerapeutaRequestDto = new VinculoRequestDto(pacienteSalvo.getId(), null, null, null);
-        vinculoGeralService.criarVinculo(vinculoTerapeutaRequestDto);
+        if(usuarioLogado.getTipo() == Perfil.ROLE_TERAPEUTA) {
+            VinculoRequestDto vinculoTerapeutaRequestDto = new VinculoRequestDto(pacienteSalvo.getId(), null, null, null);
+            vinculoGeralService.criarVinculo(vinculoTerapeutaRequestDto);
+        }
 
         responsavelRepository.save(responsavelNovo);
         return responsavelMapper.entityToResponseDto(responsavelNovo, pacienteSalvo);

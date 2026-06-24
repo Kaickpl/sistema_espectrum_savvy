@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,  "/cadastro/terapeuta").permitAll()
                         .requestMatchers(HttpMethod.POST,  "/cadastro/admin").permitAll()
                         //cadastros Terapeuta
                         .requestMatchers(HttpMethod.POST, "/cadastro/cadastro-admin").hasRole("ADMIN")

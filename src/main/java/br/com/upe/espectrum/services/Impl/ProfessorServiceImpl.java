@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.dto.mappers.ProfessorMapper;
 import br.com.upe.espectrum.dto.requestDtos.ProfessorRequestDto;
+import br.com.upe.espectrum.dto.requestDtos.VinculoRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.ProfessorResponseDto;
 import br.com.upe.espectrum.entities.Professor;
 import br.com.upe.espectrum.entities.Usuario;
@@ -8,14 +9,20 @@ import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
 import br.com.upe.espectrum.exceptions.UsuarioExistenteException;
 import br.com.upe.espectrum.repositories.ProfessorRepository;
+import br.com.upe.espectrum.security.SecurityUtils;
 import br.com.upe.espectrum.services.CpfValidatorService;
 import br.com.upe.espectrum.services.ProfessorService;
 import br.com.upe.espectrum.services.UsuarioService;
 import br.com.upe.espectrum.services.VinculoGeralService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,12 +32,20 @@ public class ProfessorServiceImpl implements ProfessorService {
     private final ProfessorMapper professorMapper;
     private final VinculoGeralService  vinculoGeralService;
     private final CpfValidatorService cpfValidatorService;
+    private final SecurityUtils securityUtils;
 
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
     public ProfessorResponseDto cadastrarProfessor(ProfessorRequestDto dto) {
+
+        Usuario usuarioLogado = securityUtils.getCurrentUser();
+
+        if(usuarioLogado.getTipo() != Perfil.ROLE_TERAPEUTA){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso negado. Apenas Terapeutas podem cadastrar Professores.");
+        }
+
         if (dto.email()==null||dto.email().isBlank()){
             throw new CampoObrigatorioException("Campo de Email é obrigatório");
         }
@@ -70,6 +85,8 @@ public class ProfessorServiceImpl implements ProfessorService {
         professorNovo.setEscola(dto.escola());
 
         professorRepository.save(professorNovo);
+
+
         return professorMapper.entityToResponseDto(professorNovo);
     }
 }

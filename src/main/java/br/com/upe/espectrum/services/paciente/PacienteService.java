@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PacienteService {
-    public Paciente cadastrarPaciente(PacienteRequestDTO pacienteRequestDTO);
+//    public Paciente cadastrarPaciente(PacienteRequestDTO pacienteRequestDTO);
     public List<PacienteResponseDTO> mostrarTodosPacientes(UUID adminId);
     public PacienteResponseDTO mostrarPaciente(UUID pacienteID);
+    public List<PacienteResponseDTO> listarPacientesDoUsuario();
     public void reativarContaPaciente(UUID pacienteId);
     public void desativarContaPaciente(UUID pacienteId);
     public Paciente mostrarPacienteEntity(UUID pacienteID);

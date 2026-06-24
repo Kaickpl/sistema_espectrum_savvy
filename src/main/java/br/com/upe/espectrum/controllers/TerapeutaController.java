@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -25,6 +26,18 @@ public class TerapeutaController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/admin")
+    public ResponseEntity<List<TerapeutaResponseDto>> buscarTerapeutasPorAdm() {
+        List<TerapeutaResponseDto> response = terapeutaService.buscarTerapeutasPorAdm();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/admin/pendentes")
+    public ResponseEntity<List<TerapeutaResponseDto>> listarTerapeutasPendentes() {
+        List<TerapeutaResponseDto> pendentes = terapeutaService.buscarTerapeutasPendentesPorAdmin();
+        return ResponseEntity.ok(pendentes);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> inativarTerapeuta(@Valid @PathVariable UUID id){
         terapeutaService.desativarContaTerapeuta(id);
@@ -37,5 +50,6 @@ public class TerapeutaController {
         TerapeutaResponseDto response =terapeutaService.buscarTerapeuta(id);
         return ResponseEntity.ok(response);
     }
+
 
 }
