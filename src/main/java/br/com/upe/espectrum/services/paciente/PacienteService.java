@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public interface PacienteService {
 //    public Paciente cadastrarPaciente(PacienteRequestDTO pacienteRequestDTO);
+    public boolean verificarSePacientePertenceAoUsuario(UUID idPaciente);
     public List<PacienteResponseDTO> mostrarTodosPacientes(UUID adminId);
     public PacienteResponseDTO mostrarPaciente(UUID pacienteID);
     public List<PacienteResponseDTO> listarPacientesDoUsuario();

@@ -1,8 +1,8 @@
-package br.com.upe.espectrum.services.Impl.Protocolo;
+package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.dto.mappers.PacienteMapper;
-import br.com.upe.espectrum.dto.requestDtos.PacienteRequestDTO;
 import br.com.upe.espectrum.dto.responseDtos.PacienteResponseDTO;
 import br.com.upe.espectrum.entities.*;
+import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.repositories.AdminRepository;
 import br.com.upe.espectrum.repositories.PacienteRepository;
 import br.com.upe.espectrum.repositories.ResponsavelRepository;
@@ -12,7 +12,6 @@ import br.com.upe.espectrum.services.UsuarioService;
 import br.com.upe.espectrum.services.paciente.PacienteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -141,6 +140,36 @@ public class PacienteServiceImpl implements PacienteService {
         Paciente paciente = pacienteRepository.findById(pacienteID)
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado no banco de dados!"));
         return paciente;
+    }
+
+    @Override
+    public boolean verificarSePacientePertenceAoUsuario(UUID idPaciente){
+        Usuario usuarioLogado = securityUtils.getCurrentUser();
+
+        switch (usuarioLogado.getTipo()){
+            case ROLE_ADMIN -> {
+                return pacienteRepository.findById(idPaciente)
+                        .map(paciente -> paciente.getAdmin().getId()
+                                .equals(usuarioLogado.getPerfilAdmin().getId())).orElse(false);
+            }
+
+            case ROLE_PROFESSOR -> {
+                return usuarioLogado.getVinculosEscolares()
+                        .stream().anyMatch(v -> v.getUsuario().getId().equals(idPaciente));
+            }
+
+            case ROLE_TERAPEUTA -> {
+                return usuarioLogado.getVinculoTerapeutas()
+                .stream().anyMatch(v -> v.getPaciente().getId().equals(idPaciente));
+            }
+
+            case ROLE_RESPONSAVEL -> {
+                return usuarioLogado.getVinculosResponsaveis().stream().anyMatch(v -> v.getPaciente().getId().equals(idPaciente));
+            }
+
+            default -> { return false; }
+
+        }
     }
 
 }

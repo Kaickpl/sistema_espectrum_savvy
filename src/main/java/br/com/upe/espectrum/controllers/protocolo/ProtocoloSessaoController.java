@@ -2,6 +2,7 @@ package br.com.upe.espectrum.controllers.protocolo;
 
 import br.com.upe.espectrum.dto.responseDtos.ProtocoloSessaoResponseDto;
 import br.com.upe.espectrum.entities.ProtocoloSessao;
+import br.com.upe.espectrum.security.SecurityUtils;
 import br.com.upe.espectrum.services.protocolo.ProtocoloSessaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,13 @@ public class ProtocoloSessaoController {
     @Autowired
     private ProtocoloSessaoService protocoloSessaoService;
 
-    @PostMapping("/iniciar/paciente/{pacienteId}/usuario/{usuarioId}")
-    public ResponseEntity<ProtocoloSessaoResponseDto> iniciarSessao(@PathVariable UUID pacienteId, @PathVariable UUID usuarioId) {
+    @Autowired
+    private SecurityUtils securityUtils;
+
+    @PostMapping("/iniciar/paciente/{pacienteId}/")
+    public ResponseEntity<ProtocoloSessaoResponseDto> iniciarSessao(@PathVariable UUID pacienteId) {
+
+        UUID usuarioId = securityUtils.getCurrentUserId();
 
         ProtocoloSessao sessao = protocoloSessaoService.iniciarProtocoloSessao(usuarioId, pacienteId);
         if (sessao == null) {
@@ -28,8 +34,10 @@ public class ProtocoloSessaoController {
     }
 
 
-    @PutMapping("/{sessaoId}/finalizar/usuario/{usuarioId}")
-    public ResponseEntity<ProtocoloSessaoResponseDto> finalizarSessao(@PathVariable UUID sessaoId, @PathVariable UUID usuarioId) {
+    @PutMapping("/{sessaoId}/finalizar")
+    public ResponseEntity<ProtocoloSessaoResponseDto> finalizarSessao(@PathVariable UUID sessaoId) {
+
+        UUID usuarioId = securityUtils.getCurrentUserId();
 
         ProtocoloSessao sessao = protocoloSessaoService.finalizarProtocoloSessao(usuarioId, sessaoId);
         if (sessao == null) {
@@ -63,8 +71,10 @@ public class ProtocoloSessaoController {
         return ResponseEntity.ok(sessoes);
     }
 
-    @PostMapping("/{sessaoId}/salvar/usuario/{usuarioId}")
-    public ResponseEntity<ProtocoloSessaoResponseDto> salvarProgresso(@PathVariable UUID sessaoId, @PathVariable UUID usuarioId) {
+    @PostMapping("/{sessaoId}/salvar/")
+    public ResponseEntity<ProtocoloSessaoResponseDto> salvarProgresso(@PathVariable UUID sessaoId) {
+
+        UUID usuarioId = securityUtils.getCurrentUserId();
 
         ProtocoloSessao sessao = protocoloSessaoService.salvarProgresso(sessaoId, usuarioId);
         if (sessao == null) {
