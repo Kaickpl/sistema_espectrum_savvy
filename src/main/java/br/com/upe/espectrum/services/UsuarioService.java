@@ -1,5 +1,6 @@
 package br.com.upe.espectrum.services;
 
+import br.com.upe.espectrum.dto.requestDtos.TrocarSenhaDto;
 import br.com.upe.espectrum.dto.requestDtos.UsuarioUpdateDto;
 import br.com.upe.espectrum.dto.responseDtos.UsuarioResponseDTO;
 import br.com.upe.espectrum.entities.Usuario;
@@ -23,6 +24,8 @@ public interface UsuarioService {
 
     public Usuario buscarUsuario(UUID id);
     public UsuarioResponseDTO editarPerfilUsuario(UUID id, UsuarioUpdateDto dto);
+    public void verificarEmail(String email);
+    public void  recuperarSenha(TrocarSenhaDto dto);
     public void desativarUsuario(UUID id);
     public void reativarUsuario(UUID id);
     public Usuario buscarUsuarioEntity(UUID id);

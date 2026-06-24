@@ -1,17 +1,22 @@
 package br.com.upe.espectrum.services.Impl;
+import br.com.upe.espectrum.dto.requestDtos.TrocarSenhaDto;
 import br.com.upe.espectrum.dto.requestDtos.UsuarioUpdateDto;
 import br.com.upe.espectrum.dto.responseDtos.UsuarioResponseDTO;
 import br.com.upe.espectrum.dto.mappers.UsuarioMapper;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.exceptions.CpfInvalidoEcxeption;
+import br.com.upe.espectrum.exceptions.InformacaoNaoEncontradoException;
 import br.com.upe.espectrum.repositories.UsuarioRepository;
 import br.com.upe.espectrum.services.CpfValidatorService;
 import br.com.upe.espectrum.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,6 +25,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
     private final CpfValidatorService cpfValidatorService;
+    private final PasswordEncoder passwordEncoder;
+
 
 
     @Override
@@ -68,6 +75,30 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioAntigo.setNumeroTelefone(dto.numeroTelefone());
         Usuario novoUsuario = usuarioRepository.save(usuarioAntigo);
         return usuarioMapper.entityToResponseDto(novoUsuario);
+    }
+    @Override
+    public void verificarEmail(String email) {
+        usuarioRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new InformacaoNaoEncontradoException("Email não encontrado")
+                );
+    }
+
+    @Override
+    public void  recuperarSenha(TrocarSenhaDto dto) {
+
+        if (!dto.getNovaSenha().equals(dto.getConfirmaSenha())) {
+            throw new RuntimeException("As senhas não coincidem");
+        }
+
+        Usuario usuario = usuarioRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() ->
+                        new InformacaoNaoEncontradoException("Email não encontrado")
+                );
+
+        usuario.setSenha(passwordEncoder.encode(dto.getConfirmaSenha()));
+
+        usuarioRepository.save(usuario);
     }
 
     @Override

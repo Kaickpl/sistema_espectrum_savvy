@@ -32,6 +32,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/auth/verificar-email").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/recuperar-senha").permitAll()
                         .requestMatchers(HttpMethod.POST,  "/cadastro/terapeuta").permitAll()
                         .requestMatchers(HttpMethod.POST,  "/cadastro/admin").permitAll()
                         //cadastros Terapeuta
