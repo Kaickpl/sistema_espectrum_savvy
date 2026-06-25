@@ -22,6 +22,7 @@ public class ProtocoloSessaoResponseDto {
     private LocalDateTime dataFinal;
     private StatusProtocolo statusProtocolo;
     private UUID pacienteId;
+    private String pacienteNome;
     private UUID criadoPorId;
     private String criadoPorNome;
     private UUID finalizadoPorId;
@@ -32,6 +33,7 @@ public class ProtocoloSessaoResponseDto {
         this.dataFinal = sessao.getDataFinal();
         this.statusProtocolo = sessao.getStatusProtocolo();
         this.pacienteId = sessao.getPaciente().getId();
+        this.pacienteNome = sessao.getPaciente().getNome();
         this.criadoPorId = sessao.getCriadoPor().getId();
         this.criadoPorNome = sessao.getCriadoPor().getNome();
         this.finalizadoPorId = sessao.getFinalizadoPor() != null
