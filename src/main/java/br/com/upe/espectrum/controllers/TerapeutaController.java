@@ -2,6 +2,7 @@ package br.com.upe.espectrum.controllers;
 
 import br.com.upe.espectrum.dto.mappers.TerapeutaMapper;
 import br.com.upe.espectrum.dto.responseDtos.TerapeutaResponseDto;
+import br.com.upe.espectrum.dto.responseDtos.TerapeutaResumoResponseDto;
 import br.com.upe.espectrum.entities.Terapeuta;
 import br.com.upe.espectrum.services.TerapeutaService;
 import jakarta.validation.Valid;
@@ -36,6 +37,12 @@ public class TerapeutaController {
     public ResponseEntity<List<TerapeutaResponseDto>> listarTerapeutasPendentes() {
         List<TerapeutaResponseDto> pendentes = terapeutaService.buscarTerapeutasPendentesPorAdmin();
         return ResponseEntity.ok(pendentes);
+    }
+
+    @GetMapping("/admin/resumo")
+    public ResponseEntity<List<TerapeutaResumoResponseDto>> buscarTerapeutasComResumoPorAdm() {
+        List<TerapeutaResumoResponseDto> response = terapeutaService.buscarTerapeutasComResumoPorAdm();
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

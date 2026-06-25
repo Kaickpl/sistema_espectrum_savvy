@@ -2,6 +2,7 @@ package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.dto.mappers.TerapeutaMapper;
 import br.com.upe.espectrum.dto.requestDtos.TerapeutaRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.TerapeutaResponseDto;
+import br.com.upe.espectrum.dto.responseDtos.TerapeutaResumoResponseDto;
 import br.com.upe.espectrum.entities.Admin;
 import br.com.upe.espectrum.entities.Terapeuta;
 import br.com.upe.espectrum.entities.Usuario;
@@ -11,6 +12,7 @@ import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
 import br.com.upe.espectrum.exceptions.CpfInvalidoEcxeption;
 import br.com.upe.espectrum.exceptions.UsuarioExistenteException;
 import br.com.upe.espectrum.repositories.TerapeutaRepository;
+import br.com.upe.espectrum.repositories.VinculoTerapeutaRepository;
 import br.com.upe.espectrum.security.SecurityUtils;
 import br.com.upe.espectrum.services.AdminService;
 import br.com.upe.espectrum.services.CpfValidatorService;
@@ -38,6 +40,7 @@ public class TerapeutaServiceImpl implements TerapeutaService {
     private final PasswordEncoder passwordEncoder;
     private final CpfValidatorService cpfValidatorService;
     private final SecurityUtils securityUtils;
+    private final VinculoTerapeutaRepository vinculoTerapeutaRepository;
 
 
     @Transactional
@@ -144,6 +147,21 @@ public class TerapeutaServiceImpl implements TerapeutaService {
         Admin adminLogado = obterAdminLogado();
         List<Terapeuta> terapeutasDoAdmin = terapeutaRepository.findByAdminId(adminLogado.getId());
         return terapeutasDoAdmin.stream().map(terapeutaMapper::entityToResponseDto).toList();
+    }
+
+    @Override
+    public List<TerapeutaResumoResponseDto> buscarTerapeutasComResumoPorAdm() {
+        Admin adminLogado = obterAdminLogado();
+        List<Terapeuta> terapeutasDoAdmin = terapeutaRepository.findByAdminId(adminLogado.getId());
+
+        return terapeutasDoAdmin.stream()
+                .map(terapeuta -> new TerapeutaResumoResponseDto(
+                        terapeuta.getId(),
+                        terapeuta.getUsuario().getNome(),
+                        terapeuta.getStatusCadastro(),
+                        vinculoTerapeutaRepository.countByUsuarioId(terapeuta.getId())
+                ))
+                .toList();
     }
 
     @Override

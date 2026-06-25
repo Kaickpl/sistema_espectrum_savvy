@@ -1,15 +1,20 @@
 package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.dto.mappers.AdminMapper;
 import br.com.upe.espectrum.dto.requestDtos.AdminRequestDto;
+import br.com.upe.espectrum.dto.responseDtos.AdminDashboardResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.AdminResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.TerapeutaResponseDto;
 import br.com.upe.espectrum.entities.Admin;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Perfil;
+import br.com.upe.espectrum.entities.enums.StatusProtocolo;
 import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
 import br.com.upe.espectrum.exceptions.CpfInvalidoEcxeption;
 import br.com.upe.espectrum.exceptions.UsuarioExistenteException;
 import br.com.upe.espectrum.repositories.AdminRepository;
+import br.com.upe.espectrum.repositories.PacienteRepository;
+import br.com.upe.espectrum.repositories.protocolo.ProtocoloSessaoRepository;
+import br.com.upe.espectrum.security.SecurityUtils;
 import br.com.upe.espectrum.services.AdminService;
 import br.com.upe.espectrum.services.CpfValidatorService;
 import br.com.upe.espectrum.services.UsuarioService;
@@ -31,6 +36,9 @@ public class AdminServiceImpl implements AdminService {
     private final AdminRepository adminRepository;
     private final AdminMapper adminMapper;
     private final PasswordEncoder passwordEncoder;
+    private final PacienteRepository pacienteRepository;
+    private final ProtocoloSessaoRepository protocoloSessaoRepository;
+    private final SecurityUtils securityUtils;
 
     @Transactional
     public AdminResponseDto cadastrarAdmin(AdminRequestDto dto) {
@@ -112,5 +120,28 @@ public class AdminServiceImpl implements AdminService {
 
         adminRepository.alterarStatusDiretoNoBanco(id, false);
         usuarioService.desativarUsuario(id);
+    }
+
+    @Override
+    public AdminDashboardResponseDto buscarDashboardAdmin() {
+        Admin adminLogado = obterAdminLogado();
+
+        long totalPacientes = pacienteRepository.countByAdminId(adminLogado.getId());
+        long totalProtocolosFinalizados = protocoloSessaoRepository
+                .countByPaciente_Admin_IdAndStatusProtocolo(adminLogado.getId(), StatusProtocolo.FINALIZADO);
+
+        return new AdminDashboardResponseDto(totalPacientes, totalProtocolosFinalizados);
+    }
+
+    private Admin obterAdminLogado() {
+        Usuario usuarioLogadoNoToken = securityUtils.getCurrentUser();
+        Usuario usuarioCompleto = usuarioService.buscarUsuarioEntity(usuarioLogadoNoToken.getId());
+        Admin adminLogado = usuarioCompleto.getPerfilAdmin();
+
+        if (adminLogado == null) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Apenas administradores podem realizar esta ação.");
+        }
+
+        return adminLogado;
     }
 }
