@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.repositories.protocolo;
 
 import br.com.upe.espectrum.entities.ProtocoloSessao;
+import br.com.upe.espectrum.entities.enums.StatusProtocolo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,4 +16,6 @@ public interface ProtocoloSessaoRepository extends JpaRepository<ProtocoloSessao
     List<ProtocoloSessao> findAllByPacienteId(UUID pacienteId);
     @Query("SELECT p FROM ProtocoloSessao p LEFT JOIN FETCH p.categoriasSessao WHERE p.id = :id")
     Optional<ProtocoloSessao> findByIdWithCategorias(@Param("id") UUID id);
+
+    long countByPaciente_Admin_IdAndStatusProtocolo(UUID adminId, StatusProtocolo statusProtocolo);
 }

@@ -68,8 +68,13 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin/pendentes").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/terapeuta/admin/resumo").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/terapeuta/admin/todos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/terapeuta/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/terapeuta/{id}/reativar").hasRole("ADMIN")
+
+                        //dashboard admin
+                        .requestMatchers(HttpMethod.GET, "/admin/dashboard").hasRole("ADMIN")
 
                         //buscando pacientes
                         .requestMatchers(HttpMethod.GET, "/pacientes").authenticated()

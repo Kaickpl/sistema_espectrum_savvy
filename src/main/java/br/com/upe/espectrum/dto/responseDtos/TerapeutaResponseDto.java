@@ -10,6 +10,7 @@ public record TerapeutaResponseDto(
         String nome,
         String matricula,
         int periodo,
-        String statusCadastro
+        String statusCadastro,
+        boolean ativo
 ) {
 }

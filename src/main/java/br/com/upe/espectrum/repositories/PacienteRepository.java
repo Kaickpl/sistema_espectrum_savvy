@@ -15,6 +15,8 @@ import java.util.UUID;
 public interface PacienteRepository extends JpaRepository<Paciente, UUID> {
     List<Paciente> findByAdminId(UUID adminId);
 
+    long countByAdminId(UUID adminId);
+
 
     @Query(value = "SELECT is_active FROM pacientes WHERE id = :id", nativeQuery = true)
     Optional<Boolean> verificarStatusConta(@Param("id") UUID id);

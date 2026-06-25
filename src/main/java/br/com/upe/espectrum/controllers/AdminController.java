@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.controllers;
 import br.com.upe.espectrum.dto.mappers.AdminMapper;
 import br.com.upe.espectrum.dto.mappers.TerapeutaMapper;
+import br.com.upe.espectrum.dto.responseDtos.AdminDashboardResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.AdminResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.TerapeutaResponseDto;
 import br.com.upe.espectrum.services.AdminService;
@@ -23,8 +24,14 @@ public class AdminController {
 
     @GetMapping("{idAdmin}")
     public ResponseEntity<AdminResponseDto> buscarAdmin(@PathVariable UUID idAdmin){
-       AdminResponseDto response = adminService.buscarAdmin(idAdmin);
-       return ResponseEntity.ok(response);
+        AdminResponseDto response = adminService.buscarAdmin(idAdmin);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<AdminDashboardResponseDto> buscarDashboard(){
+        AdminDashboardResponseDto response = adminService.buscarDashboardAdmin();
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/terapeuta/{idTerapeuta}")

@@ -18,6 +18,9 @@ public interface TerapeutaRepository extends JpaRepository <Terapeuta, UUID> {
     @Query(value = "SELECT * FROM terapeuta WHERE usuario_id = :id", nativeQuery = true)
     Optional<Terapeuta> encontrarComOuSemFiltro(@Param("id") UUID id);
 
+    @Query(value = "SELECT * FROM terapeuta WHERE admin_id = :adminId", nativeQuery = true)
+    List<Terapeuta> listarTodosPorAdminComOuSemFiltro(@Param("adminId") UUID adminId);
+
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE terapeuta SET is_active = :status WHERE usuario_id = :id", nativeQuery = true)
     void alterarStatusDiretoNoBanco(@Param("id") UUID id, @Param("status") boolean status);

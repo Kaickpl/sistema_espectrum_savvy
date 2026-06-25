@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.services;
 
 import br.com.upe.espectrum.dto.requestDtos.AdminRequestDto;
+import br.com.upe.espectrum.dto.responseDtos.AdminDashboardResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.AdminResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.TerapeutaResponseDto;
 import br.com.upe.espectrum.entities.Admin;
@@ -16,4 +17,5 @@ public interface AdminService {
     public Admin buscarAdminEntity(UUID idAdmin);
     public AdminResponseDto reativarContaAdmin(UUID idAdmin);
     public void desativarContaAdmin(UUID id);
-    }
+    public AdminDashboardResponseDto buscarDashboardAdmin();
+}

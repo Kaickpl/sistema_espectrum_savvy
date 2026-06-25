@@ -33,7 +33,8 @@ public class TerapeutaMapper {
                 terapeuta.getUsuario().getNome(),
                 terapeuta.getMatricula(),
                 terapeuta.getPeriodo(),
-                terapeuta.getStatusCadastro().toString()
+                terapeuta.getStatusCadastro().toString(),
+                terapeuta.isActive()
         );
 
         return response;

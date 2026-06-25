@@ -15,6 +15,8 @@ public interface VinculoTerapeutaRepository extends JpaRepository<VinculoTerapeu
     @Query(value = "SELECT * FROM vinculo_terapeuta WHERE id = :id", nativeQuery = true)
     Optional<VinculoTerapeuta> encontrarComOuSemFiltro(@Param("id") UUID id);
 
+    long countByUsuarioId(UUID usuarioId);
+
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE vinculo_terapeuta SET is_active = :status WHERE usuario_id = :id", nativeQuery = true)
     void alterarStatusDiretoNoBanco(@Param("id") UUID id, @Param("status") boolean status);
