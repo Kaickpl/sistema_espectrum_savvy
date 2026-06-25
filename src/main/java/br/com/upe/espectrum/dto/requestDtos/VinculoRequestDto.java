@@ -1,12 +1,12 @@
 package br.com.upe.espectrum.dto.requestDtos;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 import java.util.UUID;
 
 public record VinculoRequestDto(
-        @NotBlank(message = "O id do paciente é obrigatório.")
+        @NotNull(message = "O id do paciente é obrigatório.")
         UUID idPaciente,
         UUID idUsuario,
         String grauParentesco,

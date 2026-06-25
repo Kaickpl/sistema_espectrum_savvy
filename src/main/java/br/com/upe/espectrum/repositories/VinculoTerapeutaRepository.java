@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,7 +18,13 @@ public interface VinculoTerapeutaRepository extends JpaRepository<VinculoTerapeu
 
     long countByUsuarioId(UUID usuarioId);
 
+    List<VinculoTerapeuta> findByUsuarioId(UUID usuarioId);
+
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE vinculo_terapeuta SET is_active = :status WHERE usuario_id = :id", nativeQuery = true)
     void alterarStatusDiretoNoBanco(@Param("id") UUID id, @Param("status") boolean status);
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "DELETE FROM vinculos_terapeutas WHERE id = :id", nativeQuery = true)
+    void deletarPorId(@Param("id") UUID id);
 }
