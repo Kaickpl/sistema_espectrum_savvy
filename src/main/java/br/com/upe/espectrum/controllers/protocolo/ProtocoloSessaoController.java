@@ -6,6 +6,7 @@ import br.com.upe.espectrum.security.SecurityUtils;
 import br.com.upe.espectrum.services.protocolo.ProtocoloSessaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("api/sessao")
+@CrossOrigin(origins = "*")
 public class ProtocoloSessaoController {
 
     @Autowired
@@ -22,6 +24,7 @@ public class ProtocoloSessaoController {
     private SecurityUtils securityUtils;
 
     @PostMapping("/iniciar/paciente/{pacienteId}")
+    @Transactional
     public ResponseEntity<ProtocoloSessaoResponseDto> iniciarSessao(@PathVariable UUID pacienteId) {
 
         UUID usuarioId = securityUtils.getCurrentUserId();
