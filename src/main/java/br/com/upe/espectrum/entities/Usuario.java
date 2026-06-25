@@ -1,5 +1,6 @@
 package br.com.upe.espectrum.entities;
 import br.com.upe.espectrum.entities.enums.Perfil;
+import br.com.upe.espectrum.entities.enums.StatusCadastro;
 import jakarta.persistence.*;
 import lombok.*;
 import org.jspecify.annotations.Nullable;
@@ -112,6 +113,12 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isEnabled() {
+        if (!this.isActive) {
+            return false;
+        }
+        if (this.perfilTerapeuta != null && this.perfilTerapeuta.getStatusCadastro() != StatusCadastro.APROVADO) {
+            return false;
+        }
         return true;
     }
 }

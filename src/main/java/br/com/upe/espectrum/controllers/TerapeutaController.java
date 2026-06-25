@@ -45,6 +45,12 @@ public class TerapeutaController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/admin/todos")
+    public ResponseEntity<List<TerapeutaResponseDto>> buscarTodosTerapeutasPorAdmin() {
+        List<TerapeutaResponseDto> response = terapeutaService.buscarTodosTerapeutasPorAdmin();
+        return ResponseEntity.ok(response);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> inativarTerapeuta(@Valid @PathVariable UUID id){
         terapeutaService.desativarContaTerapeuta(id);

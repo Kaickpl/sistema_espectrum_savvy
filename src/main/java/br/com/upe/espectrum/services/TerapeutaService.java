@@ -18,6 +18,7 @@ public interface TerapeutaService {
     public Terapeuta buscarTerapeutaEntity(UUID idTerapeuta);
     public TerapeutaResponseDto aprovarCadastroTerapeuta(UUID idTerapeuta);
     public List<TerapeutaResponseDto> buscarTerapeutasPorAdm();
+    public List<TerapeutaResponseDto> buscarTodosTerapeutasPorAdmin();
     public List<TerapeutaResumoResponseDto> buscarTerapeutasComResumoPorAdm();
     public List<TerapeutaResponseDto> buscarTerapeutasPendentesPorAdmin();
     public TerapeutaResponseDto reativarContaTerapeuta(UUID idTerapeuta);

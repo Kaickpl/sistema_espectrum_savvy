@@ -129,6 +129,7 @@ public class TerapeutaServiceImpl implements TerapeutaService {
     }
 
     @Override
+    @Transactional
     public TerapeutaResponseDto aprovarCadastroTerapeuta(UUID idTerapeuta) {
         Terapeuta terapeuta = this.getTerapeuta(idTerapeuta);
         verificarPermissaoAdmin(terapeuta.getAdmin().getId());
@@ -139,6 +140,7 @@ public class TerapeutaServiceImpl implements TerapeutaService {
 
         terapeuta.setStatusCadastro(StatusCadastro.APROVADO);
         Terapeuta terapeutaSalvo = terapeutaRepository.save(terapeuta);
+        usuarioService.reativarUsuario(idTerapeuta);
         return terapeutaMapper.entityToResponseDto(terapeutaSalvo);
     }
 
@@ -146,6 +148,13 @@ public class TerapeutaServiceImpl implements TerapeutaService {
     public List<TerapeutaResponseDto> buscarTerapeutasPorAdm() {
         Admin adminLogado = obterAdminLogado();
         List<Terapeuta> terapeutasDoAdmin = terapeutaRepository.findByAdminId(adminLogado.getId());
+        return terapeutasDoAdmin.stream().map(terapeutaMapper::entityToResponseDto).toList();
+    }
+
+    @Override
+    public List<TerapeutaResponseDto> buscarTodosTerapeutasPorAdmin() {
+        Admin adminLogado = obterAdminLogado();
+        List<Terapeuta> terapeutasDoAdmin = terapeutaRepository.listarTodosPorAdminComOuSemFiltro(adminLogado.getId());
         return terapeutasDoAdmin.stream().map(terapeutaMapper::entityToResponseDto).toList();
     }
 
@@ -176,7 +185,8 @@ public class TerapeutaServiceImpl implements TerapeutaService {
     @Override
     @Transactional
     public TerapeutaResponseDto reativarContaTerapeuta(UUID idTerapeuta) {
-        Terapeuta terapeuta = this.getTerapeuta(idTerapeuta);
+        Terapeuta terapeuta = terapeutaRepository.encontrarComOuSemFiltro(idTerapeuta)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Terapeuta não encontrado com o id " + idTerapeuta));
         verificarPermissaoAdmin(terapeuta.getAdmin().getId());
 
         usuarioService.reativarUsuario(idTerapeuta);

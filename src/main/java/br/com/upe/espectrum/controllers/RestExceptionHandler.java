@@ -5,6 +5,7 @@ import br.com.upe.espectrum.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -92,6 +93,19 @@ public class RestExceptionHandler {
         return ResponseEntity.status(401).body(exceptionResponseDTO);
     }
 
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<ExceptionResponseDTO> handlerDisabled(
+            DisabledException ex,
+            HttpServletRequest request) {
 
+        ExceptionResponseDTO exceptionResponseDTO =
+                new ExceptionResponseDTO(
+                        "Sua conta está pendente de aprovação do administrador ou foi desativada.",
+                        403,
+                        request.getRequestURI()
+                );
+
+        return ResponseEntity.status(403).body(exceptionResponseDTO);
+    }
 
 }
