@@ -4,6 +4,7 @@ import br.com.upe.espectrum.dto.responseDtos.ExceptionResponseDTO;
 import br.com.upe.espectrum.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -68,7 +69,6 @@ public class RestExceptionHandler {
         ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(message, status, request.getRequestURI());
         return ResponseEntity.status(status).body(exceptionResponseDTO);
     }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponseDTO> handlerMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpServletRequest request) {
         String message = ex.getBindingResult().getFieldErrors().stream()
@@ -77,6 +77,21 @@ public class RestExceptionHandler {
         ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(message, 400, request.getRequestURI());
         return ResponseEntity.status(exceptionResponseDTO.getStatus()).body(exceptionResponseDTO);
     }
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ExceptionResponseDTO> handlerBadCredentials(
+            BadCredentialsException ex,
+            HttpServletRequest request) {
+
+        ExceptionResponseDTO exceptionResponseDTO =
+                new ExceptionResponseDTO(
+                        "Email ou senha inválidos",
+                        401,
+                        request.getRequestURI()
+                );
+
+        return ResponseEntity.status(401).body(exceptionResponseDTO);
+    }
+
 
 
 }

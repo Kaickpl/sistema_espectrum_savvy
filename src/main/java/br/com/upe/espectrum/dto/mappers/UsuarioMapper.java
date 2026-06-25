@@ -8,12 +8,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class UsuarioMapper {
     public UsuarioResponseDTO entityToResponseDto(Usuario usuario){
+        String codigoConvite = usuario.getPerfilAdmin() != null ? usuario.getPerfilAdmin().getCodigoConvite() : null;
         UsuarioResponseDTO response = new UsuarioResponseDTO(
                 usuario.getId(),
                 usuario.getNumeroTelefone(),
                 usuario.getEmail(),
                 usuario.getNome(),
-                usuario.isActive()
+                usuario.getCpf(),
+                usuario.getTipo(),
+                usuario.isActive(),
+                codigoConvite
         );
 
         return response;
@@ -21,13 +25,13 @@ public class UsuarioMapper {
 
     public Usuario updateDtoToEntity(UsuarioUpdateDto dto){
         Usuario novoUsuario = new Usuario();
-            novoUsuario.setNome(dto.nome());
-            novoUsuario.setEmail(dto.email());
-            novoUsuario.setNumeroTelefone(dto.numeroTelefone()
+        novoUsuario.setNome(dto.nome());
+        novoUsuario.setEmail(dto.email());
+        novoUsuario.setNumeroTelefone(dto.numeroTelefone()
 
-            );
+        );
 
-            return  novoUsuario;
+        return  novoUsuario;
     }
 
 }
