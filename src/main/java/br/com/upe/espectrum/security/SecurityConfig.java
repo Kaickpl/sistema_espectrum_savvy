@@ -39,8 +39,8 @@ public class SecurityConfig {
                         //cadastros Terapeuta
                         .requestMatchers(HttpMethod.POST, "/cadastro/cadastro-admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/cadastro/auto-cadastro").permitAll()
-
                         .requestMatchers(HttpMethod.POST,  "/cadastro/paciente-responsavel").hasAnyRole("TERAPEUTA", "ADMIN")
+                        .requestMatchers(HttpMethod.POST,  "/cadastro/professor").hasAnyRole("TERAPEUTA", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/admin/terapeuta/{idTerapeuta}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/iniciar/paciente/{pacienteId}/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA")
                         .requestMatchers(HttpMethod.PUT,"/{sessaoId}/finalizar/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA")

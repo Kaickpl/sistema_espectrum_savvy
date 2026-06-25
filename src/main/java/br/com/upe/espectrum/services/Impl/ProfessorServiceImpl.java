@@ -42,8 +42,8 @@ public class ProfessorServiceImpl implements ProfessorService {
 
         Usuario usuarioLogado = securityUtils.getCurrentUser();
 
-        if(usuarioLogado.getTipo() != Perfil.ROLE_TERAPEUTA){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso negado. Apenas Terapeutas podem cadastrar Professores.");
+        if(usuarioLogado.getTipo() != Perfil.ROLE_TERAPEUTA && usuarioLogado.getTipo() != Perfil.ROLE_ADMIN){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso negado. Apenas Terapeutas ou Admins podem cadastrar Professores.");
         }
 
         if (dto.email()==null||dto.email().isBlank()){

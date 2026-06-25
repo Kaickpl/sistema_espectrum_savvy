@@ -26,10 +26,10 @@ public class ProfessorMapper {
     public ProfessorResponseDto entityToResponseDto(Professor professor){
         ProfessorResponseDto dto = new ProfessorResponseDto(
                 professor.getId(),
-                professor.getEscola(),
+                professor.getUsuario().getNumeroTelefone(),
                 professor.getUsuario().getEmail(),
                 professor.getUsuario().getNome(),
-                professor.getUsuario().getNumeroTelefone()
+                professor.getEscola()
         );
 
         return dto;

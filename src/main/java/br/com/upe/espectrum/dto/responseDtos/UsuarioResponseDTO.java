@@ -1,4 +1,5 @@
 package br.com.upe.espectrum.dto.responseDtos;
+import br.com.upe.espectrum.entities.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 
@@ -11,7 +12,14 @@ public record UsuarioResponseDTO (
         String email,
         @JsonProperty(required = true)
         String nome,
+        @JsonProperty(required = true)
+        String cpf,
+        @JsonProperty(required = true)
+        Perfil tipo,
 
-        boolean isActive
+        @JsonProperty("isActive")
+        boolean isActive,
+
+        String codigoConvite
 ){
 }

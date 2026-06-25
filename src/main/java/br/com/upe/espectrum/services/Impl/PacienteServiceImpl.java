@@ -160,7 +160,7 @@ public class PacienteServiceImpl implements PacienteService {
 
             case ROLE_TERAPEUTA -> {
                 return usuarioLogado.getVinculoTerapeutas()
-                .stream().anyMatch(v -> v.getPaciente().getId().equals(idPaciente));
+                        .stream().anyMatch(v -> v.getPaciente().getId().equals(idPaciente));
             }
 
             case ROLE_RESPONSAVEL -> {
