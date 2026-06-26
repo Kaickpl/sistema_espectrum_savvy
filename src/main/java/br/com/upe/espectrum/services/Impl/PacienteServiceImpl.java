@@ -68,11 +68,8 @@ public class PacienteServiceImpl implements PacienteService {
     @Transactional
     public List<PacienteResponseDTO> listarPacientesDoUsuario(){
 
-//
-//        Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        Usuario usuario = usuarioService.buscarUsuarioEntity(usuarioLogado.getId());
-
-        Usuario usuario = securityUtils.getCurrentUser();
+        UUID userId = securityUtils.getCurrentUserId();
+        Usuario usuario = usuarioService.buscarUsuarioEntity(userId);
 
         List<Paciente> pacientesLigados = new ArrayList<>();
 
@@ -143,8 +140,10 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
+    @Transactional
     public boolean verificarSePacientePertenceAoUsuario(UUID idPaciente){
-        Usuario usuarioLogado = securityUtils.getCurrentUser();
+        UUID usuarioId = securityUtils.getCurrentUserId();
+        Usuario usuarioLogado = usuarioService.buscarUsuarioEntity(usuarioId);
 
         switch (usuarioLogado.getTipo()){
             case ROLE_ADMIN -> {
