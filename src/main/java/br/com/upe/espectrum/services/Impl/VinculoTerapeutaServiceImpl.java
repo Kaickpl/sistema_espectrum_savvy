@@ -58,7 +58,8 @@ public class VinculoTerapeutaServiceImpl implements VinculoTerapeutaService {
                         vinculo.getPaciente().getId(),
                         vinculo.getPaciente().getNome(),
                         vinculo.getPaciente().getGenero(),
-                        vinculo.getPaciente().getGrauAutismo()
+                        vinculo.getPaciente().getGrauAutismo(),
+                        vinculo.getPaciente().getDataNascimento()
                 ))
                 .toList();
     }
@@ -81,7 +82,8 @@ public class VinculoTerapeutaServiceImpl implements VinculoTerapeutaService {
                         paciente.getId(),
                         paciente.getNome(),
                         paciente.getGenero(),
-                        paciente.getGrauAutismo()
+                        paciente.getGrauAutismo(),
+                        paciente.getDataNascimento()
                 ))
                 .toList();
     }
@@ -95,7 +97,8 @@ public class VinculoTerapeutaServiceImpl implements VinculoTerapeutaService {
                         vinculo.getPaciente().getId(),
                         vinculo.getPaciente().getNome(),
                         vinculo.getPaciente().getGenero(),
-                        vinculo.getPaciente().getGrauAutismo()
+                        vinculo.getPaciente().getGrauAutismo(),
+                        vinculo.getPaciente().getDataNascimento()
                 ))
                 .toList();
     }

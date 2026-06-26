@@ -29,7 +29,8 @@ public class ResponsavelMapper {
                 paciente.getId(),
                 paciente.getNome(),
                 paciente.getGenero(),
-                paciente.getGrauAutismo()
+                paciente.getGrauAutismo(),
+                paciente.getDataNascimento()
         );
 
         return new ResponsavelResponseDto(

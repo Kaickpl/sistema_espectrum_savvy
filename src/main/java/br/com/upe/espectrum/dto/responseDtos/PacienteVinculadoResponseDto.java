@@ -2,6 +2,7 @@ package br.com.upe.espectrum.dto.responseDtos;
 
 import br.com.upe.espectrum.entities.enums.GrauAutismo;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public record PacienteVinculadoResponseDto(
@@ -9,6 +10,7 @@ public record PacienteVinculadoResponseDto(
         UUID idPaciente,
         String nome,
         String genero,
-        GrauAutismo grauAutismo
+        GrauAutismo grauAutismo,
+        LocalDate dataNascimento
 ){
 }
