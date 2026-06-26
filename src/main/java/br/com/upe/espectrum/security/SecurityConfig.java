@@ -65,11 +65,7 @@ public class SecurityConfig {
 
 
 
-<<<<<<< HEAD
-
-=======
                         .requestMatchers(HttpMethod.GET, "/vinculos").hasRole("ADMIN")
->>>>>>> 2680b1c46a987a1656eed0bfbad5d59df219a581
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin/pendentes").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin/resumo").hasRole("ADMIN")
