@@ -52,7 +52,6 @@ public class VinculoGeralController {
         vinculoTerapeutaService.desvincular(idVinculo);
         return ResponseEntity.noContent().build();
     }
-<<<<<<< HEAD
 
     @DeleteMapping("/escolares/{idVinculo}")
     public ResponseEntity<Void> desvincularProfessor(@PathVariable UUID idVinculo) {
@@ -60,6 +59,3 @@ public class VinculoGeralController {
         return ResponseEntity.noContent().build();
     }
 }
-=======
-}
->>>>>>> 2680b1c46a987a1656eed0bfbad5d59df219a581
