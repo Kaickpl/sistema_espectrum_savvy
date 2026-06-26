@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,  "/cadastro/paciente-responsavel").hasAnyRole("TERAPEUTA", "ADMIN")
                         .requestMatchers(HttpMethod.POST,  "/cadastro/professor").hasAnyRole("TERAPEUTA", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/admin/terapeuta/{idTerapeuta}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/iniciar/paciente/{pacienteId}/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA")
+                        .requestMatchers(HttpMethod.POST,"/api/sessao/iniciar/paciente/{pacienteId}").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/{sessaoId}/finalizar/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA")
                         .requestMatchers(HttpMethod.GET,"/{sessaoId}").permitAll()
                         .requestMatchers(HttpMethod.GET,"/paciente/{pacienteId}").permitAll()
@@ -65,7 +65,11 @@ public class SecurityConfig {
 
 
 
+<<<<<<< HEAD
 
+=======
+                        .requestMatchers(HttpMethod.GET, "/vinculos").hasRole("ADMIN")
+>>>>>>> 2680b1c46a987a1656eed0bfbad5d59df219a581
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin/pendentes").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin/resumo").hasRole("ADMIN")

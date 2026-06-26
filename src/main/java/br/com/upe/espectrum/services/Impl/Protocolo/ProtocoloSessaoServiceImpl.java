@@ -13,6 +13,7 @@ import br.com.upe.espectrum.services.protocolo.ProtocoloSessaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -40,11 +41,29 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
 
 
     @Override
+    @Transactional
     public ProtocoloSessao iniciarProtocoloSessao(UUID usuarioId, UUID pacienteId) {
 
         if (!pacienteService.verificarSePacientePertenceAoUsuario(pacienteId)){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para acessar ou alterar o protocolo este paciente.");
         }
+
+        if (!pacienteService.verificarSePacientePertenceAoUsuario(pacienteId)){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para acessar ou alterar o protocolo deste paciente.");
+        }
+
+        List<ProtocoloSessao> sessoesExistentes = protocoloSessaoRepository.findAllByPacienteId(pacienteId);
+
+        for (ProtocoloSessao sessao : sessoesExistentes) {
+            if (sessao.getStatusProtocolo() == StatusProtocolo.EM_ANDAMENTO &&
+                    sessao.getCriadoPor().getId().equals(usuarioId)) {
+
+                System.out.println("♻️ Protocolo em andamento encontrado! Retornando para continuar...");
+                return sessao; 
+            }
+        }
+
+        System.out.println("🆕 Nenhum protocolo em andamento. Criando um novo...");
 
         Optional<Usuario> usuarioExistente = usuarioRepository.findById(usuarioId);
         if(usuarioExistente.isEmpty()){
@@ -97,6 +116,8 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
         return protocoloSessaoRepository.save(sessaoProtocolo);
     }
     @Override
+    @Transactional
+
     public ProtocoloSessao finalizarProtocoloSessao(UUID usuarioId, UUID sessaoId) {
 
         Optional<ProtocoloSessao> protocoloSessao = protocoloSessaoRepository.findById(sessaoId);
@@ -119,15 +140,21 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
     }
 
     @Override
+    @Transactional
+
     public ProtocoloSessao buscarProtocoloSessao(UUID sessaoId) {
-        Optional<ProtocoloSessao> sessao =  protocoloSessaoRepository.findById(sessaoId);
-        if (sessao.isEmpty()) {
-           throw new  InformacaoNaoEncontradoException("Protocolo com Id: " + sessaoId + "não encontrado! ");
+        ProtocoloSessao sessao = protocoloSessaoRepository.findByIdWithCategorias(sessaoId)
+                .orElseThrow(() -> new InformacaoNaoEncontradoException("Protocolo com Id: " + sessaoId + " não encontrado!"));
+
+        if (!pacienteService.verificarSePacientePertenceAoUsuario(sessao.getPaciente().getId())){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para visualizar o histórico deste paciente.");
         }
-        return sessao.get();
+        return sessao;
     }
 
     @Override
+    @Transactional
+
     public List<ProtocoloSessao> buscarTodosPorPaciente(UUID pacienteId) {
 
         if (!pacienteService.verificarSePacientePertenceAoUsuario(pacienteId)){
@@ -141,25 +168,26 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
     }
 
     @Override
+    @Transactional
+
     public ProtocoloSessao salvarProgresso(UUID sessaoId, UUID usuarioId) {
 
-        Optional<ProtocoloSessao> sessao = protocoloSessaoRepository.findById(sessaoId);
-        if (sessao.isEmpty()) {
-            throw new  InformacaoNaoEncontradoException("Protocolo com Id: " + sessaoId + "não encontrado! ");
+        ProtocoloSessao sessao = protocoloSessaoRepository.findById(sessaoId)
+                .orElseThrow(() -> new InformacaoNaoEncontradoException("Protocolo com Id: " + sessaoId + " não encontrado!"));
 
+        if (!pacienteService.verificarSePacientePertenceAoUsuario(sessao.getPaciente().getId())){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para salvar progresso neste paciente.");
         }
-        Optional<Usuario> usuario = usuarioRepository.findById(usuarioId);
-        if (usuario.isEmpty()) {
-            throw new InformacaoNaoEncontradoException("Usuario com id"  + usuarioId + " não encontrado! ");
 
-        }
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new InformacaoNaoEncontradoException("Usuario com id " + usuarioId + " não encontrado!"));
+
         HistoricoSalvamento historico = new HistoricoSalvamento();
-        historico.setUsuario(usuario.get());
+        historico.setUsuario(usuario);
         historico.setDataSalvamento(LocalDateTime.now());
-        historico.setProtocoloSessao(sessao.get());
-        sessao.get().getHistoricoSalvamentos().add(historico);
-        return protocoloSessaoRepository.save(sessao.get());
+        historico.setProtocoloSessao(sessao);
+
+        sessao.getHistoricoSalvamentos().add(historico);
+        return protocoloSessaoRepository.save(sessao);
     }
-
-
 }
