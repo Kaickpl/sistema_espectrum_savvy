@@ -11,6 +11,7 @@ import br.com.upe.espectrum.security.SecurityUtils;
 import br.com.upe.espectrum.services.UsuarioService;
 import br.com.upe.espectrum.services.paciente.PacienteService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PacienteServiceImpl implements PacienteService {
@@ -145,7 +147,11 @@ public class PacienteServiceImpl implements PacienteService {
         Usuario usuarioLogado = usuarioService.buscarUsuarioEntity(securityUtils.getCurrentUserId());
         UUID usuarioId = securityUtils.getCurrentUserId();
 
-
+        log.info("verificarSePacientePertenceAoUsuario: usuarioId={} tipo={} idPaciente={} vinculosTerapeuta={}",
+                usuarioId, usuarioLogado.getTipo(), idPaciente,
+                usuarioLogado.getVinculoTerapeutas().stream()
+                        .map(v -> v.getPaciente().getId())
+                        .toList());
 
         switch (usuarioLogado.getTipo()){
             case ROLE_ADMIN -> {
@@ -156,7 +162,7 @@ public class PacienteServiceImpl implements PacienteService {
 
             case ROLE_PROFESSOR -> {
                 return usuarioLogado.getVinculosEscolares()
-                        .stream().anyMatch(v -> v.getUsuario().getId().equals(idPaciente));
+                        .stream().anyMatch(v -> v.getPaciente().getId().equals(idPaciente));
             }
 
             case ROLE_TERAPEUTA -> {
