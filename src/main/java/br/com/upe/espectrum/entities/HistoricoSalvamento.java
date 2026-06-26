@@ -1,5 +1,6 @@
 package br.com.upe.espectrum.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class HistoricoSalvamento {
 
     @Id
@@ -25,4 +27,6 @@ public class HistoricoSalvamento {
     @ManyToOne
     private ProtocoloSessao protocoloSessao;
 
+    @Column(columnDefinition = "TEXT")
+    private String dadosSessaoJson;
 }

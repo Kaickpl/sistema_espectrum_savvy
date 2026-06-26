@@ -16,6 +16,7 @@ public interface ProtocoloSessaoRepository extends JpaRepository<ProtocoloSessao
     List<ProtocoloSessao> findAllByPacienteId(UUID pacienteId);
     @Query("SELECT p FROM ProtocoloSessao p LEFT JOIN FETCH p.categoriasSessao WHERE p.id = :id")
     Optional<ProtocoloSessao> findByIdWithCategorias(@Param("id") UUID id);
+    Optional<ProtocoloSessao> findByPacienteIdAndStatusProtocolo(UUID pacienteId, StatusProtocolo status);
 
     long countByPaciente_Admin_IdAndStatusProtocolo(UUID adminId, StatusProtocolo statusProtocolo);
 }
