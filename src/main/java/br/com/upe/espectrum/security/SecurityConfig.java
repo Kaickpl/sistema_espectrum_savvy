@@ -73,11 +73,20 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/terapeuta/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/terapeuta/{id}/reativar").hasRole("ADMIN")
 
+                        //vinculação de pacientes a terapeutas
+                        .requestMatchers(HttpMethod.GET, "/vinculos/terapeuta/{idTerapeuta}/pacientes").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/vinculos/terapeuta/{idTerapeuta}/pacientes-disponiveis").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/vinculos/meus-pacientes").hasRole("TERAPEUTA")
+                        .requestMatchers(HttpMethod.DELETE, "/vinculos/{idVinculo}").hasRole("ADMIN")
+
                         //dashboard admin
                         .requestMatchers(HttpMethod.GET, "/admin/dashboard").hasRole("ADMIN")
 
                         //buscando pacientes
                         .requestMatchers(HttpMethod.GET, "/pacientes").authenticated()
+
+                        //suporte
+                        .requestMatchers(HttpMethod.POST, "/suporte").authenticated()
 
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

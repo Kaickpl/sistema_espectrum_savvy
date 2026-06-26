@@ -15,6 +15,8 @@ import java.util.UUID;
 public interface PacienteRepository extends JpaRepository<Paciente, UUID> {
     List<Paciente> findByAdminId(UUID adminId);
 
+    List<Paciente> findByAdminIdAndIdNotIn(UUID adminId, List<UUID> idsExcluidos);
+
     long countByAdminId(UUID adminId);
 
 
