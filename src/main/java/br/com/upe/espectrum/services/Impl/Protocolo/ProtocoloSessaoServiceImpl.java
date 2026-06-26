@@ -45,58 +45,38 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
     public ProtocoloSessao iniciarProtocoloSessao(UUID usuarioId, UUID pacienteId) {
 
         if (!pacienteService.verificarSePacientePertenceAoUsuario(pacienteId)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para acessar ou alterar o protocolo este paciente.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para acessar este paciente.");
         }
 
-        if (!pacienteService.verificarSePacientePertenceAoUsuario(pacienteId)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para acessar ou alterar o protocolo deste paciente.");
+        // 1. Tentar buscar um protocolo já existente para este paciente que esteja EM_ANDAMENTO
+        Optional<ProtocoloSessao> sessaoExistente = protocoloSessaoRepository.findAllByPacienteId(pacienteId)
+                .stream()
+                .filter(s -> s.getStatusProtocolo() == StatusProtocolo.EM_ANDAMENTO)
+                .findFirst();
+
+        if (sessaoExistente.isPresent()) {
+            return sessaoExistente.get();
         }
 
-        List<ProtocoloSessao> sessoesExistentes = protocoloSessaoRepository.findAllByPacienteId(pacienteId);
+        // 2. Se não existir, prossegue com a lógica de criação que você já possui
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new InformacaoNaoEncontradoException("Usuario não encontrado"));
 
-        for (ProtocoloSessao sessao : sessoesExistentes) {
-            if (sessao.getStatusProtocolo() == StatusProtocolo.EM_ANDAMENTO &&
-                    sessao.getCriadoPor().getId().equals(usuarioId)) {
+        Paciente paciente = pacienteRepository.findById(pacienteId)
+                .orElseThrow(() -> new InformacaoNaoEncontradoException("Paciente não encontrado"));
 
-                System.out.println("♻️ Protocolo em andamento encontrado! Retornando para continuar...");
-                return sessao; 
-            }
-        }
-
-        System.out.println("🆕 Nenhum protocolo em andamento. Criando um novo...");
-
-        Optional<Usuario> usuarioExistente = usuarioRepository.findById(usuarioId);
-        if(usuarioExistente.isEmpty()){
-            System.out.println("NENHUM Usuario ENCONTRADO");
-
-            return null;
-        }
-        Optional<Paciente> pacienteExistente = pacienteRepository.findById(pacienteId);
-        if(pacienteExistente.isEmpty()){
-            System.out.println("NENHUM Paciente ENCONTRADO");
-
-            return null;
-        }
-        Optional<ProtocoloTemplete> protocoloTemplete = protocoloTempleteRepository.findAll().stream().findFirst();
-        if (protocoloTemplete.isEmpty()){
-            System.out.println("NENHUM PROTOCOLO TEMPLATE ENCONTRADO");
-            return null;
-        }
-        Usuario usuario = usuarioExistente.get();
-        Paciente paciente = pacienteExistente.get();
-        ProtocoloTemplete protocoloTemplete1 = protocoloTemplete.get();
+        ProtocoloTemplete template = protocoloTempleteRepository.findAll().stream().findFirst()
+                .orElseThrow(() -> new InformacaoNaoEncontradoException("Nenhum template encontrado"));
 
         ProtocoloSessao sessaoProtocolo = new ProtocoloSessao();
-
         sessaoProtocolo.setDataInicio(LocalDateTime.now());
         sessaoProtocolo.setStatusProtocolo(StatusProtocolo.EM_ANDAMENTO);
         sessaoProtocolo.setCriadoPor(usuario);
         sessaoProtocolo.setPaciente(paciente);
-        sessaoProtocolo.setProtocoloTemplete(protocoloTemplete1);
+        sessaoProtocolo.setProtocoloTemplete(template);
 
-        List<CategoriaSessao> categorias = protocoloTemplete1.getCategorias().stream()
+        List<CategoriaSessao> categorias = template.getCategorias().stream()
                 .map(categoriaTemplete -> {
-
                     CategoriaSessao categoriaSessao = new CategoriaSessao();
                     categoriaSessao.setCategoriaTemplete(categoriaTemplete);
                     categoriaSessao.setProtocoloSessao(sessaoProtocolo);
@@ -112,12 +92,13 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
                     categoriaSessao.setAtividadeSessao(atividades);
                     return categoriaSessao;
                 }).toList();
+
         sessaoProtocolo.setCategoriasSessao(categorias);
         return protocoloSessaoRepository.save(sessaoProtocolo);
     }
+
     @Override
     @Transactional
-
     public ProtocoloSessao finalizarProtocoloSessao(UUID usuarioId, UUID sessaoId) {
 
         Optional<ProtocoloSessao> protocoloSessao = protocoloSessaoRepository.findById(sessaoId);
@@ -181,6 +162,7 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
 
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new InformacaoNaoEncontradoException("Usuario com id " + usuarioId + " não encontrado!"));
+
 
         HistoricoSalvamento historico = new HistoricoSalvamento();
         historico.setUsuario(usuario);

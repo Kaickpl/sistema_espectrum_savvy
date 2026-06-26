@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.entities;
 
 import br.com.upe.espectrum.entities.enums.StatusProtocolo;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class ProtocoloSessao {
     @OneToMany(
             mappedBy = "protocoloSessao",
             cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<HistoricoSalvamento> historicoSalvamentos =
             new ArrayList<>();
 
