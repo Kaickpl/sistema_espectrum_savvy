@@ -87,6 +87,20 @@ public class VinculoTerapeutaServiceImpl implements VinculoTerapeutaService {
     }
 
     @Override
+    public List<PacienteResumoResponseDto> listarMeusPacientesVinculados() {
+        Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return vinculoTerapeutaRepository.findByUsuarioId(usuarioLogado.getId()).stream()
+                .map(vinculo -> new PacienteResumoResponseDto(
+                        vinculo.getPaciente().getId(),
+                        vinculo.getPaciente().getNome(),
+                        vinculo.getPaciente().getGenero(),
+                        vinculo.getPaciente().getGrauAutismo()
+                ))
+                .toList();
+    }
+
+    @Override
     @Transactional
     public void desvincular(UUID idVinculo) {
         VinculoTerapeuta vinculo = vinculoTerapeutaRepository.findById(idVinculo)

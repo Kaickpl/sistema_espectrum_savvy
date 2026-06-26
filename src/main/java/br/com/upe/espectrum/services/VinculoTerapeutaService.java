@@ -12,5 +12,6 @@ public interface VinculoTerapeutaService {
     public VinculoTerapeutaResponseDto criarVinculo(VinculoTerapeuta vinculoTerapeuta);
     public List<PacienteVinculadoResponseDto> listarPacientesVinculados(UUID idTerapeuta);
     public List<PacienteResumoResponseDto> listarPacientesDisponiveis(UUID idTerapeuta);
+    public List<PacienteResumoResponseDto> listarMeusPacientesVinculados();
     public void desvincular(UUID idVinculo);
 }

@@ -40,6 +40,11 @@ public class VinculoGeralController {
         return ResponseEntity.ok(vinculoTerapeutaService.listarPacientesDisponiveis(idTerapeuta));
     }
 
+    @GetMapping("/meus-pacientes")
+    public ResponseEntity<List<PacienteResumoResponseDto>> listarMeusPacientesVinculados() {
+        return ResponseEntity.ok(vinculoTerapeutaService.listarMeusPacientesVinculados());
+    }
+
     @DeleteMapping("/{idVinculo}")
     public ResponseEntity<Void> desvincular(@PathVariable UUID idVinculo) {
         vinculoTerapeutaService.desvincular(idVinculo);
