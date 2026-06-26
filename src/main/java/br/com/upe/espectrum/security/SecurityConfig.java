@@ -55,6 +55,17 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/categoria/{categoriaSessaoId}/usuario/{usuarioId}").hasAnyRole("ADMIN","TERAPEUTA")
                         .requestMatchers(HttpMethod.GET,"/sessao/{sessaoId}").permitAll()
                         .requestMatchers(HttpMethod.GET,"/categoria/{categoriaSessaoId}").permitAll()
+
+
+
+
+
+
+
+
+
+
+
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin/pendentes").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin/resumo").hasRole("ADMIN")
@@ -66,6 +77,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/vinculos/terapeuta/{idTerapeuta}/pacientes").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/vinculos/terapeuta/{idTerapeuta}/pacientes-disponiveis").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/vinculos/meus-pacientes").hasRole("TERAPEUTA")
+                        .requestMatchers(HttpMethod.DELETE, "/vinculos/escolares/{idVinculo}").hasAnyRole("TERAPEUTA", "ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/vinculos/{idVinculo}").hasRole("ADMIN")
 
                         //dashboard admin
@@ -73,6 +85,9 @@ public class SecurityConfig {
 
                         //buscando pacientes
                         .requestMatchers(HttpMethod.GET, "/pacientes").authenticated()
+
+                        //buscando professores
+                        .requestMatchers(HttpMethod.GET, "/professores").hasAnyRole("TERAPEUTA", "ADMIN")
 
                         //suporte
                         .requestMatchers(HttpMethod.POST, "/suporte").authenticated()

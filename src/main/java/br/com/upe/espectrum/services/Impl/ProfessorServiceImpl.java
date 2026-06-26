@@ -3,6 +3,7 @@ import br.com.upe.espectrum.dto.mappers.ProfessorMapper;
 import br.com.upe.espectrum.dto.requestDtos.ProfessorRequestDto;
 import br.com.upe.espectrum.dto.requestDtos.VinculoRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.ProfessorResponseDto;
+import br.com.upe.espectrum.dto.responseDtos.ProfessorResumoResponseDto;
 import br.com.upe.espectrum.entities.Professor;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Perfil;
@@ -22,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -88,5 +90,12 @@ public class ProfessorServiceImpl implements ProfessorService {
 
 
         return professorMapper.entityToResponseDto(professorNovo);
+    }
+
+    @Override
+    public List<ProfessorResumoResponseDto> listarProfessores() {
+        return professorRepository.findAll().stream()
+                .map(professorMapper::entityToResumoResponseDto)
+                .toList();
     }
 }

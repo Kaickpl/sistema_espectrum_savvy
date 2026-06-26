@@ -144,7 +144,7 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Override
     public boolean verificarSePacientePertenceAoUsuario(UUID idPaciente){
-        Usuario usuarioLogado = securityUtils.getCurrentUser();
+        Usuario usuarioLogado = usuarioService.buscarUsuarioEntity(securityUtils.getCurrentUserId());
 
         switch (usuarioLogado.getTipo()){
             case ROLE_ADMIN -> {

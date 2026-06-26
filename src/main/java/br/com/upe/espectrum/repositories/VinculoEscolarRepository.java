@@ -18,4 +18,6 @@ public interface VinculoEscolarRepository extends JpaRepository<VinculoEscolar, 
     @Query(value = "UPDATE vinculo_terapeuta SET is_active = :status WHERE usuario_id = :id", nativeQuery = true)
     void alterarStatusDiretoNoBanco(@Param("id") UUID id, @Param("status") boolean status);
 
+    boolean existsByPacienteIdAndUsuarioId(UUID pacienteId, UUID usuarioId);
+
 }

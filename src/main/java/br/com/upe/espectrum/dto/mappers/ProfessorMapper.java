@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.dto.mappers;
 import br.com.upe.espectrum.dto.requestDtos.ProfessorRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.ProfessorResponseDto;
+import br.com.upe.espectrum.dto.responseDtos.ProfessorResumoResponseDto;
 import br.com.upe.espectrum.entities.Professor;
 import br.com.upe.espectrum.entities.Usuario;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,14 @@ public class ProfessorMapper {
         );
 
         return dto;
+    }
+
+    public ProfessorResumoResponseDto entityToResumoResponseDto(Professor professor){
+        return new ProfessorResumoResponseDto(
+                professor.getUsuario().getId(),
+                professor.getUsuario().getNome(),
+                professor.getEscola()
+        );
     }
 
 }

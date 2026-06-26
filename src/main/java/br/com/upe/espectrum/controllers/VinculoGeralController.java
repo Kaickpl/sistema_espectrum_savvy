@@ -3,6 +3,7 @@ package br.com.upe.espectrum.controllers;
 import br.com.upe.espectrum.dto.requestDtos.VinculoRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.PacienteResumoResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.PacienteVinculadoResponseDto;
+import br.com.upe.espectrum.services.VinculoEscolarService;
 import br.com.upe.espectrum.services.VinculoGeralService;
 import br.com.upe.espectrum.services.VinculoTerapeutaService;
 import jakarta.validation.Valid;
@@ -21,6 +22,7 @@ public class VinculoGeralController {
 
     private final VinculoGeralService vinculoGeralService;
     private final VinculoTerapeutaService vinculoTerapeutaService;
+    private final VinculoEscolarService vinculoEscolarService;
 
     @PostMapping
     public ResponseEntity<Void> criarVinculo(@Valid @RequestBody VinculoRequestDto dto) {
@@ -48,6 +50,12 @@ public class VinculoGeralController {
     @DeleteMapping("/{idVinculo}")
     public ResponseEntity<Void> desvincular(@PathVariable UUID idVinculo) {
         vinculoTerapeutaService.desvincular(idVinculo);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/escolares/{idVinculo}")
+    public ResponseEntity<Void> desvincularProfessor(@PathVariable UUID idVinculo) {
+        vinculoEscolarService.desvincular(idVinculo);
         return ResponseEntity.noContent().build();
     }
 }
