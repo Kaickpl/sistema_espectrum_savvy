@@ -65,7 +65,7 @@ public class SecurityConfig {
 
 
 
-
+                        .requestMatchers(HttpMethod.GET, "/vinculos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin/pendentes").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/terapeuta/admin/resumo").hasRole("ADMIN")

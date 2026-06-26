@@ -48,6 +48,23 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para acessar ou alterar o protocolo este paciente.");
         }
 
+        if (!pacienteService.verificarSePacientePertenceAoUsuario(pacienteId)){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para acessar ou alterar o protocolo deste paciente.");
+        }
+
+        List<ProtocoloSessao> sessoesExistentes = protocoloSessaoRepository.findAllByPacienteId(pacienteId);
+
+        for (ProtocoloSessao sessao : sessoesExistentes) {
+            if (sessao.getStatusProtocolo() == StatusProtocolo.EM_ANDAMENTO &&
+                    sessao.getCriadoPor().getId().equals(usuarioId)) {
+
+                System.out.println("♻️ Protocolo em andamento encontrado! Retornando para continuar...");
+                return sessao; 
+            }
+        }
+
+        System.out.println("🆕 Nenhum protocolo em andamento. Criando um novo...");
+
         Optional<Usuario> usuarioExistente = usuarioRepository.findById(usuarioId);
         if(usuarioExistente.isEmpty()){
             System.out.println("NENHUM Usuario ENCONTRADO");
