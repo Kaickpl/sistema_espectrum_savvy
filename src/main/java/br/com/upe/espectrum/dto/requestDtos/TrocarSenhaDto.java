@@ -14,6 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class TrocarSenhaDto {
     private String email;
+    private String codigo;
     private String novaSenha;
     private String confirmaSenha;
 
