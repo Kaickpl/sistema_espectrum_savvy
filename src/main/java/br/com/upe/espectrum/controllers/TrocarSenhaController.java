@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 record RedefinirSenhaDTO(String email, String token, String novaSenha) {}
 
 @RestController
-@RequestMapping("/trocarSenha")
+@RequestMapping("trocarSenha")
 @RequiredArgsConstructor
 public class TrocarSenhaController {
 
