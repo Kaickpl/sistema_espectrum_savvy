@@ -1,7 +1,6 @@
 package br.com.upe.espectrum.controllers;
 
 import br.com.upe.espectrum.dto.requestDtos.LoginRequestDto;
-import br.com.upe.espectrum.dto.requestDtos.TrocarSenhaDto;
 import br.com.upe.espectrum.dto.responseDtos.LoginResponseDto;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.security.TokenConfig;
@@ -30,18 +29,5 @@ public class AuthController {
         String token = tokenConfig.generateToken(usuario);
         return ResponseEntity.ok(new LoginResponseDto(token, usuario.getId(), usuario.getNome(), usuario.getTipo().toString()));
 
-    }
-
-    @GetMapping("/verificar-email")
-    public ResponseEntity<String> verificarEmail(@RequestParam  String email) {
-        usuarioService.verificarEmail(email);
-        return ResponseEntity.ok("Email encontrado");
-    }
-
-    @PostMapping("/recuperar-senha")
-    public ResponseEntity<String> recuperarSenha(
-            @Valid @RequestBody TrocarSenhaDto dto) {
-        usuarioService.recuperarSenha(dto);
-        return ResponseEntity.ok("Senha alterada com sucesso");
     }
 }
