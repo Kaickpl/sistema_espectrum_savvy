@@ -93,7 +93,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/suporte").authenticated()
 
                         // TrocarSenha
-                        .requestMatchers(HttpMethod.POST, "trocarSenha/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/trocarSenha/**").permitAll()
 
 
 
