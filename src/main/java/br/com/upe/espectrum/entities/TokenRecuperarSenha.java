@@ -25,15 +25,26 @@ public class TokenRecuperarSenha {
     private  String email;
     private String token;
     private LocalDateTime dataExpiracao;
+    private int tentativas;
 
+    private static final int MAX_TENTATIVAS = 5;
 
     public  TokenRecuperarSenha( String email, String token) {
         this.email = email;
         this.token = token;
         this.dataExpiracao = LocalDateTime.now().plusMinutes(15);
+        this.tentativas = 0;
     }
 
     public boolean isExpiredo() {
         return LocalDateTime.now().isAfter(dataExpiracao);
+    }
+
+    public boolean isBloqueado() {
+        return tentativas >= MAX_TENTATIVAS;
+    }
+
+    public void incrementarTentativa() {
+        this.tentativas++;
     }
 }

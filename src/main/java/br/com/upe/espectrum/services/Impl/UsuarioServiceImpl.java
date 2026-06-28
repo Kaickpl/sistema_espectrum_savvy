@@ -107,7 +107,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public void atualizarSenhaViaToken(UUID id, String novaSenha) {
         Usuario usuario = buscarUsuario(id);
-        usuario.setSenha(novaSenha);
+        usuario.setSenha(passwordEncoder.encode(novaSenha));
         usuarioRepository.save(usuario);
 
     }

@@ -48,6 +48,7 @@ public class TrocarSenhaController {
 
         Usuario usuario = usuarioService.BuscarEmail(dto.email());
         usuarioService.atualizarSenhaViaToken(usuario.getId(), dto.novaSenha());
+        tokenSenhaService.invalidarToken(dto.email());
 
         return ResponseEntity.ok("Senha redefinida com sucesso.");
     }

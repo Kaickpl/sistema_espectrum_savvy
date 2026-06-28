@@ -6,4 +6,5 @@ import org.springframework.stereotype.Service;
 public interface TokenSenhaService {
     void solicitarRecuperacao(String email);
     boolean verificarToken(String email ,String token);
+    void invalidarToken(String email);
 }

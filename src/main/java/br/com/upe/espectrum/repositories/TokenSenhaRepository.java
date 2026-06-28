@@ -8,5 +8,6 @@ import java.util.Optional;
 @Repository
 public interface TokenSenhaRepository extends JpaRepository<TokenRecuperarSenha, Long> {
     Optional<TokenRecuperarSenha> findByEmailAndToken(String email, String token);
+    Optional<TokenRecuperarSenha> findByEmail(String email);
     void deleteByEmail(String email);
 }
