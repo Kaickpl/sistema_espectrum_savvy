@@ -92,6 +92,11 @@ public class SecurityConfig {
                         //suporte
                         .requestMatchers(HttpMethod.POST, "/suporte").authenticated()
 
+                        // TrocarSenha
+                        .requestMatchers(HttpMethod.POST, "trocarSenha/**").permitAll()
+
+
+
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
