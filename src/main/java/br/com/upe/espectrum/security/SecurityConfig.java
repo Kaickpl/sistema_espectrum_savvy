@@ -37,22 +37,22 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,  "/cadastro/terapeuta").permitAll()
                         .requestMatchers(HttpMethod.POST,  "/cadastro/admin").permitAll()
                         //cadastros Terapeuta
-                        .requestMatchers(HttpMethod.POST, "/cadastro/cadastro-admin").hasRole("SUPERVISRO_ESTAGIO")
+                        .requestMatchers(HttpMethod.POST, "/cadastro/cadastro-admin").hasRole("SUPERVISOR_ESTAGIO")
                         .requestMatchers(HttpMethod.POST, "/cadastro/auto-cadastro").permitAll()
-                        .requestMatchers(HttpMethod.POST,  "/cadastro/paciente-responsavel").hasAnyRole("TERAPEUTA", "SUPERVISRO_ESTAGIO")
-                        .requestMatchers(HttpMethod.POST,  "/cadastro/professor").hasAnyRole("TERAPEUTA", "SUPERVISRO_ESTAGIO")
-                        .requestMatchers(HttpMethod.PUT, "/admin/terapeuta/{idTerapeuta}").hasRole("SUPERVISRO_ESTAGIO")
+                        .requestMatchers(HttpMethod.POST,  "/cadastro/paciente-responsavel").hasAnyRole("TERAPEUTA", "SUPERVISOR_ESTAGIO")
+                        .requestMatchers(HttpMethod.POST,  "/cadastro/professor").hasAnyRole("TERAPEUTA", "SUPERVISOR_ESTAGIO")
+                        .requestMatchers(HttpMethod.PUT, "/admin/terapeuta/{idTerapeuta}").hasRole("SUPERVISOR_ESTAGIO")
                         .requestMatchers(HttpMethod.POST,"/api/sessao/iniciar/paciente/{pacienteId}").permitAll()
-                        .requestMatchers(HttpMethod.PUT,"/{sessaoId}/finalizar/usuario/{usuarioId}").hasAnyRole("SUPERVISRO_ESTAGIO","TERAPEUTA")
+                        .requestMatchers(HttpMethod.PUT,"/{sessaoId}/finalizar/usuario/{usuarioId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA")
                         .requestMatchers(HttpMethod.GET,"/{sessaoId}").permitAll()
                         .requestMatchers(HttpMethod.GET,"/paciente/{pacienteId}").permitAll()
-                        .requestMatchers(HttpMethod.PUT,"/{sessaoId}/finalizar/usuario/{usuarioId}").hasAnyRole("SUPERVISRO_ESTAGIO","TERAPEUTA")
-                        .requestMatchers(HttpMethod.POST,"/{sessaoId}/salvar/usuario/{usuarioId}").hasAnyRole("SUPERVISRO_ESTAGIO","TERAPEUTA","PROFESSOR","RESPONSAVEL")
-                        .requestMatchers(HttpMethod.PUT,"/{atividadeId}/usuario/{usuarioId}").hasAnyRole("SUPERVISRO_ESTAGIO","TERAPEUTA","PROFESSOR","RESPONSAVEL")
+                        .requestMatchers(HttpMethod.PUT,"/{sessaoId}/finalizar/usuario/{usuarioId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA")
+                        .requestMatchers(HttpMethod.POST,"/{sessaoId}/salvar/usuario/{usuarioId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA","PROFESSOR","RESPONSAVEL")
+                        .requestMatchers(HttpMethod.PUT,"/{atividadeId}/usuario/{usuarioId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA","PROFESSOR","RESPONSAVEL")
                         .requestMatchers(HttpMethod.GET,"/{atividadeId}").permitAll()
                         .requestMatchers(HttpMethod.GET,"/categoria/{categoriaSessaoId}").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/sessao/{sessaoId}/usuario/{usuarioId}").hasAnyRole("SUPERVISRO_ESTAGIO","TERAPEUTA")
-                        .requestMatchers(HttpMethod.POST,"/categoria/{categoriaSessaoId}/usuario/{usuarioId}").hasAnyRole("SUPERVISRO_ESTAGIO","TERAPEUTA")
+                        .requestMatchers(HttpMethod.POST,"/sessao/{sessaoId}/usuario/{usuarioId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA")
+                        .requestMatchers(HttpMethod.POST,"/categoria/{categoriaSessaoId}/usuario/{usuarioId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA")
                         .requestMatchers(HttpMethod.GET,"/sessao/{sessaoId}").permitAll()
                         .requestMatchers(HttpMethod.GET,"/categoria/{categoriaSessaoId}").permitAll()
 
@@ -65,29 +65,29 @@ public class SecurityConfig {
 
 
 
-                        .requestMatchers(HttpMethod.GET, "/vinculos").hasRole("SUPERVISRO_ESTAGIO")
-                        .requestMatchers(HttpMethod.GET, "/terapeuta/admin").hasRole("SUPERVISRO_ESTAGIO")
-                        .requestMatchers(HttpMethod.GET, "/terapeuta/admin/pendentes").hasRole("SUPERVISRO_ESTAGIO")
-                        .requestMatchers(HttpMethod.GET, "/terapeuta/admin/resumo").hasRole("SUPERVISRO_ESTAGIO")
-                        .requestMatchers(HttpMethod.GET, "/terapeuta/admin/todos").hasRole("SUPERVISRO_ESTAGIO")
-                        .requestMatchers(HttpMethod.DELETE, "/terapeuta/{id}").hasRole("SUPERVISRO_ESTAGIO")
-                        .requestMatchers(HttpMethod.PATCH, "/terapeuta/{id}/reativar").hasRole("SUPERVISRO_ESTAGIO")
+                        .requestMatchers(HttpMethod.GET, "/vinculos").hasRole("SUPERVISOR_ESTAGIO")
+                        .requestMatchers(HttpMethod.GET, "/terapeuta/admin").hasRole("SUPERVISOR_ESTAGIO")
+                        .requestMatchers(HttpMethod.GET, "/terapeuta/admin/pendentes").hasRole("SUPERVISOR_ESTAGIO")
+                        .requestMatchers(HttpMethod.GET, "/terapeuta/admin/resumo").hasRole("SUPERVISOR_ESTAGIO")
+                        .requestMatchers(HttpMethod.GET, "/terapeuta/admin/todos").hasRole("SUPERVISOR_ESTAGIO")
+                        .requestMatchers(HttpMethod.DELETE, "/terapeuta/{id}").hasRole("SUPERVISOR_ESTAGIO")
+                        .requestMatchers(HttpMethod.PATCH, "/terapeuta/{id}/reativar").hasRole("SUPERVISOR_ESTAGIO")
 
                         //vinculação de pacientes a terapeutas
-                        .requestMatchers(HttpMethod.GET, "/vinculos/terapeuta/{idTerapeuta}/pacientes").hasRole("SUPERVISRO_ESTAGIO")
-                        .requestMatchers(HttpMethod.GET, "/vinculos/terapeuta/{idTerapeuta}/pacientes-disponiveis").hasRole("SUPERVISRO_ESTAGIO")
+                        .requestMatchers(HttpMethod.GET, "/vinculos/terapeuta/{idTerapeuta}/pacientes").hasRole("SUPERVISOR_ESTAGIO")
+                        .requestMatchers(HttpMethod.GET, "/vinculos/terapeuta/{idTerapeuta}/pacientes-disponiveis").hasRole("SUPERVISOR_ESTAGIO")
                         .requestMatchers(HttpMethod.GET, "/vinculos/meus-pacientes").hasRole("TERAPEUTA")
-                        .requestMatchers(HttpMethod.DELETE, "/vinculos/escolares/{idVinculo}").hasAnyRole("TERAPEUTA", "SUPERVISRO_ESTAGIO")
-                        .requestMatchers(HttpMethod.DELETE, "/vinculos/{idVinculo}").hasRole("SUPERVISRO_ESTAGIO")
+                        .requestMatchers(HttpMethod.DELETE, "/vinculos/escolares/{idVinculo}").hasAnyRole("TERAPEUTA", "SUPERVISOR_ESTAGIO")
+                        .requestMatchers(HttpMethod.DELETE, "/vinculos/{idVinculo}").hasRole("SUPERVISOR_ESTAGIO")
 
                         //dashboard admin
-                        .requestMatchers(HttpMethod.GET, "/admin/dashboard").hasRole("SUPERVISRO_ESTAGIO")
+                        .requestMatchers(HttpMethod.GET, "/admin/dashboard").hasRole("SUPERVISOR_ESTAGIO")
 
                         //buscando pacientes
                         .requestMatchers(HttpMethod.GET, "/pacientes").authenticated()
 
                         //buscando professores
-                        .requestMatchers(HttpMethod.GET, "/professores").hasAnyRole("TERAPEUTA", "SUPERVISRO_ESTAGIO")
+                        .requestMatchers(HttpMethod.GET, "/professores").hasAnyRole("TERAPEUTA", "SUPERVISOR_ESTAGIO")
 
                         //suporte
                         .requestMatchers(HttpMethod.POST, "/suporte").authenticated()
