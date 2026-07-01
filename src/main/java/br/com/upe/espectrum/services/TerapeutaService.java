@@ -1,6 +1,5 @@
 package br.com.upe.espectrum.services;
 import br.com.upe.espectrum.dto.requestDtos.TerapeutaRequestDto;
-import br.com.upe.espectrum.dto.responseDtos.AdminResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.TerapeutaResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.TerapeutaResumoResponseDto;
 import br.com.upe.espectrum.entities.Admin;

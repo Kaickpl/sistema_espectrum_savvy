@@ -15,7 +15,6 @@ import br.com.upe.espectrum.services.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -44,7 +43,7 @@ public class ResponsavelServiceImpl implements ResponsavelService {
 
         Admin adminDoPaciente = null;
 
-        if(usuarioLogado.getTipo() == Perfil.ROLE_ADMIN) {
+        if(usuarioLogado.getTipo() == Perfil.ROLE_SUPERVISOR_ESTAGIO) {
             adminDoPaciente = usuarioLogado.getPerfilAdmin();
         } else if (usuarioLogado.getTipo() == Perfil.ROLE_TERAPEUTA){
             Terapeuta terapeuta = terapeutaService.buscarTerapeutaEntity(usuarioLogado.getId());

@@ -3,25 +3,21 @@ import br.com.upe.espectrum.dto.mappers.AdminMapper;
 import br.com.upe.espectrum.dto.requestDtos.AdminRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.AdminDashboardResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.AdminResponseDto;
-import br.com.upe.espectrum.dto.responseDtos.TerapeutaResponseDto;
 import br.com.upe.espectrum.entities.Admin;
 import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.entities.enums.StatusProtocolo;
 import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
-import br.com.upe.espectrum.exceptions.CpfInvalidoEcxeption;
 import br.com.upe.espectrum.exceptions.UsuarioExistenteException;
 import br.com.upe.espectrum.repositories.AdminRepository;
 import br.com.upe.espectrum.repositories.PacienteRepository;
 import br.com.upe.espectrum.repositories.protocolo.ProtocoloSessaoRepository;
 import br.com.upe.espectrum.security.SecurityUtils;
 import br.com.upe.espectrum.services.AdminService;
-import br.com.upe.espectrum.services.CpfValidatorService;
 import br.com.upe.espectrum.services.UsuarioService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -68,7 +64,7 @@ public class AdminServiceImpl implements AdminService {
 
         Usuario userBase = usuarioService.criarUsuario(
                 dto.nome(), dto.numeroTelefone(), dto.email(),
-                hash, dto.cpf(), Perfil.ROLE_ADMIN, true
+                hash, dto.cpf(), Perfil.ROLE_SUPERVISOR_ESTAGIO, true
         );
         Admin adminNovo = adminMapper.requestDtoToEntity(dto);
         adminNovo.setUsuario(userBase);

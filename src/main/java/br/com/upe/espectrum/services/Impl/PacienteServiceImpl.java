@@ -2,7 +2,6 @@ package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.dto.mappers.PacienteMapper;
 import br.com.upe.espectrum.dto.responseDtos.PacienteResponseDTO;
 import br.com.upe.espectrum.entities.*;
-import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.repositories.AdminRepository;
 import br.com.upe.espectrum.repositories.PacienteRepository;
 import br.com.upe.espectrum.repositories.ResponsavelRepository;
@@ -77,7 +76,7 @@ public class PacienteServiceImpl implements PacienteService {
 
         switch (usuario.getTipo()){
 
-            case ROLE_ADMIN -> {
+            case ROLE_SUPERVISOR_ESTAGIO -> {
                 pacientesLigados = pacienteRepository.findByAdminId(usuario.getPerfilAdmin().getId());
             }
 
@@ -154,7 +153,7 @@ public class PacienteServiceImpl implements PacienteService {
                         .toList());
 
         switch (usuarioLogado.getTipo()){
-            case ROLE_ADMIN -> {
+            case ROLE_SUPERVISOR_ESTAGIO -> {
                 return pacienteRepository.findById(idPaciente)
                         .map(paciente -> paciente.getAdmin().getId()
                                 .equals(usuarioLogado.getPerfilAdmin().getId())).orElse(false);

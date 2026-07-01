@@ -3,7 +3,6 @@ package br.com.upe.espectrum.services;
 import br.com.upe.espectrum.dto.requestDtos.AdminRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.AdminDashboardResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.AdminResponseDto;
-import br.com.upe.espectrum.dto.responseDtos.TerapeutaResponseDto;
 import br.com.upe.espectrum.entities.Admin;
 import org.springframework.stereotype.Service;
 

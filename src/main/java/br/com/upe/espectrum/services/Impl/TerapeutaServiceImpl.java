@@ -9,7 +9,6 @@ import br.com.upe.espectrum.entities.Usuario;
 import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.entities.enums.StatusCadastro;
 import br.com.upe.espectrum.exceptions.CampoObrigatorioException;
-import br.com.upe.espectrum.exceptions.CpfInvalidoEcxeption;
 import br.com.upe.espectrum.exceptions.UsuarioExistenteException;
 import br.com.upe.espectrum.repositories.TerapeutaRepository;
 import br.com.upe.espectrum.repositories.VinculoTerapeutaRepository;

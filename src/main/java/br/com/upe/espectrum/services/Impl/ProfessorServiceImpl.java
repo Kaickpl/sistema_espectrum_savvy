@@ -1,7 +1,6 @@
 package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.dto.mappers.ProfessorMapper;
 import br.com.upe.espectrum.dto.requestDtos.ProfessorRequestDto;
-import br.com.upe.espectrum.dto.requestDtos.VinculoRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.ProfessorResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.ProfessorResumoResponseDto;
 import br.com.upe.espectrum.entities.Professor;
@@ -18,13 +17,11 @@ import br.com.upe.espectrum.services.VinculoGeralService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +41,7 @@ public class ProfessorServiceImpl implements ProfessorService {
 
         Usuario usuarioLogado = securityUtils.getCurrentUser();
 
-        if(usuarioLogado.getTipo() != Perfil.ROLE_TERAPEUTA && usuarioLogado.getTipo() != Perfil.ROLE_ADMIN){
+        if(usuarioLogado.getTipo() != Perfil.ROLE_TERAPEUTA && usuarioLogado.getTipo() != Perfil.ROLE_SUPERVISOR_ESTAGIO){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso negado. Apenas Terapeutas ou Admins podem cadastrar Professores.");
         }
 
@@ -60,9 +57,6 @@ public class ProfessorServiceImpl implements ProfessorService {
         if (dto.numeroTelefone()==null||dto.numeroTelefone().isBlank()){
             throw new CampoObrigatorioException("Campo de número de telefone é obrigatório");
         }
-        if (dto.senha()==null||dto.senha().isBlank()){
-            throw new CampoObrigatorioException("Campo de senha é obrigatório");
-        }
         if (professorRepository.findByUsuarioCpf(dto.cpf()).isPresent()){
             throw new UsuarioExistenteException("Já existe um professor com esse cpf");
         }
@@ -70,13 +64,13 @@ public class ProfessorServiceImpl implements ProfessorService {
             throw new UsuarioExistenteException("Já existe um professor com esse email");
         }
 
-        String hash = passwordEncoder.encode(dto.senha());
+        String senhaPadraoCriptografada = passwordEncoder.encode("senha123");
 
         Usuario userbase = usuarioService.criarUsuario(
                 dto.nome(),
                 dto.numeroTelefone(),
                 dto.email(),
-                hash,
+                senhaPadraoCriptografada,
                 dto.cpf(),
                 Perfil.ROLE_PROFESSOR,
                 true
