@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PacienteService {
-//    public Paciente cadastrarPaciente(PacienteRequestDTO pacienteRequestDTO);
+    //    public Paciente cadastrarPaciente(PacienteRequestDTO pacienteRequestDTO);
     public boolean verificarSePacientePertenceAoUsuario(UUID idPaciente);
     public List<PacienteResponseDTO> mostrarTodosPacientes(UUID adminId);
     public PacienteResponseDTO mostrarPaciente(UUID pacienteID);
@@ -16,4 +16,5 @@ public interface PacienteService {
     public void reativarContaPaciente(UUID pacienteId);
     public void desativarContaPaciente(UUID pacienteId);
     public Paciente mostrarPacienteEntity(UUID pacienteID);
+    public PacienteResponseDTO editarPaciente(UUID pacienteId, PacienteRequestDTO dto);
 }

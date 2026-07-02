@@ -1,7 +1,9 @@
 package br.com.upe.espectrum.controllers;
 
+import br.com.upe.espectrum.dto.requestDtos.PacienteRequestDTO;
 import br.com.upe.espectrum.dto.responseDtos.PacienteResponseDTO;
 import br.com.upe.espectrum.services.paciente.PacienteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,12 @@ public class PacienteController {
     @GetMapping()
     public ResponseEntity<List<PacienteResponseDTO>> buscarPacientesPorUsuario(){
         List<PacienteResponseDTO> response = pacienteService.listarPacientesDoUsuario();
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PacienteResponseDTO> editarPaciente(@PathVariable UUID id, @Valid @RequestBody PacienteRequestDTO dto) {
+        PacienteResponseDTO response = pacienteService.editarPaciente(id, dto);
         return ResponseEntity.ok(response);
     }
 

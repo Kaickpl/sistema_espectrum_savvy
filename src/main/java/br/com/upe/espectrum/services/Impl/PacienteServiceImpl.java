@@ -1,7 +1,9 @@
 package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.dto.mappers.PacienteMapper;
+import br.com.upe.espectrum.dto.requestDtos.PacienteRequestDTO;
 import br.com.upe.espectrum.dto.responseDtos.PacienteResponseDTO;
 import br.com.upe.espectrum.entities.*;
+import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.repositories.AdminRepository;
 import br.com.upe.espectrum.repositories.PacienteRepository;
 import br.com.upe.espectrum.repositories.ResponsavelRepository;
@@ -110,7 +112,54 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Override
     @Transactional
+    public PacienteResponseDTO editarPaciente(UUID pacienteId, PacienteRequestDTO dto) {
+        Usuario usuarioLogado = usuarioService.buscarUsuarioEntity(securityUtils.getCurrentUserId());
+
+        if (usuarioLogado.getTipo() != Perfil.ROLE_TERAPEUTA && usuarioLogado.getTipo() != Perfil.ROLE_SUPERVISOR_ESTAGIO) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Apenas terapeutas ou supervisores de estágio podem editar pacientes");
+        }
+
+        if (!verificarSePacientePertenceAoUsuario(pacienteId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para editar este paciente");
+        }
+
+        Paciente paciente = mostrarPacienteEntity(pacienteId);
+        paciente.setNome(dto.nome());
+        paciente.setDataNascimento(dto.dataNascimento());
+        paciente.setGenero(dto.genero());
+        paciente.setCpf(dto.cpf());
+        paciente.setGrauAutismo(dto.grauAutismo());
+
+        Endereco endereco = paciente.getEndereco();
+        if (endereco == null) {
+            paciente.setEndereco(pacienteMapper.enderecoRequestDtoToEntity(dto.endereco()));
+        } else {
+            endereco.setCep(dto.endereco().cep());
+            endereco.setRua(dto.endereco().rua());
+            endereco.setNumero(dto.endereco().numero());
+            endereco.setComplemento(dto.endereco().complemento());
+            endereco.setBairro(dto.endereco().bairro());
+            endereco.setCidade(dto.endereco().cidade());
+            endereco.setEstado(dto.endereco().estado());
+        }
+
+        Paciente pacienteAtualizado = pacienteRepository.save(paciente);
+        return pacienteMapper.entityToResponseDto(pacienteAtualizado);
+    }
+
+    @Override
+    @Transactional
     public void desativarContaPaciente(UUID pacienteId){
+        Usuario usuarioLogado = usuarioService.buscarUsuarioEntity(securityUtils.getCurrentUserId());
+
+        if (usuarioLogado.getTipo() != Perfil.ROLE_TERAPEUTA && usuarioLogado.getTipo() != Perfil.ROLE_SUPERVISOR_ESTAGIO) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Apenas terapeutas ou supervisores de estágio podem excluir pacientes");
+        }
+
+        if (!verificarSePacientePertenceAoUsuario(pacienteId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para excluir este paciente");
+        }
+
         Boolean isAtivo = pacienteRepository.verificarStatusConta(pacienteId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Paciente não encontrado com o id "+pacienteId));
 

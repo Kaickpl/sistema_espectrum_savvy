@@ -85,6 +85,9 @@ public class SecurityConfig {
 
                         //buscando pacientes
                         .requestMatchers(HttpMethod.GET, "/pacientes").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/pacientes/{id}").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/pacientes/{id}").hasAnyRole("TERAPEUTA", "SUPERVISOR_ESTAGIO")
+                        .requestMatchers(HttpMethod.DELETE, "/pacientes/{id}").hasAnyRole("TERAPEUTA", "SUPERVISOR_ESTAGIO")
 
                         //buscando professores
                         .requestMatchers(HttpMethod.GET, "/professores").hasAnyRole("TERAPEUTA", "SUPERVISOR_ESTAGIO")

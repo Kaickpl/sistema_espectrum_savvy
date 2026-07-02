@@ -15,12 +15,14 @@ import java.util.UUID;
 @Getter
 @Setter
 public class PacienteResponseDTO {
+    private UUID id;
     private String nome;
     private LocalDate dataNascimento;
     private String genero;
     private String cpf;
     private UUID adminId;
     private GrauAutismo grau;
+    private EnderecoResponseDTO endereco;
     private List<VinculoTerapeutaResumoResponseDto> vinculosTerapeuta;
     private List<VinculoEscolarResumoResponseDto> vinculosProfessor;
 

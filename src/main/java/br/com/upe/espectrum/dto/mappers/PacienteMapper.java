@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.dto.mappers;
 import br.com.upe.espectrum.dto.requestDtos.EnderecoRequestDTO;
 import br.com.upe.espectrum.dto.requestDtos.PacienteRequestDTO;
+import br.com.upe.espectrum.dto.responseDtos.EnderecoResponseDTO;
 import br.com.upe.espectrum.dto.responseDtos.PacienteResponseDTO;
 import br.com.upe.espectrum.dto.responseDtos.VinculoEscolarResumoResponseDto;
 import br.com.upe.espectrum.dto.responseDtos.VinculoTerapeutaResumoResponseDto;
@@ -73,14 +74,32 @@ public class PacienteMapper {
                         : Collections.emptyList();
 
         return new PacienteResponseDTO(
+                paciente.getId(),
                 paciente.getNome(),
                 paciente.getDataNascimento(),
                 paciente.getGenero(),
                 paciente.getCpf(),
                 paciente.getAdmin().getId(),
                 paciente.getGrauAutismo(),
+                enderecoToResponseDto(paciente.getEndereco()),
                 vinculosTerapeutasDto,
                 vinculoEscolarResponseDtos
+        );
+    }
+
+    public EnderecoResponseDTO enderecoToResponseDto(Endereco endereco) {
+        if (endereco == null) {
+            return null;
+        }
+
+        return new EnderecoResponseDTO(
+                endereco.getCep(),
+                endereco.getRua(),
+                endereco.getNumero(),
+                endereco.getComplemento(),
+                endereco.getBairro(),
+                endereco.getCidade(),
+                endereco.getEstado()
         );
     }
 
