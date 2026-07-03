@@ -3,10 +3,9 @@ package br.com.upe.espectrum.services.Impl;
 import br.com.upe.espectrum.entities.TokenRecuperarSenha;
 import br.com.upe.espectrum.repositories.TokenSenhaRepository;
 import br.com.upe.espectrum.repositories.UsuarioRepository;
+import br.com.upe.espectrum.services.EmailService;
 import br.com.upe.espectrum.services.TokenSenhaService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +21,7 @@ public class TokenSenhaServiceImpl implements TokenSenhaService {
 
     private final TokenSenhaRepository tokenRepository;
     private final UsuarioRepository usuarioRepository;
-    private final JavaMailSender mailSender;
+    private final EmailService emailService;
 
 
 
@@ -79,10 +78,10 @@ public class TokenSenhaServiceImpl implements TokenSenhaService {
 
 
     public void enviarEmail(String email, String token) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
-        message.setSubject("Código de Recuperação da sua conta do Socially Savvy");
-        message.setText("Olá! Seu código de recuperação é: " + token + ". Ele expira em 30 minutos.");
-        mailSender.send(message);
+        emailService.enviarEmail(
+                new String[]{email},
+                "Código de Recuperação da sua conta do Socially Savvy",
+                "Olá! Seu código de recuperação é: " + token + ". Ele expira em 15 minutos."
+        );
     }
 }
