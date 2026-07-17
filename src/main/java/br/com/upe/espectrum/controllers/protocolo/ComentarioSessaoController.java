@@ -4,6 +4,7 @@ import br.com.upe.espectrum.dto.requestDtos.ComentarioRequestDto;
 import br.com.upe.espectrum.dto.responseDtos.ComentarioResponseCategoriaDto;
 import br.com.upe.espectrum.dto.responseDtos.ComentarioResponseDto;
 import br.com.upe.espectrum.entities.Comentario;
+import br.com.upe.espectrum.security.SecurityUtils;
 import br.com.upe.espectrum.services.protocolo.ComentarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,13 @@ public class ComentarioSessaoController {
     @Autowired
     ComentarioService comentarioService;
 
-    @PostMapping("/sessao/{sessaoId}/usuario/{usuarioId}")
-    public ResponseEntity<ComentarioResponseDto> comentarProtocolo(@PathVariable UUID sessaoId, @PathVariable UUID usuarioId, @RequestBody ComentarioRequestDto dto) {
+    @Autowired
+    private SecurityUtils securityUtils;
+
+    @PostMapping("/sessao/{sessaoId}")
+    public ResponseEntity<ComentarioResponseDto> comentarProtocolo(@PathVariable UUID sessaoId, @RequestBody ComentarioRequestDto dto) {
+
+        UUID usuarioId = securityUtils.getCurrentUserId();
 
         Comentario comentario = comentarioService
                 .adicionarComentarioProtocolo(sessaoId, usuarioId, dto.getComentario());
@@ -30,11 +36,12 @@ public class ComentarioSessaoController {
         return ResponseEntity.ok(new ComentarioResponseDto(comentario));
     }
 
-    @PostMapping("/categoria/{categoriaSessaoId}/usuario/{usuarioId}")
+    @PostMapping("/categoria/{categoriaSessaoId}")
     public ResponseEntity<ComentarioResponseCategoriaDto> comentarCategoria(
             @PathVariable UUID categoriaSessaoId,
-            @PathVariable UUID usuarioId,
-            @RequestBody ComentarioResponseCategoriaDto dto) {
+            @RequestBody ComentarioRequestDto dto) {
+
+        UUID usuarioId = securityUtils.getCurrentUserId();
 
         Comentario comentario = comentarioService
                 .adicionarComentarioCategoria(categoriaSessaoId, usuarioId, dto.getComentario());

@@ -51,8 +51,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT,"/{atividadeId}/usuario/{usuarioId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA","PROFESSOR","RESPONSAVEL")
                         .requestMatchers(HttpMethod.GET,"/{atividadeId}").permitAll()
                         .requestMatchers(HttpMethod.GET,"/categoria/{categoriaSessaoId}").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/sessao/{sessaoId}/usuario/{usuarioId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA")
-                        .requestMatchers(HttpMethod.POST,"/categoria/{categoriaSessaoId}/usuario/{usuarioId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA")
+                        .requestMatchers(HttpMethod.POST,"/api/comentario/sessao/{sessaoId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA")
+                        .requestMatchers(HttpMethod.POST,"/api/comentario/categoria/{categoriaSessaoId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA")
                         .requestMatchers(HttpMethod.GET,"/sessao/{sessaoId}").permitAll()
                         .requestMatchers(HttpMethod.GET,"/categoria/{categoriaSessaoId}").permitAll()
 
