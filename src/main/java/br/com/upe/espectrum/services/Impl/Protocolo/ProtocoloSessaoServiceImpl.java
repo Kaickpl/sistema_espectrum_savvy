@@ -1,6 +1,7 @@
 package br.com.upe.espectrum.services.Impl.Protocolo;
 
 import br.com.upe.espectrum.entities.*;
+import br.com.upe.espectrum.entities.enums.Perfil;
 import br.com.upe.espectrum.entities.enums.StatusProtocolo;
 import br.com.upe.espectrum.exceptions.InformacaoNaoEncontradoException;
 import br.com.upe.espectrum.exceptions.OperacaoNaoPermitida;
@@ -103,11 +104,16 @@ public class ProtocoloSessaoServiceImpl implements ProtocoloSessaoService {
 
         Optional<ProtocoloSessao> protocoloSessao = protocoloSessaoRepository.findById(sessaoId);
         if(protocoloSessao.isEmpty()){
-        throw new InformacaoNaoEncontradoException("Protocolo com Id: " +  sessaoId + " não enconrado");
+            throw new InformacaoNaoEncontradoException("Protocolo com Id: " +  sessaoId + " não enconrado");
         }
         Optional<Usuario> usuarioExistente = usuarioRepository.findById(usuarioId);
         if(usuarioExistente.isEmpty()){
             throw new InformacaoNaoEncontradoException("Usuario com id"  + usuarioId + " não encontrado! ");
+        }
+
+        Perfil tipoUsuario = usuarioExistente.get().getTipo();
+        if (tipoUsuario == Perfil.ROLE_PROFESSOR || tipoUsuario == Perfil.ROLE_RESPONSAVEL) {
+            throw new OperacaoNaoPermitida("Professores e responsáveis podem aplicar o protocolo, mas não têm permissão para finalizá-lo.");
         }
 
         if (!protocoloSessao.get().getCriadoPor().getId().equals(usuarioId)) {

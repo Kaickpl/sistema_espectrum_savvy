@@ -42,19 +42,20 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,  "/cadastro/paciente-responsavel").hasAnyRole("TERAPEUTA", "SUPERVISOR_ESTAGIO")
                         .requestMatchers(HttpMethod.POST,  "/cadastro/professor").hasAnyRole("TERAPEUTA", "SUPERVISOR_ESTAGIO")
                         .requestMatchers(HttpMethod.PUT, "/admin/terapeuta/{idTerapeuta}").hasRole("SUPERVISOR_ESTAGIO")
-                        .requestMatchers(HttpMethod.POST,"/api/sessao/iniciar/paciente/{pacienteId}").permitAll()
-                        .requestMatchers(HttpMethod.PUT,"/{sessaoId}/finalizar/usuario/{usuarioId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA")
-                        .requestMatchers(HttpMethod.GET,"/{sessaoId}").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/paciente/{pacienteId}").permitAll()
-                        .requestMatchers(HttpMethod.PUT,"/{sessaoId}/finalizar/usuario/{usuarioId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA")
-                        .requestMatchers(HttpMethod.POST,"/{sessaoId}/salvar/usuario/{usuarioId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA","PROFESSOR","RESPONSAVEL")
-                        .requestMatchers(HttpMethod.PUT,"/{atividadeId}/usuario/{usuarioId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA","PROFESSOR","RESPONSAVEL")
-                        .requestMatchers(HttpMethod.GET,"/{atividadeId}").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/categoria/{categoriaSessaoId}").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/api/comentario/sessao/{sessaoId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA")
-                        .requestMatchers(HttpMethod.POST,"/api/comentario/categoria/{categoriaSessaoId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA")
-                        .requestMatchers(HttpMethod.GET,"/sessao/{sessaoId}").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/categoria/{categoriaSessaoId}").permitAll()
+                        // aplicação do protocolo: terapeuta, supervisor, professor e responsável podem aplicar
+                        .requestMatchers(HttpMethod.POST,"/api/sessao/iniciar/paciente/{pacienteId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA","PROFESSOR","RESPONSAVEL")
+                        .requestMatchers(HttpMethod.POST,"/api/sessao/{sessaoId}/salvar").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA","PROFESSOR","RESPONSAVEL")
+                        .requestMatchers(HttpMethod.PUT,"/api/atividade/{atividadeId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA","PROFESSOR","RESPONSAVEL")
+                        // finalização do protocolo: apenas terapeuta e supervisor, professor/responsável NÃO podem finalizar
+                        .requestMatchers(HttpMethod.PUT,"/api/sessao/{sessaoId}/finalizar").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA")
+                        .requestMatchers(HttpMethod.GET,"/api/sessao/{sessaoId}").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/api/sessao/paciente/{pacienteId}").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/api/atividade/{atividadeId}").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/api/atividade/categoria/{categoriaSessaoId}").authenticated()
+                        .requestMatchers(HttpMethod.POST,"/api/comentario/sessao/{sessaoId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA","PROFESSOR","RESPONSAVEL")
+                        .requestMatchers(HttpMethod.POST,"/api/comentario/categoria/{categoriaSessaoId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA","PROFESSOR","RESPONSAVEL")
+                        .requestMatchers(HttpMethod.GET,"/api/comentario/sessao/{sessaoId}").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/api/comentario/categoria/{categoriaSessaoId}").authenticated()
 
 
 
@@ -76,7 +77,7 @@ public class SecurityConfig {
                         //vinculação de pacientes a terapeutas
                         .requestMatchers(HttpMethod.GET, "/vinculos/terapeuta/{idTerapeuta}/pacientes").hasRole("SUPERVISOR_ESTAGIO")
                         .requestMatchers(HttpMethod.GET, "/vinculos/terapeuta/{idTerapeuta}/pacientes-disponiveis").hasRole("SUPERVISOR_ESTAGIO")
-                        .requestMatchers(HttpMethod.GET, "/vinculos/meus-pacientes").hasRole("TERAPEUTA")
+                        .requestMatchers(HttpMethod.GET, "/vinculos/meus-pacientes").hasAnyRole("TERAPEUTA", "PROFESSOR", "RESPONSAVEL")
                         .requestMatchers(HttpMethod.DELETE, "/vinculos/escolares/{idVinculo}").hasAnyRole("TERAPEUTA", "SUPERVISOR_ESTAGIO")
                         .requestMatchers(HttpMethod.DELETE, "/vinculos/{idVinculo}").hasRole("SUPERVISOR_ESTAGIO")
 

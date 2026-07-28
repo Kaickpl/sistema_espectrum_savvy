@@ -7,9 +7,13 @@ import br.com.upe.espectrum.entities.Admin;
 import br.com.upe.espectrum.entities.Paciente;
 import br.com.upe.espectrum.entities.Terapeuta;
 import br.com.upe.espectrum.entities.Usuario;
+import br.com.upe.espectrum.entities.VinculoEscolar;
+import br.com.upe.espectrum.entities.VinculoResponsavel;
 import br.com.upe.espectrum.entities.VinculoTerapeuta;
 import br.com.upe.espectrum.repositories.PacienteRepository;
 import br.com.upe.espectrum.repositories.TerapeutaRepository;
+import br.com.upe.espectrum.repositories.VinculoEscolarRepository;
+import br.com.upe.espectrum.repositories.VinculoResponsavelRepository;
 import br.com.upe.espectrum.repositories.VinculoTerapeutaRepository;
 import br.com.upe.espectrum.services.UsuarioService;
 import br.com.upe.espectrum.services.VinculoTerapeutaService;
@@ -28,6 +32,8 @@ import java.util.UUID;
 public class VinculoTerapeutaServiceImpl implements VinculoTerapeutaService {
 
     private final VinculoTerapeutaRepository vinculoTerapeutaRepository;
+    private final VinculoEscolarRepository vinculoEscolarRepository;
+    private final VinculoResponsavelRepository vinculoResponsavelRepository;
     private final VinculoTerapeutaMapper vinculoTerapeutaMapper;
     private final TerapeutaRepository terapeutaRepository;
     private final PacienteRepository pacienteRepository;
@@ -92,13 +98,25 @@ public class VinculoTerapeutaServiceImpl implements VinculoTerapeutaService {
     public List<PacienteResumoResponseDto> listarMeusPacientesVinculados() {
         Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        return vinculoTerapeutaRepository.findByUsuarioId(usuarioLogado.getId()).stream()
-                .map(vinculo -> new PacienteResumoResponseDto(
-                        vinculo.getPaciente().getId(),
-                        vinculo.getPaciente().getNome(),
-                        vinculo.getPaciente().getGenero(),
-                        vinculo.getPaciente().getGrauAutismo(),
-                        vinculo.getPaciente().getDataNascimento()
+        List<Paciente> pacientesVinculados = switch (usuarioLogado.getTipo()) {
+            case ROLE_PROFESSOR -> vinculoEscolarRepository.findByUsuarioId(usuarioLogado.getId()).stream()
+                    .map(VinculoEscolar::getPaciente)
+                    .toList();
+            case ROLE_RESPONSAVEL -> vinculoResponsavelRepository.findByUsuarioId(usuarioLogado.getId()).stream()
+                    .map(VinculoResponsavel::getPaciente)
+                    .toList();
+            default -> vinculoTerapeutaRepository.findByUsuarioId(usuarioLogado.getId()).stream()
+                    .map(VinculoTerapeuta::getPaciente)
+                    .toList();
+        };
+
+        return pacientesVinculados.stream()
+                .map(paciente -> new PacienteResumoResponseDto(
+                        paciente.getId(),
+                        paciente.getNome(),
+                        paciente.getGenero(),
+                        paciente.getGrauAutismo(),
+                        paciente.getDataNascimento()
                 ))
                 .toList();
     }

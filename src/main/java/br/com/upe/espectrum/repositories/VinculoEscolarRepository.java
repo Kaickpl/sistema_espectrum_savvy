@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,5 +20,7 @@ public interface VinculoEscolarRepository extends JpaRepository<VinculoEscolar, 
     void alterarStatusDiretoNoBanco(@Param("id") UUID id, @Param("status") boolean status);
 
     boolean existsByPacienteIdAndUsuarioId(UUID pacienteId, UUID usuarioId);
+
+    List<VinculoEscolar> findByUsuarioId(UUID usuarioId);
 
 }
