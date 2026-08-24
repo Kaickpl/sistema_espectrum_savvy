@@ -56,6 +56,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/api/comentario/categoria/{categoriaSessaoId}").hasAnyRole("SUPERVISOR_ESTAGIO","TERAPEUTA","PROFESSOR","RESPONSAVEL")
                         .requestMatchers(HttpMethod.GET,"/api/comentario/sessao/{sessaoId}").authenticated()
                         .requestMatchers(HttpMethod.GET,"/api/comentario/categoria/{categoriaSessaoId}").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/api/relatorio/evolucao/paciente/{pacienteId}").authenticated()
 
 
 
