@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,4 +20,12 @@ public interface ProtocoloSessaoRepository extends JpaRepository<ProtocoloSessao
     Optional<ProtocoloSessao> findByPacienteIdAndStatusProtocolo(UUID pacienteId, StatusProtocolo status);
 
     long countByPaciente_Admin_IdAndStatusProtocolo(UUID adminId, StatusProtocolo statusProtocolo);
+    @Query("""
+            SELECT p FROM ProtocoloSessao p
+            WHERE p.paciente.id = :pacienteId
+            AND p.dataInicio >= :dataLimite
+            ORDER BY p.dataInicio ASC
+    """)
+    List<ProtocoloSessao> findSessoesPorPacienteEData(@Param("pacienteId") UUID pacienteId,
+                                                      @Param("dataLimite")LocalDateTime dataLimite);
 }
