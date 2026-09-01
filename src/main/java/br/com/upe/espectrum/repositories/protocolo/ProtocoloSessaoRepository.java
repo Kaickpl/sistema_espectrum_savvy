@@ -28,4 +28,6 @@ public interface ProtocoloSessaoRepository extends JpaRepository<ProtocoloSessao
     """)
     List<ProtocoloSessao> findSessoesPorPacienteEData(@Param("pacienteId") UUID pacienteId,
                                                       @Param("dataLimite")LocalDateTime dataLimite);
+
+    List<ProtocoloSessao> findAllByPacienteIdOrderByDataInicioAsc(UUID pacienteId);
 }

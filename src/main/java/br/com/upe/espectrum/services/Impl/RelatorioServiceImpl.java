@@ -54,10 +54,9 @@ public class RelatorioServiceImpl implements RelatorioService {
         Paciente paciente = pacienteRepository.findById(pacienteId)
                 .orElseThrow(() -> new InformacaoNaoEncontradoException("Paciente com Id: " + pacienteId + " não encontrado!"));
 
-        int intervaloMeses = meses > 0 ? meses : 6;
-        LocalDateTime dataLimite = LocalDateTime.now().minusMonths(intervaloMeses);
-
-        List<ProtocoloSessao> sessoes = protocoloSessaoRepository.findSessoesPorPacienteEData(pacienteId, dataLimite);
+        List<ProtocoloSessao> sessoes = meses > 0
+                ? protocoloSessaoRepository.findSessoesPorPacienteEData(pacienteId, LocalDateTime.now().minusMonths(meses))
+                : protocoloSessaoRepository.findAllByPacienteIdOrderByDataInicioAsc(pacienteId);
 
         List<PontoEvolucaoResponseDto> evolucaoTemporal = new ArrayList<>();
         List<ObservacaoResponseDto> observacoes = new ArrayList<>();
@@ -87,7 +86,7 @@ public class RelatorioServiceImpl implements RelatorioService {
                 }
 
                 for (Comentario comentario : categoriaSessao.getComentarios()) {
-                    observacoes.add(new ObservacaoResponseDto(comentario, nomeCategoria));
+                    observacoes.add(new ObservacaoResponseDto(comentario, nomeCategoria, numeroSessao));
                 }
 
                 for (AtividadeSessao atividade : categoriaSessao.getAtividadeSessao()) {
@@ -104,12 +103,13 @@ public class RelatorioServiceImpl implements RelatorioService {
             }
 
             for (Comentario comentario : sessao.getComentarios()) {
-                observacoes.add(new ObservacaoResponseDto(comentario, null));
+                observacoes.add(new ObservacaoResponseDto(comentario, null, numeroSessao));
             }
 
             if (!todasPontuacoesSessao.isEmpty()) {
                 double mediaGeral = todasPontuacoesSessao.stream().mapToDouble(Double::doubleValue).average().orElse(0);
-                evolucaoTemporal.add(new PontoEvolucaoResponseDto(sessao.getDataInicio(), mediaGeral, mediaPorCategoriaSessao));
+                evolucaoTemporal.add(new PontoEvolucaoResponseDto(
+                        sessao.getId(), numeroSessao, sessao.getDataInicio(), mediaGeral, mediaPorCategoriaSessao));
             }
         }
 

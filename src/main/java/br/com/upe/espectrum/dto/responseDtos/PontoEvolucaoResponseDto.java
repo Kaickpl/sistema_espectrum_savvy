@@ -7,12 +7,15 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class PontoEvolucaoResponseDto {
+    private UUID sessaoId;
+    private int numeroAplicacao;
     private LocalDateTime data;
     private double mediaGeral;
     private Map<String, Double> mediaPorCategoria;

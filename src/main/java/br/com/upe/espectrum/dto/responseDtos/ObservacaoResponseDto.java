@@ -10,15 +10,17 @@ public record ObservacaoResponseDto(
         String comentario,
         LocalDateTime dataCriacao,
         String autorNome,
-        String categoria
+        String categoria,
+        Integer numeroAplicacao
 ) {
-    public ObservacaoResponseDto(Comentario comentario, String categoria) {
+    public ObservacaoResponseDto(Comentario comentario, String categoria, Integer numeroAplicacao) {
         this(
                 comentario.getId(),
                 comentario.getComentario(),
                 comentario.getDataCriacao(),
                 comentario.getUsuario() != null ? comentario.getUsuario().getNome() : null,
-                categoria
+                categoria,
+                numeroAplicacao
         );
     }
 }
